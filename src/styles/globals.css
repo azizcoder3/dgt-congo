@@ -1,0 +1,57 @@
+/* src/styles/globals.css */
+
+ @import "tailwindcss";
+
+ @theme {
+  --color-brand-green: #009B48;
+  --color-brand-gold: #FFD700;
+  --color-brand-red: #DC2626;
+  --color-brand-blue: #00529B; /* Ajoutons le bleu aussi pour être complet */
+}
+
+.swiper-custom-pagination .swiper-pagination-bullet {
+    @apply w-2 h-2 bg-white/50 rounded-full transition-all;
+}
+
+.swiper-custom-pagination .swiper-pagination-bullet-active {
+    @apply w-4 bg-white;
+}
+
+/* Styles pour NProgress */
+#nprogress {
+  pointer-events: none;
+}
+#nprogress .bar {
+  background: var(--color-brand-green); /* On utilise la couleur verte de notre marque ! */
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}
+
+
+
+
+/*:root {
+--background: #ffffff;
+--foreground: #171717;
+}
+@theme inline {
+--color-background: var(--background);
+--color-foreground: var(--foreground);
+--font-sans: var(--font-geist-sans);
+--font-mono: var(--font-geist-mono);
+}
+@media (prefers-color-scheme: dark) {
+:root {
+--background: #0a0a0a;
+--foreground: #ededed;
+}
+}
+body {
+background: var(--background);
+color: var(--foreground);
+font-family: Arial, Helvetica, sans-serif;
+} */
