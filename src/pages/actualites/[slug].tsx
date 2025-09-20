@@ -1,5 +1,5 @@
 // src/pages/actualites/[slug].tsx (CODE COMPLET ET CORRIGÉ)
-
+// Forcer le redéploiement pour vider le cache
 import type { GetStaticProps, GetStaticPaths, NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
