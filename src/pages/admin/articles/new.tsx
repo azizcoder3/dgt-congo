@@ -1,10 +1,10 @@
-// src/pages/admin/articles/new.tsx (CODE CORRIGÉ)
+// src/pages/admin/articles/new.tsx
 
-import { ArticleForm } from '@/components/admin/ArticleForm';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
+import { ArticleForm } from '@/components/admin/ArticleForm';
 
 const NewArticlePage: NextPage = () => {
   return (
@@ -16,32 +16,46 @@ const NewArticlePage: NextPage = () => {
         </div>
       </header>
       <main className="container mx-auto p-6">
-        <h1 className="text-2xl font-bold mb-6">Créer un Nouvel Article</h1>
-        <ArticleForm />
+        <div className="max-w-4xl mx-auto">
+            <h1 className="text-2xl font-bold mb-6">Créer un Nouvel Article</h1>
+            <ArticleForm />
+        </div>
       </main>
     </div>
   );
 };
 
-// C'EST CETTE PARTIE QUI CORRIGE LE PROBLÈME
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient(ctx);
   const { data: { session } } = await supabase.auth.getSession();
-
-  // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
   if (!session) {
-    return {
-      redirect: {
-        destination: '/login',
-        permanent: false,
-      },
-    };
+    return { redirect: { destination: '/login', permanent: false } };
   }
-
-  // Si l'utilisateur est connecté, on affiche la page
   return {
-    props: {},
+    props: { initialSession: session, user: session.user },
   };
 };
 
 export default NewArticlePage;
+
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   // On utilise createPagesServerClient de la bibliothèque @supabase/auth-helpers-nextjs
+//   const supabase = createPagesServerClient(ctx);
+//   const { data: { session } } = await supabase.auth.getSession();
+
+//   if (!session) {
+//     return {
+//       redirect: {
+//         destination: '/login',
+//         permanent: false,
+//       },
+//     };
+//   }
+
+//   return {
+//     props: {
+//       initialSession: session,
+//       user: session.user,
+//     },
+//   };
+// };

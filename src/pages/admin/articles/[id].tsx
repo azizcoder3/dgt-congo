@@ -1,4 +1,4 @@
-// src/pages/admin/articles/[id].tsx (CODE CORRIGÉ)
+// src/pages/admin/articles/[id].tsx
 
 import { ArticleForm } from '@/components/admin/ArticleForm';
 import { getArticleById } from '@/lib/api';
@@ -29,34 +29,56 @@ const EditArticlePage: NextPage<EditArticlePageProps> = ({ article }) => {
   );
 };
 
-// C'EST CETTE PARTIE QUI CORRIGE LES DEUX PROBLÈMES
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createPagesServerClient(ctx);
   const { data: { session } } = await supabase.auth.getSession();
-
-  // 1. On vérifie si l'utilisateur est connecté
   if (!session) {
     return { redirect: { destination: '/login', permanent: false } };
   }
 
-  // 2. On récupère l'ID de l'article depuis l'URL
   const id = parseInt(ctx.params?.id as string);
-  if (isNaN(id)) {
-    return { notFound: true }; // Si l'ID n'est pas un nombre, c'est une page 404
-  }
+  if (isNaN(id)) return { notFound: true };
 
-  // 3. On récupère les données de l'article
   const article = await getArticleById(id);
-  if (!article) {
-    return { notFound: true }; // Si l'article n'existe pas, c'est une page 404
-  }
+  if (!article) return { notFound: true };
 
-  // 4. Si tout est bon, on affiche la page
   return { 
     props: { 
-      article: JSON.parse(JSON.stringify(article)) 
+      article: JSON.parse(JSON.stringify(article)),
+      initialSession: session,
+      user: session.user
     } 
   };
 };
 
 export default EditArticlePage;
+
+// C'EST CETTE PARTIE QUI CORRIGE LES DEUX PROBLÈMES
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const supabase = createPagesServerClient(ctx);
+//   const { data: { session } } = await supabase.auth.getSession();
+
+//   // 1. On vérifie si l'utilisateur est connecté
+//   if (!session) {
+//     return { redirect: { destination: '/login', permanent: false } };
+//   }
+
+//   // 2. On récupère l'ID de l'article depuis l'URL
+//   const id = parseInt(ctx.params?.id as string);
+//   if (isNaN(id)) {
+//     return { notFound: true }; // Si l'ID n'est pas un nombre, c'est une page 404
+//   }
+
+//   // 3. On récupère les données de l'article
+//   const article = await getArticleById(id);
+//   if (!article) {
+//     return { notFound: true }; // Si l'article n'existe pas, c'est une page 404
+//   }
+
+//   // 4. Si tout est bon, on affiche la page
+//   return { 
+//     props: { 
+//       article: JSON.parse(JSON.stringify(article)) 
+//     } 
+//   };
+// };

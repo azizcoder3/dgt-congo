@@ -1,50 +1,29 @@
-// src/pages/admin.tsx (CODE COMPLET ET FINAL)
+// src/pages/admin.tsx
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
-import { supabase } from '@/lib/api'; // On importe le client depuis api.ts
+import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
+import { getArticlesForAdmin, supabase } from '@/lib/api';
 import type { NewsArticle } from '@/types/supabase';
 import type { User } from '@supabase/supabase-js';
 
-// Pas de props de la page, tout est chargé côté client
-const AdminPage: NextPage = () => {
+
+interface AdminPageProps {
+  articles: NewsArticle[];
+  user: User;
+}
+
+const AdminPage: NextPage<AdminPageProps> = ({ articles, user }) => {
   const router = useRouter();
-  const [user, setUser] = useState<User | null>(null);
-  const [articles, setArticles] = useState<NewsArticle[]>([]);
-  const [loading, setLoading] = useState(true); // État de chargement
+  const [articleList, setArticleList] = useState(articles);
 
-  useEffect(() => {
-    const checkUserAndFetchData = async () => {
-      // 1. Vérifier si l'utilisateur est connecté
-      const { data: { session } } = await supabase.auth.getSession();
-
-      if (session) {
-        setUser(session.user);
-        // 2. Si oui, récupérer les articles
-        const { data: articleData } = await supabase
-          .from('articles')
-          .select('*')
-          .order('publishedAt', { ascending: false });
-        
-        setArticles(articleData || []);
-      } else {
-        // 3. Si non, rediriger vers la page de connexion
-        router.push('/login');
-      }
-      setLoading(false); // Fin du chargement
-    };
-
-    checkUserAndFetchData();
-  }, [router]);
-  
   const handleLogout = async () => {
     await supabase.auth.signOut();
     router.push('/login');
   };
-
 
   const handleDelete = async (id: number) => {
     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
@@ -54,7 +33,7 @@ const AdminPage: NextPage = () => {
           const errorData = await response.json();
           throw new Error(errorData.message || 'La suppression a échoué.');
         }
-        setArticles(articles.filter(article => article.id !== id));
+        setArticleList(articleList.filter(article => article.id !== id));
       } catch (error) {
         console.error(error);
         alert((error as Error).message);
@@ -62,25 +41,17 @@ const AdminPage: NextPage = () => {
     }
   };
 
-  // On affiche un écran de chargement pendant que l'on vérifie la session
-  if (loading) {
-    return (
-        <div className="flex items-center justify-center min-h-screen">
-            <p>Chargement...</p>
-        </div>
-    );
-  }
-
-   // Si on est là, c'est que l'utilisateur est bien connecté
   return (
     <div className="min-h-screen bg-gray-50">
-      <Head><title>Tableau de Bord | Administration</title></Head>
+      <Head>
+        <title>Tableau de Bord | Administration DGTCP</title>
+      </Head>
 
       <header className="bg-white shadow-sm">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           <h1 className="text-xl font-bold">Administration DGTCP</h1>
           <div>
-            <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user?.email}</span>
+            {user && <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user.email}</span>}
             <button onClick={handleLogout} className="text-sm font-semibold text-red-600 hover:underline">Se déconnecter</button>
           </div>
         </div>
@@ -104,7 +75,7 @@ const AdminPage: NextPage = () => {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {articles.map(article => (
+              {articleList.map(article => (
                 <tr key={article.id}>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{article.title}</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR') : '-'}</td>
@@ -122,7 +93,156 @@ const AdminPage: NextPage = () => {
   );
 };
 
+// --- C'est ici que la nouvelle logique SSR est appliquée ---
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const supabase = createPagesServerClient(ctx);
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session) {
+    return { redirect: { destination: '/login', permanent: false } };
+  }
+
+  const articles = await getArticlesForAdmin();
+
+  return {
+    props: {
+      articles: JSON.parse(JSON.stringify(articles)),
+      user: session.user,
+    },
+  };
+};
+
 export default AdminPage;
+
+
+
+
+
+// // src/pages/admin.tsx (CODE COMPLET ET FINAL)
+
+// import { useState, useEffect } from 'react';
+// import { useRouter } from 'next/router';
+// import type { NextPage } from 'next';
+// import Head from 'next/head';
+// import Link from 'next/link';
+// import { supabase } from '@/lib/api'; // On importe le client depuis api.ts
+// import type { NewsArticle } from '@/types/supabase';
+// import type { User } from '@supabase/supabase-js';
+
+// // Pas de props de la page, tout est chargé côté client
+// const AdminPage: NextPage = () => {
+//   const router = useRouter();
+//   const [user, setUser] = useState<User | null>(null);
+//   const [articles, setArticles] = useState<NewsArticle[]>([]);
+//   const [loading, setLoading] = useState(true); // État de chargement
+
+//   useEffect(() => {
+//     const checkUserAndFetchData = async () => {
+//       // 1. Vérifier si l'utilisateur est connecté
+//       const { data: { session } } = await supabase.auth.getSession();
+
+//       if (session) {
+//         setUser(session.user);
+//         // 2. Si oui, récupérer les articles
+//         const { data: articleData } = await supabase
+//           .from('articles')
+//           .select('*')
+//           .order('publishedAt', { ascending: false });
+        
+//         setArticles(articleData || []);
+//       } else {
+//         // 3. Si non, rediriger vers la page de connexion
+//         router.push('/login');
+//       }
+//       setLoading(false); // Fin du chargement
+//     };
+
+//     checkUserAndFetchData();
+//   }, [router]);
+  
+//   const handleLogout = async () => {
+//     await supabase.auth.signOut();
+//     router.push('/login');
+//   };
+
+
+//   const handleDelete = async (id: number) => {
+//     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
+//       try {
+//         const response = await fetch(`/api/articles/delete?id=${id}`, { method: 'DELETE' });
+//         if (!response.ok) {
+//           const errorData = await response.json();
+//           throw new Error(errorData.message || 'La suppression a échoué.');
+//         }
+//         setArticles(articles.filter(article => article.id !== id));
+//       } catch (error) {
+//         console.error(error);
+//         alert((error as Error).message);
+//       }
+//     }
+//   };
+
+//   // On affiche un écran de chargement pendant que l'on vérifie la session
+//   if (loading) {
+//     return (
+//         <div className="flex items-center justify-center min-h-screen">
+//             <p>Chargement...</p>
+//         </div>
+//     );
+//   }
+
+//    // Si on est là, c'est que l'utilisateur est bien connecté
+//   return (
+//     <div className="min-h-screen bg-gray-50">
+//       <Head><title>Tableau de Bord | Administration</title></Head>
+
+//       <header className="bg-white shadow-sm">
+//         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+//           <h1 className="text-xl font-bold">Administration DGTCP</h1>
+//           <div>
+//             <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user?.email}</span>
+//             <button onClick={handleLogout} className="text-sm font-semibold text-red-600 hover:underline">Se déconnecter</button>
+//           </div>
+//         </div>
+//       </header>
+
+//       <main className="container mx-auto p-6">
+//         <div className="flex justify-between items-center mb-6">
+//           <h2 className="text-2xl font-bold text-gray-800">Gestion des Actualités</h2>
+//           <Link href="/admin/articles/new" className="px-4 py-2 bg-brand-green text-white font-semibold rounded-md hover:bg-green-700">
+//             Ajouter un article
+//           </Link>
+//         </div>
+
+//         <div className="bg-white rounded-lg shadow-md border overflow-x-auto">
+//           <table className="min-w-full divide-y divide-gray-200">
+//             <thead className="bg-gray-50">
+//               <tr>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titre</th>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date de Publication</th>
+//                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+//               </tr>
+//             </thead>
+//             <tbody className="bg-white divide-y divide-gray-200">
+//               {articles.map(article => (
+//                 <tr key={article.id}>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{article.title}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR') : '-'}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+//                     <Link href={`/admin/articles/edit/${article.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</Link>
+//                     <button onClick={() => handleDelete(article.id)} className="text-red-600 hover:text-red-900">Supprimer</button>
+//                   </td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </main>
+//     </div>
+//   );
+// };
+
+// export default AdminPage;
 
 // export const getServerSideProps: GetServerSideProps = async (ctx) => {
 //   // 1. On crée un client Supabase standard.

@@ -2,18 +2,12 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
-import { createClient } from '@supabase/supabase-js'; // On importe le client
+import { createPagesBrowserClient } from '@supabase/auth-helpers-nextjs';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
-// On crée une instance du client Supabase directement ici
-// (dans un plus gros projet, on le mettrait dans un fichier partagé)
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-
 const LoginPage: NextPage = () => {
+  const [supabaseClient] = useState(() => createPagesBrowserClient());
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -25,8 +19,7 @@ const LoginPage: NextPage = () => {
     setLoading(true);
     setError(null);
 
-    // On utilise la fonction de connexion de Supabase Auth
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabaseClient.auth.signInWithPassword({
       email: email,
       password: password,
     });
@@ -34,9 +27,8 @@ const LoginPage: NextPage = () => {
     setLoading(false);
 
     if (error) {
-      setError(error.message);
+      setError('Email ou mot de passe incorrect.');
     } else {
-      // Si la connexion réussit, on redirige vers la page d'administration
       router.push('/admin');
     }
   };
