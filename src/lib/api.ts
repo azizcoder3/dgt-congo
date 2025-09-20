@@ -1,12 +1,14 @@
 // src/lib/api.ts (VERSION FINALE AVEC @supabase/supabase-js)
 
+import { NewsArticle } from '@/types/supabase';
 import { createClient } from '@supabase/supabase-js';
 
 // Configuration du client Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // --- Fonctions de récupération des données ---
 
@@ -135,6 +137,83 @@ export async function getMarketStats() {
     .select('*');
     
   if (error) { console.error("Erreur Supabase (getMarketStats):", error.message); return []; }
+  return data;
+}
+
+// --- NOUVELLES Fonctions pour l'Administration ---
+
+/**
+ * Récupère TOUS les articles pour le tableau de bord d'administration.
+ * Cette fonction est identique à getAllNews, mais on la sépare pour la clarté.
+ */
+export async function getArticlesForAdmin() {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .order('publishedAt', { ascending: false });
+
+  if (error) { console.error("Erreur Supabase (getArticlesForAdmin):", error.message); return []; }
+  return data;
+}
+
+/**
+ * Supprime un article en se basant sur son ID.
+ * NOTE: Pour que cela fonctionne, il faudra créer une politique de sécurité (RLS) sur Supabase
+ * qui autorise les utilisateurs authentifiés à supprimer des articles.
+ */
+export async function deleteArticleById(id: number) {
+    const { error } = await supabase
+        .from('articles')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error("Erreur Supabase (deleteArticleById):", error.message);
+        throw new Error(error.message);
+    }
+    
+    return true; // Succès
+}
+
+export async function createArticle(articleData: Omit<NewsArticle, 'id' | 'created_at'>) {
+  // Omit<> est un type qui prend NewsArticle et retire les clés 'id' et 'created_at'
+  const { data, error } = await supabase
+    .from('articles')
+    .insert([articleData]) // Supabase s'attend à un tableau d'objets
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+
+// Met à jour un article existant en se basant sur son ID
+// export async function updateArticle(id: number, articleData: Partial<NewsArticle>)
+export async function updateArticle(id: number, articleData: Partial<NewsArticle>) {
+  // Partial<> rend toutes les propriétés de NewsArticle optionnelles
+  const { data, error } = await supabase
+    .from('articles')
+    .update(articleData)
+    .eq('id', id)
+    .select()
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+export async function getArticleById(id: number) {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('id', id)
+    .single();
+
+  if (error) {
+    console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message);
+    return null;
+  }
   return data;
 }
 
