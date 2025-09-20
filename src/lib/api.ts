@@ -204,18 +204,38 @@ export async function updateArticle(id: number, articleData: Partial<NewsArticle
 }
 
 export async function getArticleById(id: number) {
+  // On vérifie que l'ID est bien un nombre valide avant de faire la requête
+  if (isNaN(id)) {
+    console.error("Tentative de récupérer un article avec un ID invalide.");
+    return null;
+  }
+
   const { data, error } = await supabase
     .from('articles')
     .select('*')
-    .eq('id', id)
+    .eq('id', id) // On cherche la ligne où la colonne 'id' est égale à notre nombre
     .single();
 
   if (error) {
-    console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message);
+    console.error(`Erreur Supabase (getArticleById pour l'ID ${id}):`, error.message);
     return null;
   }
   return data;
 }
+
+// export async function getArticleById(id: number) {
+//   const { data, error } = await supabase
+//     .from('articles')
+//     .select('*')
+//     .eq('id', id)
+//     .single();
+
+//   if (error) {
+//     console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message);
+//     return null;
+//   }
+//   return data;
+// }
 
 
 
