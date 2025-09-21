@@ -103,12 +103,13 @@ export async function getArticleBySlug(slug: string) {
   const { data, error } = await supabase
     .from('articles')
     .select('*')
-    .eq('slug', slug) // On cherche la ligne où la colonne 'slug' est égale au slug fourni
-    .single(); // On s'attend à recevoir un seul résultat
+    .eq('slug', slug)
+    .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
+    .single(); // Ensuite, on le prend
 
   if (error) {
     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
-    return null; // Retourne null si l'article n'est pas trouvé ou s'il y a une erreur
+    return null;
   }
   return data;
 }
