@@ -1,7 +1,7 @@
 // src/pages/api/articles/create.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { createArticle } from '@/lib/api';
+import { createArticle } from '@/lib/api-admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') return res.status(405).end();

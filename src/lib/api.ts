@@ -1,84 +1,75 @@
-// src/lib/api.ts (VERSION FINALE AVEC @supabase/supabase-js)
-
-// src/lib/api.ts (VERSION FINALE CORRIGÉE)
+// src/lib/api.ts (CODE PUBLIC UNIQUEMENT)
 
 import { createClient } from '@supabase/supabase-js';
-import type { NewsArticle } from '@/types/supabase';
+import type { Database } from '@/types/supabase-generated';
 
-// On s'assure que les variables sont bien définies avant de les utiliser
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+// --- Configuration ---
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 
-if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
-  throw new Error("Les variables d'environnement Supabase ne sont pas toutes définies. Vérifiez votre fichier .env.local et les paramètres de Vercel.");
-}
+// --- Client Public ---
+// Ce client est sûr car il utilise la clé publique.
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
 
-// const supabase = createClient(supabaseUrl, supabaseAnonKey);
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-
-// --- Fonctions de récupération des données ---
+// ====================================================================
+// --- FONCTIONS DE LECTURE PUBLIQUES ---
+// ====================================================================
 
 export async function getRecentNews() {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .order('publishedAt', { ascending: false })
-    .limit(3);
-
+  const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false }).limit(3);
   if (error) { console.error("Erreur Supabase (getRecentNews):", error.message); return []; }
   return data;
 }
 
 export async function getRecentReports() {
-  const { data, error } = await supabase
-    .from('rapports')
-    .select('*')
-    .order('publishedDate', { ascending: false })
-    .limit(3);
-
+  const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false }).limit(3);
   if (error) { console.error("Erreur Supabase (getRecentReports):", error.message); return []; }
   return data;
 }
 
 export async function getHeroSlides() {
-  const { data, error } = await supabase
-    .from('hero_slides')
-    .select('*')
-    .order('created_at', { ascending: true });
-
+  const { data, error } = await supabase.from('hero_slides').select('*').order('created_at', { ascending: true });
   if (error) { console.error("Erreur Supabase (getHeroSlides):", error.message); return []; }
   return data;
 }
 
 export async function getDiscoveryCards() {
-  const { data, error } = await supabase
-    .from('discovery_cards')
-    .select('*')
-    .order('id', { ascending: true });
-    
+  const { data, error } = await supabase.from('discovery_cards').select('*').order('id', { ascending: true });
   if (error) { console.error("Erreur Supabase (getDiscoveryCards):", error.message); return []; }
   return data;
 }
 
 export async function getAllReports() {
-    const { data, error } = await supabase
-      .from('rapports')
-      .select('*')
-      .order('publishedDate', { ascending: false });
-  
+    const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false });
     if (error) { console.error("Erreur Supabase (getAllReports):", error.message); return []; }
     return data;
 }
 
 export async function getAllNews() {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .order('publishedAt', { ascending: false });
-
+  const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false });
   if (error) { console.error("Erreur Supabase (getAllNews):", error.message); return []; }
+  return data;
+}
+
+export async function getArticleBySlug(slug: string) {
+  const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).maybeSingle();
+  if (error) { console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); return null; }
+  return data;
+}
+
+export async function getDirectorateBySlug(slug: string) {
+  const { data, error } = await supabase.from('directorates').select('*').eq('slug', slug).single();
+  if (error) { console.error(`Erreur Supabase (getDirectorateBySlug pour ${slug}):`, error.message); return null; }
+  return data;
+}
+
+export async function getDirectorates() {
+  const { data, error } = await supabase
+    .from('directorates')
+    .select('*')
+    .order('id', { ascending: true });
+    
+  if (error) { console.error("Erreur Supabase (getDirectorates):", error.message); return []; }
   return data;
 }
 
@@ -94,178 +85,134 @@ export async function getAuctionResults() {
   return data;
 }
 
-export async function getDirectorates() {
-  const { data, error } = await supabase
-    .from('directorates')
-    .select('*')
-    .order('id', { ascending: true });
-    
-  if (error) { console.error("Erreur Supabase (getDirectorates):", error.message); return []; }
-  return data;
-}
-
-/**
- * Récupère un seul article par son slug.
- */
-
-export async function getArticleBySlug(slug: string) {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle(); // <-- LA CORRECTION CLÉ
-
-  if (error) {
-    // On logue l'erreur pour le débogage mais on ne la lance pas,
-    // car ne pas trouver d'article n'est pas une erreur critique.
-    console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
-    return null;
-  }
-  return data;
-}
-
-
-// export async function getArticleBySlug(slug: string) {
-//   const { data, error } = await supabase
-//     .from('articles')
-//     .select('*')
-//     .eq('slug', slug)
-//     .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
-//     .single(); // Ensuite, on le prend
-
-//   if (error) {
-//     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
-//     return null;
-//   }
-//   return data;
-// }
-
-/**
- * Récupère une seule direction par son slug.
- */
-export async function getDirectorateBySlug(slug: string) {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('slug', slug)
-    .maybeSingle(); // <-- LA CORRECTION CLÉ
-
-  if (error) {
-    // On logue l'erreur pour le débogage mais on ne la lance pas,
-    // car ne pas trouver d'article n'est pas une erreur critique.
-    console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
-    return null;
-  }
-  return data;
-}
-
-// Récupère les statistiques du marché financier
 export async function getMarketStats() {
-  const { data, error } = await supabase
-    .from('statistiques_marche')
-    .select('*');
-    
+  const { data, error } = await supabase.from('statistiques_marche').select('*');
   if (error) { console.error("Erreur Supabase (getMarketStats):", error.message); return []; }
   return data;
 }
 
-// --- NOUVELLES Fonctions pour l'Administration ---
-
-/**
- * Récupère TOUS les articles pour le tableau de bord d'administration.
- * Cette fonction est identique à getAllNews, mais on la sépare pour la clarté.
- */
-export async function getArticlesForAdmin() {
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .order('publishedAt', { ascending: false });
-
-  if (error) { console.error("Erreur Supabase (getArticlesForAdmin):", error.message); return []; }
-  return data;
-}
-
-/**
- * Supprime un article en se basant sur son ID.
- * NOTE: Pour que cela fonctionne, il faudra créer une politique de sécurité (RLS) sur Supabase
- * qui autorise les utilisateurs authentifiés à supprimer des articles.
- */
-export async function deleteArticleById(id: number) {
-    const { error } = await supabaseAdmin
-        .from('articles')
-        .delete()
-        .eq('id', id);
-
-    if (error) {
-        console.error("Erreur Supabase (deleteArticleById):", error.message);
-        throw new Error(error.message);
-    }
-    
-    return true; // Succès
-}
-
-export async function createArticle(articleData: Omit<NewsArticle, 'id' | 'created_at'>) {
-  // Omit<> est un type qui prend NewsArticle et retire les clés 'id' et 'created_at'
-  const { data, error } = await supabaseAdmin
-    .from('articles')
-    .insert([articleData]) // Supabase s'attend à un tableau d'objets
-    .select()
-    .single();
-
-  if (error) throw new Error(error.message);
-  return data;
-}
+// ...et toutes vos autres fonctions GET...
 
 
-// Met à jour un article existant en se basant sur son ID
-// export async function updateArticle(id: number, articleData: Partial<NewsArticle>)
-export async function updateArticle(id: number, articleData: Partial<NewsArticle>) {
-  // Partial<> rend toutes les propriétés de NewsArticle optionnelles
-  const { data, error } = await supabaseAdmin
-    .from('articles')
-    .update(articleData)
-    .eq('id', id)
-    .select()
-    .single();
 
-  if (error) throw new Error(error.message);
-  return data;
-}
 
-export async function getArticleById(id: number) {
-  // On vérifie que l'ID est bien un nombre valide avant de faire la requête
-  if (isNaN(id)) {
-    console.error("Tentative de récupérer un article avec un ID invalide.");
-    return null;
-  }
 
-  const { data, error } = await supabase
-    .from('articles')
-    .select('*')
-    .eq('id', id) // On cherche la ligne où la colonne 'id' est égale à notre nombre
-    .single();
 
-  if (error) {
-    console.error(`Erreur Supabase (getArticleById pour l'ID ${id}):`, error.message);
-    return null;
-  }
-  return data;
-}
 
-// export async function getArticleById(id: number) {
-//   const { data, error } = await supabase
-//     .from('articles')
-//     .select('*')
-//     .eq('id', id)
-//     .single();
 
-//   if (error) {
-//     console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message);
-//     return null;
-//   }
+
+// // src/lib/api.ts (CODE COMPLET ET FINAL AVEC TYPES GÉNÉRÉS)
+
+// import { createClient } from '@supabase/supabase-js';
+// import type { Database } from '@/types/supabase-generated'; // <-- On importe les types générés
+
+// // --- Création de raccourcis pour les types (bonne pratique) ---
+// type ArticleInsert = Database['public']['Tables']['articles']['Insert'];
+// type ArticleUpdate = Database['public']['Tables']['articles']['Update'];
+
+// // --- Configuration des clients ---
+// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+// const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+
+// // Client PUBLIC : utilisé par le frontend et pour la lecture de données publiques
+// export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
+
+// // Client ADMIN : utilisé par le backend (API) pour l'écriture (création, modification, suppression)
+// // Il ne sera initialisé que côté serveur où la clé secrète est disponible.
+// let supabaseAdmin: ReturnType<typeof createClient<Database>>;
+// if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
+//     supabaseAdmin = createClient<Database>(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY);
+// } else {
+//     console.warn("Clé de service Supabase non trouvée. Les opérations d'écriture côté serveur échoueront.");
+// }
+
+
+// // ====================================================================
+// // --- FONCTIONS PUBLIQUES (utilisent le client "supabase") ---
+// // ====================================================================
+
+// export async function getRecentNews() {
+//   const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false }).limit(3);
+//   if (error) { console.error("Erreur Supabase (getRecentNews):", error.message); return []; }
 //   return data;
 // }
 
+// export async function getRecentReports() {
+//   const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false }).limit(3);
+//   if (error) { console.error("Erreur Supabase (getRecentReports):", error.message); return []; }
+//   return data;
+// }
+
+// export async function getHeroSlides() {
+//   const { data, error } = await supabase.from('hero_slides').select('*').order('created_at', { ascending: true });
+//   if (error) { console.error("Erreur Supabase (getHeroSlides):", error.message); return []; }
+//   return data;
+// }
+
+// export async function getDiscoveryCards() {
+//   const { data, error } = await supabase.from('discovery_cards').select('*').order('id', { ascending: true });
+//   if (error) { console.error("Erreur Supabase (getDiscoveryCards):", error.message); return []; }
+//   return data;
+// }
+
+// export async function getAllReports() {
+//     const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false });
+//     if (error) { console.error("Erreur Supabase (getAllReports):", error.message); return []; }
+//     return data;
+// }
+
+// export async function getAllNews() {
+//   const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false });
+//   if (error) { console.error("Erreur Supabase (getAllNews):", error.message); return []; }
+//   return data;
+// }
+
+// export async function getArticleBySlug(slug: string) {
+//   const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).maybeSingle();
+//   if (error) { console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); return null; }
+//   return data;
+// }
+
+// // ... Ajoutez ici vos autres fonctions "get..." publiques si vous en avez (getDirectorates, etc.)
+
+// // ====================================================================
+// // --- FONCTIONS ADMIN (utilisent le client "supabaseAdmin") ---
+// // ====================================================================
+
+// export async function getArticlesForAdmin() {
+//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
+//   const { data, error } = await supabaseAdmin.from('articles').select('*').order('publishedAt', { ascending: false });
+//   if (error) { console.error("Erreur Supabase (getArticlesForAdmin):", error.message); return []; }
+//   return data;
+// }
+
+// export async function getArticleById(id: number) {
+//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
+//   const { data, error } = await supabaseAdmin.from('articles').select('*').eq('id', id).single();
+//   if (error) { console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message); return null; }
+//   return data;
+// }
+
+// export async function createArticle(articleData: ArticleInsert) {
+//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
+//   const { data, error } = await supabaseAdmin.from('articles').insert([articleData]).select().single();
+//   if (error) { console.error("Erreur Supabase (createArticle):", error); throw new Error(error.message); }
+//   return data;
+// }
+
+// export async function updateArticle(id: number, articleData: ArticleUpdate) {
+//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
+//   const { data, error } = await supabaseAdmin.from('articles').update(articleData).eq('id', id).select().single();
+//   if (error) { console.error("Erreur Supabase (updateArticle):", error); throw new Error(error.message); }
+//   return data;
+// }
+
+// export async function deleteArticleById(id: number) {
+//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
+//   const { error } = await supabaseAdmin.from('articles').delete().eq('id', id);
+//   if (error) { console.error("Erreur Supabase (deleteArticleById):", error.message); throw new Error(error.message); }
+//   return true;
+// }
 
 
 

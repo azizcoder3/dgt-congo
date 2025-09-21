@@ -6,7 +6,8 @@ import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
-import { getArticlesForAdmin, supabase } from '@/lib/api';
+import { supabase } from '@/lib/api'; 
+import { getArticlesForAdmin} from '@/lib/api-admin';
 import type { NewsArticle } from '@/types/supabase';
 import type { User } from '@supabase/supabase-js';
 
@@ -118,7 +119,7 @@ export default AdminPage;
 
 
 
-// // src/pages/admin.tsx (CODE COMPLET ET FINAL)
+// // // src/pages/admin.tsx (CODE COMPLET ET FINAL)
 
 // import { useState, useEffect } from 'react';
 // import { useRouter } from 'next/router';

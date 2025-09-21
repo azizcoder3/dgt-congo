@@ -1,6 +1,6 @@
 // src/pages/api/articles/update.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { updateArticle } from '@/lib/api';
+import { updateArticle } from '@/lib/api-admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'PUT') return res.status(405).end();

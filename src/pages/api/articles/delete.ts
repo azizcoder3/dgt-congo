@@ -1,6 +1,6 @@
 // src/pages/api/articles/delete.ts
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { deleteArticleById } from '@/lib/api';
+import { deleteArticleById } from '@/lib/api-admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'DELETE') {
