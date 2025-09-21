@@ -1,15 +1,22 @@
 // src/lib/api.ts (VERSION FINALE AVEC @supabase/supabase-js)
 
-import { NewsArticle } from '@/types/supabase';
-import { createClient } from '@supabase/supabase-js';
+// src/lib/api.ts (VERSION FINALE CORRIGÉE)
 
-// Configuration du client Supabase
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-const supabaseAdmin = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+import { createClient } from '@supabase/supabase-js';
+import type { NewsArticle } from '@/types/supabase';
+
+// On s'assure que les variables sont bien définies avant de les utiliser
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey) {
+  throw new Error("Les variables d'environnement Supabase ne sont pas toutes définies. Vérifiez votre fichier .env.local et les paramètres de Vercel.");
+}
 
 // const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 // --- Fonctions de récupération des données ---
 
@@ -116,22 +123,6 @@ export async function getArticleBySlug(slug: string) {
   }
   return data;
 }
-
-
-// export async function getArticleBySlug(slug: string) {
-//   const { data, error } = await supabase
-//     .from('articles')
-//     .select('*')
-//     .eq('slug', slug)
-//     .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
-//     .single(); // Ensuite, on le prend
-
-//   if (error) {
-//     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
-//     return null;
-//   }
-//   return data;
-// }
 
 /**
  * Récupère une seule direction par son slug.
