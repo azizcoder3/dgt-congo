@@ -1,6 +1,4 @@
 // src/types/supabase.ts
-// src/types/supabase.ts
-
 export interface NewsArticle {
     id: number;
     title: string;
