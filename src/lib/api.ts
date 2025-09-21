@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 // Configuration du client Supabase
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseAdmin = createClient(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY!);
 
 // const supabase = createClient(supabaseUrl, supabaseAnonKey);
 export const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -99,33 +100,53 @@ export async function getDirectorates() {
 /**
  * Récupère un seul article par son slug.
  */
+
 export async function getArticleBySlug(slug: string) {
   const { data, error } = await supabase
     .from('articles')
     .select('*')
     .eq('slug', slug)
-    .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
-    .single(); // Ensuite, on le prend
+    .maybeSingle(); // <-- LA CORRECTION CLÉ
 
   if (error) {
+    // On logue l'erreur pour le débogage mais on ne la lance pas,
+    // car ne pas trouver d'article n'est pas une erreur critique.
     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
     return null;
   }
   return data;
 }
 
+
+// export async function getArticleBySlug(slug: string) {
+//   const { data, error } = await supabase
+//     .from('articles')
+//     .select('*')
+//     .eq('slug', slug)
+//     .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
+//     .single(); // Ensuite, on le prend
+
+//   if (error) {
+//     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
+//     return null;
+//   }
+//   return data;
+// }
+
 /**
  * Récupère une seule direction par son slug.
  */
 export async function getDirectorateBySlug(slug: string) {
   const { data, error } = await supabase
-    .from('directorates')
+    .from('articles')
     .select('*')
     .eq('slug', slug)
-    .single();
+    .maybeSingle(); // <-- LA CORRECTION CLÉ
 
   if (error) {
-    console.error(`Erreur Supabase (getDirectorateBySlug pour ${slug}):`, error.message);
+    // On logue l'erreur pour le débogage mais on ne la lance pas,
+    // car ne pas trouver d'article n'est pas une erreur critique.
+    console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
     return null;
   }
   return data;
@@ -163,7 +184,7 @@ export async function getArticlesForAdmin() {
  * qui autorise les utilisateurs authentifiés à supprimer des articles.
  */
 export async function deleteArticleById(id: number) {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
         .from('articles')
         .delete()
         .eq('id', id);
@@ -178,7 +199,7 @@ export async function deleteArticleById(id: number) {
 
 export async function createArticle(articleData: Omit<NewsArticle, 'id' | 'created_at'>) {
   // Omit<> est un type qui prend NewsArticle et retire les clés 'id' et 'created_at'
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('articles')
     .insert([articleData]) // Supabase s'attend à un tableau d'objets
     .select()
@@ -193,7 +214,7 @@ export async function createArticle(articleData: Omit<NewsArticle, 'id' | 'creat
 // export async function updateArticle(id: number, articleData: Partial<NewsArticle>)
 export async function updateArticle(id: number, articleData: Partial<NewsArticle>) {
   // Partial<> rend toutes les propriétés de NewsArticle optionnelles
-  const { data, error } = await supabase
+  const { data, error } = await supabaseAdmin
     .from('articles')
     .update(articleData)
     .eq('id', id)
