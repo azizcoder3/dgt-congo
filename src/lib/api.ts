@@ -124,6 +124,22 @@ export async function getArticleBySlug(slug: string) {
   return data;
 }
 
+
+// export async function getArticleBySlug(slug: string) {
+//   const { data, error } = await supabase
+//     .from('articles')
+//     .select('*')
+//     .eq('slug', slug)
+//     .limit(1) // On s'assure de ne prendre qu'un seul résultat au maximum
+//     .single(); // Ensuite, on le prend
+
+//   if (error) {
+//     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message);
+//     return null;
+//   }
+//   return data;
+// }
+
 /**
  * Récupère une seule direction par son slug.
  */
