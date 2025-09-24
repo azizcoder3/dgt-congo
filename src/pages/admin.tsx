@@ -1,471 +1,211 @@
-// src/pages/admin.tsx
+// src/pages/admin/index.tsx (LE NOUVEAU PORTAIL MODERNISÉ)
 
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
-import { supabase } from '@/lib/api'; 
-import { getArticlesForAdmin} from '@/lib/api-admin';
-import type { NewsArticle } from '@/types/supabase';
+import { supabase } from '@/lib/api';
 import type { User } from '@supabase/supabase-js';
 
-
-interface AdminPageProps {
-  articles: NewsArticle[];
+interface AdminDashboardProps {
   user: User;
 }
 
-const AdminPage: NextPage<AdminPageProps> = ({ articles, user }) => {
-  const router = useRouter();
-  const [articleList, setArticleList] = useState(articles);
+const AdminDashboard: NextPage<AdminDashboardProps> = ({ user }) => {
+    const router = useRouter();
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    router.push('/login');
-  };
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        router.push('/login');
+    };
 
-  const handleDelete = async (id: number) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
-      try {
-        const response = await fetch(`/api/articles/delete?id=${id}`, { method: 'DELETE' });
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.message || 'La suppression a échoué.');
-        }
-        setArticleList(articleList.filter(article => article.id !== id));
-      } catch (error) {
-        console.error(error);
-        alert((error as Error).message);
-      }
-    }
-  };
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-emerald-50/30">
+            <Head>
+                <title>Tableau de Bord | Administration DGTCP</title>
+            </Head>
+            
+            <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200/60 shadow-sm">
+                <div className="container mx-auto px-6 py-4 flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+                            Administration DGTCP
+                        </h1>
+                        <p className="text-sm text-gray-500 mt-1">Tableau de Bord Principal</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                        <span className="text-sm text-gray-600 bg-gray-100 px-3 py-1 rounded-full">
+                            Connecté en tant que {user.email}
+                        </span>
+                        <button 
+                            onClick={handleLogout} 
+                            className="text-sm font-medium text-red-600 hover:text-red-700 transition-colors bg-red-50 px-3 py-1 rounded-full hover:bg-red-100"
+                        >
+                            Se déconnecter
+                        </button>
+                    </div>
+                </div>
+            </header>
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>Tableau de Bord | Administration DGTCP</title>
-      </Head>
+            <main className="container mx-auto p-6">
+                <div className="text-center mb-12">
+                    <h2 className="text-4xl font-bold text-gray-800 mb-4">
+                        Tableau de Bord Principal
+                    </h2>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Gérez l&apos;ensemble du contenu de votre plateforme DGTCP depuis cet espace d&apos;administration sécurisé.
+                    </p>
+                </div>
 
-      <header className="bg-white shadow-sm">
-        <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold">Administration DGTCP</h1>
-          <div>
-            {user && <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user.email}</span>}
-            <button onClick={handleLogout} className="text-sm font-semibold text-red-600 hover:underline">Se déconnecter</button>
-          </div>
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                    {/* Carte pour les Actualités */}
+                    <Link 
+                        href="/admin/articles" 
+                        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-8 hover:border-blue-200 hover:-translate-y-1"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="relative z-10">
+                            <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-purple-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Gestion des Actualités</h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                Ajouter, modifier ou supprimer des articles d&apos;actualité pour maintenir votre contenu à jour.
+                            </p>
+                            <div className="mt-4 flex items-center text-blue-600 font-medium">
+                                <span>Accéder à la gestion</span>
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* Carte pour les Rapports */}
+                    <Link 
+                        href="/admin/reports" 
+                        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-8 hover:border-emerald-200 hover:-translate-y-1"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-green-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="relative z-10">
+                            <div className="w-14 h-14 bg-gradient-to-br from-emerald-500 to-green-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Gestion des Rapports</h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                Ajouter, modifier ou supprimer des rapports financiers et documents officiels.
+                            </p>
+                            <div className="mt-4 flex items-center text-emerald-600 font-medium">
+                                <span>Accéder à la gestion</span>
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* NOUVELLE Carte pour les Titres Publics */}
+                    <Link 
+                        href="/admin/titres-publics" 
+                        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-8 hover:border-yellow-200 hover:-translate-y-1"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-br from-yellow-500/5 to-orange-500/5 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="relative z-10">
+                            <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 to-orange-600 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 21.945V11C13 7.134 16.134 4 20 4v0a9.002 9.002 0 00-7-1.945z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Gestion des Titres Publics</h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                Gérer les calendriers d&apos;émissions et les résultats des adjudications.
+                            </p>
+                            <div className="mt-4 flex items-center text-yellow-600 font-medium">
+                                <span>Accéder à la gestion</span>
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </Link>
+
+                    {/* NOUVELLE CARTE POUR LES STATISTIQUES */}
+                    <Link 
+                        href="/admin/stats" 
+                        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-8 hover:border-gray-200 hover:-translate-y-1"
+                    >
+                        <div className="relative z-10">
+                            <div className="w-14 h-14 bg-gradient-to-br from-gray-500 to-gray-700 rounded-xl flex items-center justify-center mb-6">
+                                {/* Icône de statistiques */}
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 21.945V11C13 7.134 16.134 4 20 4v0a9.002 9.002 0 00-7-1.945z" />
+                                </svg>
+                            </div>
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Gestion des Statistiques</h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                Mettre à jour les chiffres clés du marché.
+                            </p>
+                            <div className="mt-4 flex items-center text-gray-600 font-medium">
+                                <span>Accéder à la gestion</span>
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </Link>
+
+                </div>
+
+                {/* Section Statistiques (optionnelle pour le futur) */}
+                <div className="mt-16 max-w-4xl mx-auto">
+                    <div className="bg-white/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-200/50">
+                        <h3 className="text-xl font-bold text-gray-800 mb-6">Aperçu de l&apos;activité</h3>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div className="text-center p-4">
+                                <div className="text-3xl font-bold text-blue-600 mb-2">0</div>
+                                <div className="text-sm text-gray-600">Articles publiés</div>
+                            </div>
+                            <div className="text-center p-4">
+                                <div className="text-3xl font-bold text-emerald-600 mb-2">0</div>
+                                <div className="text-sm text-gray-600">Rapports en ligne</div>
+                            </div>
+                            <div className="text-center p-4">
+                                <div className="text-3xl font-bold text-purple-600 mb-2">1</div>
+                                <div className="text-sm text-gray-600">Administrateur actif</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <footer className="mt-16 border-t border-gray-200/50">
+                <div className="container mx-auto px-6 py-8 text-center">
+                    <p className="text-sm text-gray-500">
+                        © {new Date().getFullYear()} Direction Générale du Trésor et de la Comptabilité Publique. Tous droits réservés.
+                    </p>
+                </div>
+            </footer>
         </div>
-      </header>
-
-      <main className="container mx-auto p-6">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-2xl font-bold text-gray-800">Gestion des Actualités</h2>
-          <Link href="/admin/articles/new" className="px-4 py-2 bg-brand-green text-white font-semibold rounded-md hover:bg-green-700">
-            Ajouter un article
-          </Link>
-        </div>
-
-        <div className="bg-white rounded-lg shadow-md border overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titre</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date de Publication</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {articleList.map(article => (
-                <tr key={article.id}>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{article.title}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR') : '-'}</td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link href={`/admin/articles/edit/${article.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</Link>
-                    <button onClick={() => handleDelete(article.id)} className="text-red-600 hover:text-red-900">Supprimer</button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </main>
-    </div>
-  );
+    );
 };
 
-// --- C'est ici que la nouvelle logique SSR est appliquée ---
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const supabase = createPagesServerClient(ctx);
-  const { data: { session } } = await supabase.auth.getSession();
+    const supabase = createPagesServerClient(ctx);
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) { return { redirect: { destination: '/login', permanent: false } }; }
 
-  if (!session) {
-    return { redirect: { destination: '/login', permanent: false } };
-  }
-
-  const articles = await getArticlesForAdmin();
-
-  return {
-    props: {
-      articles: JSON.parse(JSON.stringify(articles)),
-      user: session.user,
-    },
-  };
+    return {
+        props: {
+            user: session.user,
+        },
+    };
 };
 
-export default AdminPage;
-
-
-
-
-
-// // // src/pages/admin.tsx (CODE COMPLET ET FINAL)
-
-// import { useState, useEffect } from 'react';
-// import { useRouter } from 'next/router';
-// import type { NextPage } from 'next';
-// import Head from 'next/head';
-// import Link from 'next/link';
-// import { supabase } from '@/lib/api'; // On importe le client depuis api.ts
-// import type { NewsArticle } from '@/types/supabase';
-// import type { User } from '@supabase/supabase-js';
-
-// // Pas de props de la page, tout est chargé côté client
-// const AdminPage: NextPage = () => {
-//   const router = useRouter();
-//   const [user, setUser] = useState<User | null>(null);
-//   const [articles, setArticles] = useState<NewsArticle[]>([]);
-//   const [loading, setLoading] = useState(true); // État de chargement
-
-//   useEffect(() => {
-//     const checkUserAndFetchData = async () => {
-//       // 1. Vérifier si l'utilisateur est connecté
-//       const { data: { session } } = await supabase.auth.getSession();
-
-//       if (session) {
-//         setUser(session.user);
-//         // 2. Si oui, récupérer les articles
-//         const { data: articleData } = await supabase
-//           .from('articles')
-//           .select('*')
-//           .order('publishedAt', { ascending: false });
-        
-//         setArticles(articleData || []);
-//       } else {
-//         // 3. Si non, rediriger vers la page de connexion
-//         router.push('/login');
-//       }
-//       setLoading(false); // Fin du chargement
-//     };
-
-//     checkUserAndFetchData();
-//   }, [router]);
-  
-//   const handleLogout = async () => {
-//     await supabase.auth.signOut();
-//     router.push('/login');
-//   };
-
-
-//   const handleDelete = async (id: number) => {
-//     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
-//       try {
-//         const response = await fetch(`/api/articles/delete?id=${id}`, { method: 'DELETE' });
-//         if (!response.ok) {
-//           const errorData = await response.json();
-//           throw new Error(errorData.message || 'La suppression a échoué.');
-//         }
-//         setArticles(articles.filter(article => article.id !== id));
-//       } catch (error) {
-//         console.error(error);
-//         alert((error as Error).message);
-//       }
-//     }
-//   };
-
-//   // On affiche un écran de chargement pendant que l'on vérifie la session
-//   if (loading) {
-//     return (
-//         <div className="flex items-center justify-center min-h-screen">
-//             <p>Chargement...</p>
-//         </div>
-//     );
-//   }
-
-//    // Si on est là, c'est que l'utilisateur est bien connecté
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <Head><title>Tableau de Bord | Administration</title></Head>
-
-//       <header className="bg-white shadow-sm">
-//         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-//           <h1 className="text-xl font-bold">Administration DGTCP</h1>
-//           <div>
-//             <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user?.email}</span>
-//             <button onClick={handleLogout} className="text-sm font-semibold text-red-600 hover:underline">Se déconnecter</button>
-//           </div>
-//         </div>
-//       </header>
-
-//       <main className="container mx-auto p-6">
-//         <div className="flex justify-between items-center mb-6">
-//           <h2 className="text-2xl font-bold text-gray-800">Gestion des Actualités</h2>
-//           <Link href="/admin/articles/new" className="px-4 py-2 bg-brand-green text-white font-semibold rounded-md hover:bg-green-700">
-//             Ajouter un article
-//           </Link>
-//         </div>
-
-//         <div className="bg-white rounded-lg shadow-md border overflow-x-auto">
-//           <table className="min-w-full divide-y divide-gray-200">
-//             <thead className="bg-gray-50">
-//               <tr>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titre</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date de Publication</th>
-//                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody className="bg-white divide-y divide-gray-200">
-//               {articles.map(article => (
-//                 <tr key={article.id}>
-//                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{article.title}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR') : '-'}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-//                     <Link href={`/admin/articles/edit/${article.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</Link>
-//                     <button onClick={() => handleDelete(article.id)} className="text-red-600 hover:text-red-900">Supprimer</button>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// };
-
-// export default AdminPage;
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   // 1. On crée un client Supabase standard.
-//   const supabase = createClient(
-//     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-//     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-//     // 2. On passe les informations d'authentification de la requête à Supabase
-//     //    C'est l'étape clé pour que le serveur connaisse l'utilisateur
-//     {
-//       global: {
-//         headers: {
-//           Authorization: `Bearer ${ctx.req.cookies['supabase-auth-token']}`
-//         }
-//       }
-//     }
-//   );
-
-//   // 3. On demande à Supabase qui est l'utilisateur actuel
-//   const { data: { user } } = await supabase.auth.getUser();
-
-//   // 4. Si AUCUN utilisateur n'est trouvé, on redirige
-//   if (!user) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   // 5. Si un utilisateur EST trouvé, on charge les données et on affiche la page
-//   const articles = await getArticlesForAdmin();
-
-//   return {
-//     props: {
-//       articles: JSON.parse(JSON.stringify(articles)),
-//       user: user,
-//     },
-//   };
-// };
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   // 1. Crée un client Supabase spécialement conçu pour le côté serveur
-//   const supabase = createPagesServerClient(ctx);
-  
-//   // 2. Tente de récupérer la session de l'utilisateur
-//   const { data: { session } } = await supabase.auth.getSession();
-
-//   // 3. Si AUCUNE session n'est trouvée, on redirige
-//   if (!session) {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: false,
-//       },
-//     };
-//   }
-
-//   // 4. Si une session EST trouvée, on récupère les données
-//   //    ET on passe l'utilisateur et les articles à la page
-//   const articles = await getArticlesForAdmin();
-
-//   return {
-//     props: {
-//       articles: JSON.parse(JSON.stringify(articles)),
-//       user: session.user,
-//     },
-//   };
-// };
-
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//    const supabase = createPagesServerClient(ctx);
-
-//   const { data: { session } } = await supabase.auth.getSession();
-
-//   if (!session) {
-//     return { redirect: { destination: '/login', permanent: false } };
-//   }
-
-//   const articles = await getArticlesForAdmin();
-
-//   return {
-//     props: {
-//       articles: JSON.parse(JSON.stringify(articles)),
-//       user: session.user,
-//     },
-//   };
-// };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // src/pages/admin.tsx (VERSION TABLEAU DE BORD), il ya des erreurs dans cette version
-
-// import { useState } from 'react';
-// import { useRouter } from 'next/router';
-// import type { GetServerSideProps, NextPage } from 'next';
-// import Head from 'next/head';
-// import Link from 'next/link';
-// import { supabase } from '@/lib/api'; // On importe le client depuis api.ts
-// import { getArticlesForAdmin } from '@/lib/api';
-// import type { NewsArticle } from '@/types/supabase';
-
-// interface AdminPageProps {
-//   articles: NewsArticle[];
-//   user: any; // Type de l'utilisateur
-// }
-
-// const AdminPage: NextPage<AdminPageProps> = ({ articles, user }) => {
-//   const router = useRouter();
-//   const [articleList, setArticleList] = useState(articles);
-
-//   const handleLogout = async () => {
-//     await supabase.auth.signOut();
-//     router.push('/login');
-//   };
-
-//   const handleDelete = async (id: number) => {
-//     if (window.confirm("Êtes-vous sûr de vouloir supprimer cet article ?")) {
-//       try {
-//         await fetch(`/api/articles/delete?id=${id}`, { method: 'DELETE' });
-//         // On met à jour la liste affichée en retirant l'article supprimé
-//         setArticleList(articleList.filter(article => article.id !== id));
-//       } catch (error) {
-//         console.error(error);
-//         alert("Erreur lors de la suppression de l'article.");
-//       }
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen bg-gray-50">
-//       <Head><title>Tableau de Bord | Administration</title></Head>
-
-//       <header className="bg-white shadow-sm">
-//         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-//           <h1 className="text-xl font-bold">Administration DGTCP</h1>
-//           <div>
-//             <span className="text-sm text-gray-600 mr-4">Connecté en tant que {user.email}</span>
-//             <button onClick={handleLogout} className="text-sm font-semibold text-red-600 hover:underline">Se déconnecter</button>
-//           </div>
-//         </div>
-//       </header>
-
-//       <main className="container mx-auto p-6">
-//         <div className="flex justify-between items-center mb-6">
-//           <h2 className="text-2xl font-bold text-gray-800">Gestion des Actualités</h2>
-//           {/* On ajoutera le lien vers la page de création plus tard */}
-//           <Link href="/admin/articles/new" className="px-4 py-2 bg-brand-green text-white font-semibold rounded-md hover:bg-green-700">
-//             Ajouter un article
-//           </Link>
-//         </div>
-
-//         <div className="bg-white rounded-lg shadow-md border overflow-x-auto">
-//           <table className="min-w-full divide-y divide-gray-200">
-//             <thead className="bg-gray-50">
-//               <tr>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Titre</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Date de Publication</th>
-//                 <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody className="bg-white divide-y divide-gray-200">
-//               {articleList.map(article => (
-//                 <tr key={article.id}>
-//                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{article.title}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{article.publishedAt ? new Date(article.publishedAt).toLocaleDateString('fr-FR') : '-'}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-//                     {/* On ajoutera le lien vers la page de modification plus tard */}
-//                     <Link href={`/admin/articles/edit/${article.id}`} className="text-indigo-600 hover:text-indigo-900 mr-4">Modifier</Link>
-//                     <button onClick={() => handleDelete(article.id)} className="text-red-600 hover:text-red-900">Supprimer</button>
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </main>
-//     </div>
-//   );
-// };
-
-// // Utiliser getServerSideProps pour la protection et la récupération des données
-// export const getServerSideProps: GetServerSideProps = async (ctx) => {
-//   // On crée un client Supabase avec le cookie de l'utilisateur
-//   const supabaseClient = createClient(supabaseUrl, supabaseAnonKey, {
-//     global: { headers: { Authorization: `Bearer ${ctx.req.cookies['supabase-auth-token']}` } }
-//   });
-  
-//   // On vérifie s'il y a un utilisateur connecté
-//   const { data: { user } } = await supabaseClient.auth.getUser();
-
-//   if (!user) {
-//     // Si non, on redirige vers la page de connexion
-//     return { redirect: { destination: '/login', permanent: false } };
-//   }
-
-//   // Si l'utilisateur est connecté, on récupère les articles
-//   const articles = await getArticlesForAdmin();
-
-//   return {
-//     props: {
-//       articles,
-//       user,
-//     },
-//   };
-// };
-
-// export default AdminPage;
+export default AdminDashboard;

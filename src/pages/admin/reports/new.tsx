@@ -1,35 +1,30 @@
-// src/pages/admin/articles/new.tsx (VERSION FINALE)
+// src/pages/admin/reports/new.tsx (VERSION FINALE)
 
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
-import { ArticleForm } from '@/components/admin/ArticleForm';
+import { ReportForm } from '@/components/admin/ReportForm';
 
-const NewArticlePage: NextPage = () => {
+const NewReportPage: NextPage = () => {
   const router = useRouter();
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Head>
-        <title>Nouvel Article | Administration DGTCP</title>
-      </Head>
+      <Head><title>Nouveau Rapport | Administration</title></Head>
       
       <main className="container mx-auto py-12 px-6">
         <div className="max-w-4xl mx-auto">
-          {/* La carte principale qui contient tout */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-            
-            {/* Le nouvel en-tête stylisé */}
-            <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
+            <div className="bg-gradient-to-r from-emerald-600 to-green-600 p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <h1 className="text-2xl font-bold text-white">Créer un Nouvel Article</h1>
-                  <p className="text-blue-100 mt-1">Remplissez les informations ci-dessous</p>
+                  <h1 className="text-2xl font-bold text-white">Créer un Nouveau Rapport</h1>
+                  <p className="text-emerald-100 mt-1">Ajoutez un nouveau document officiel</p>
                 </div>
                 <button
                   type="button"
-                  onClick={() => router.push('/admin/articles')}
+                  onClick={() => router.push('/admin/reports')}
                   className="flex items-center gap-2 px-4 py-2 text-white bg-white/20 rounded-lg hover:bg-white/30"
                 >
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
@@ -38,8 +33,7 @@ const NewArticlePage: NextPage = () => {
               </div>
             </div>
             
-            {/* Le composant de formulaire, maintenant sans style de carte */}
-            <ArticleForm />
+            <ReportForm />
           </div>
         </div>
       </main>
@@ -58,4 +52,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default NewArticlePage;
+export default NewReportPage;

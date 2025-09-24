@@ -40,7 +40,7 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
 
         {/* Section 2: Mission Principale */}
         <section className="bg-white">
-          <div className="flex h-1"><div className="w-1/3 bg-brand-blue" /><div className="w-1/3 bg-brand-red" /><div className="w-1/3 bg-brand-gold" /></div>
+          <div className="flex h-1"><div className="w-1/3 bg-brand-green" /><div className="w-1/3 bg-brand-gold" /><div className="w-1/3 bg-brand-red" /></div>
           <div className="container mx-auto px-6 py-20">
             <div className="flex flex-col md:flex-row items-center justify-center gap-12">
               <div className="flex-shrink-0"><Image src="/images/placeholders/logo_tresor-mission.png" alt="Logo du Trésor Public" width={200} height={200} className="object-contain" /></div>
@@ -107,7 +107,7 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
 
         {/* Section 4: Rapports d'activité */}
         <section className="py-16 bg-gray-50">
-            <div className="container mx-auto px-6">
+            <div className="container mx-auto px-6 py-12">
                 <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Rapports d&rsquo;activité de la DGTCP</h2>
                 <div className="space-y-4 max-w-4xl mx-auto">
                     {reports.map((report) => (
@@ -129,7 +129,7 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
             <div className="md:w-5/12 relative min-h-[600px] flex flex-col justify-center items-end text-white p-4">
               <Image src="/images/placeholders/congo-flag.jpg" alt="Drapeau de la République du Congo" layout="fill" objectFit="cover" />
               <div className="absolute inset-0 bg-brand-blue/80" />
-              <div className="relative z-10 p-10 border-4 border-r-0 border-white/80 w-full md:w-[90%]">
+              <div className="relative z-10 p-10 border-4 border-r-0 border-white/80 w-full md:w-[50%]">
                 <p className="text-sm font-semibold mb-4">À la une</p>
                 <h2 className="text-4xl lg:text-5xl font-bold leading-tight">Les dernières annonces publiées</h2>
               </div>
