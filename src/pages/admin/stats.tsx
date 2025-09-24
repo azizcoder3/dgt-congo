@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import { supabase } from '@/lib/api';
-import { getAllMarketStatsForAdmin, updateMarketStat } from '@/lib/api-admin';
+import { getAllMarketStatsForAdmin } from '@/lib/api-admin';
 import type { MarketStat } from '@/types/supabase';
 import type { User } from '@supabase/supabase-js';
 import toast from 'react-hot-toast';
@@ -34,19 +34,49 @@ const StatsAdminPage: NextPage<StatsAdminPageProps> = ({ stats, user }) => {
   };
 
   const handleSave = async () => {
-    setLoading(true);
-    const toastId = toast.loading("Sauvegarde des statistiques...");
-    try {
-        await Promise.all(statList.map(stat => 
-            updateMarketStat(stat.id, { valeur_statistique: stat.valeur_statistique })
-        ));
-        toast.success("Statistiques mises à jour !", { id: toastId });
-    } catch (error) {
-        toast.error((error as Error).message, { id: toastId });
-    } finally {
-        setLoading(false);
+  setLoading(true);
+  const toastId = toast.loading("Sauvegarde des statistiques...");
+
+  try {
+    // On appelle notre "pont" sécurisé : la route d'API
+    const response = await fetch('/api/stats/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // On envoie la liste complète des stats dans le corps de la requête
+      body: JSON.stringify(statList),
+    });
+
+    // On vérifie si la réponse de l'API est un succès
+    if (!response.ok) {
+      // Si l'API retourne une erreur, on l'affiche
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Échec de la sauvegarde sur le serveur.');
     }
-  };
+
+    toast.success("Statistiques mises à jour !", { id: toastId });
+  } catch (error) {
+    toast.error((error as Error).message, { id: toastId });
+  } finally {
+    setLoading(false);
+  }
+};
+
+  // const handleSave = async () => {
+  //   setLoading(true);
+  //   const toastId = toast.loading("Sauvegarde des statistiques...");
+  //   try {
+  //       await Promise.all(statList.map(stat => 
+  //           updateMarketStat(stat.id, { valeur_statistique: stat.valeur_statistique })
+  //       ));
+  //       toast.success("Statistiques mises à jour !", { id: toastId });
+  //   } catch (error) {
+  //       toast.error((error as Error).message, { id: toastId });
+  //   } finally {
+  //       setLoading(false);
+  //   }
+  // };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
