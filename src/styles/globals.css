@@ -1,12 +1,203 @@
-/* src/styles/globals.css */
-
- @import "tailwindcss";
+/* On importe les "couches" de base de Tailwind dans le bon ordre */
+/* src/styles/globals.css (VERSION FINALE ET PROPRE) */
+@import "tailwindcss";
 
  @theme {
   --color-brand-green: #009B48;
   --color-brand-gold: #FFD700;
   --color-brand-red: #DC2626;
   --color-brand-blue: #00529B; /* Ajoutons le bleu aussi pour être complet */
+}
+
+/* Styles pour la pagination de Swiper.js */
+.swiper-custom-pagination .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(255 255 255 / 0.5);
+  border-radius: 9999px;
+  transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.swiper-custom-pagination .swiper-pagination-bullet-active {
+  width: 1rem;
+  background-color: white;
+}
+
+/* Styles pour la barre de progression NProgress */
+#nprogress {
+  pointer-events: none;
+}
+
+#nprogress .bar {
+  /* On utilise directement la couleur ici car c'est un sélecteur d'ID externe */
+  background: #009B48; 
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+}
+
+/* Styles pour la navigation par onglets (sticky) */
+.sticky-nav {
+  position: sticky;
+  top: 80px; /* Adaptez cette valeur à la hauteur de votre header */
+  z-index: 40;
+  backdrop-filter: blur(8px);
+}
+
+/* 
+  NOTE: Les classes line-clamp sont maintenant intégrées à Tailwind.
+  Vous n'avez normalement plus besoin de ces styles personnalisés.
+  Vous pouvez utiliser directement les classes `line-clamp-2` et `line-clamp-3`.
+  Je les laisse ici au cas où, mais vous pouvez les supprimer si Tailwind les gère déjà.
+*/
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+}
+
+.line-clamp-3 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* src/styles/globals.css*/
+
+/* @import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
+
+/* :root {
+  --color-brand-green: #009B48;
+  --color-brand-gold: #FFD7A0;
+  --color-brand-red: #DC2626;
+  --color-brand-blue: #00529B;
+} */
+
+/* .swiper-custom-pagination .swiper-pagination-bullet {
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(255 255 255 / 0.5);
+  border-radius: 9999px;
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+} */
+
+/* .swiper-custom-pagination .swiper-pagination-bullet-active {
+  width: 1rem;
+  background-color: white;
+} */
+
+/* Styles pour NProgress */
+/* #nprogress {
+  pointer-events: none;
+} */
+
+/* #nprogress .bar {
+  background: var(--color-brand-green);
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+} */
+
+
+
+
+
+
+
+
+
+/* src/styles/globals.css
+@import "tailwindcss";
+
+@theme {
+    --color-brand-green: #009B48;
+    --color-brand-gold: #FFD700;
+    --color-brand-red: #DC2626;
+    --color-brand-blue: #00529B;
+}
+
+.swiper-custom-pagination .swiper-pagination-bullet {
+  width: 0.5rem; height: 0.5rem; background-color: rgb(255 255 255 / 0.5); border-radius: 9999px; transition-property: all; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms;
+}
+
+.swiper-custom-pagination .swiper-pagination-bullet-active {
+    width: 1rem; background-color: white;
+}*/
+
+/* Styles pour NProgress 
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    background: var(--color-brand-green); position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 3px;
+}*/
+/* Ajoutez ceci dans votre fichier global CSS ou dans un module CSS 
+.line-clamp-2 {
+  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+   line-clamp: 2; 
+}*/
+
+/*.line-clamp-3 {
+  overflow: hidden; display: -webkit-box; -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+   line-clamp: 3; 
+}*/
+
+/* Styles pour la navigation par onglets 
+.sticky-nav {
+  position: sticky; top: 80px;  z-index: 40; backdrop-filter: blur(8px);
+} */
+
+
+
+
+
+/* @import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities'; */
+
+/* @theme {
+  --color-brand-green: #009B48;
+  --color-brand-gold: #FFD700;
+  --color-brand-red: #DC2626;
+  --color-brand-blue: #00529B;
 }
 
 .swiper-custom-pagination .swiper-pagination-bullet {
@@ -17,21 +208,19 @@
     @apply w-4 bg-white;
 }
 
-/* Styles pour NProgress */
+/* Styles pour NProgress 
 #nprogress {
   pointer-events: none;
 }
 #nprogress .bar {
-  background: var(--color-brand-green); /* On utilise la couleur verte de notre marque ! */
+  background: var(--color-brand-green); 
   position: fixed;
   z-index: 9999;
   top: 0;
   left: 0;
   width: 100%;
   height: 3px;
-}
-
-
+} */
 
 
 /*:root {

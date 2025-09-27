@@ -4,38 +4,52 @@ import { useState } from 'react';
 
 interface AccordionItemProps {
   title: string;
+  subtitle?: string;
+  icon: React.ReactNode;
   children: React.ReactNode;
 }
 
-const AccordionItem = ({ title, children }: AccordionItemProps) => {
+const AccordionItem: React.FC<AccordionItemProps> = ({ title, subtitle, icon, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <div className="border border-gray-200 rounded-lg overflow-hidden">
-      {/* Le header cliquable de l'accordéon */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex justify-between items-center p-4 bg-gray-50 hover:bg-gray-100 focus:outline-none"
-      >
-        <span className="text-lg font-semibold text-gray-800 text-left">{title}</span>
-        <svg
-          className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-        </svg>
-      </button>
+  const toggleAccordion = () => {
+    setIsOpen(!isOpen);
+  };
 
-      {/* Le contenu qui s'ouvre et se ferme */}
-      <div
-        className={`overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}
+   return (
+    <div>
+      <button 
+        onClick={toggleAccordion} 
+        className="w-full flex items-center justify-between text-left p-6 hover:bg-gray-50 transition-colors duration-200"
       >
-        <div className="p-6 bg-white border-t border-gray-200">
+        <div className="flex items-center gap-4">
+          {icon}
+          <div>
+            <span className="font-semibold text-gray-800 text-lg">{title}</span>
+            {/* On affiche le sous-titre seulement s'il existe */}
+            {subtitle && (
+              <p className="text-sm text-gray-500 mt-1">{subtitle}</p>
+            )}
+          </div>
+        </div>
+        
+        <div className="ml-4">
+          <svg 
+            className={`w-5 h-5 text-gray-400 transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </div>
+      </button>
+      
+      {isOpen && (
+        <div className="px-6 pb-6">
           {children}
         </div>
-      </div>
+      )}
     </div>
   );
 };

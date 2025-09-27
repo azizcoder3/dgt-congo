@@ -46,14 +46,43 @@ export async function getAllReports() {
 }
 
 export async function getAllNews() {
-  const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false });
-  if (error) { console.error("Erreur Supabase (getAllNews):", error.message); return []; }
+  const { data, error } = await supabase
+  .from('articles')
+  .select('*, categories (name, slug)')
+  .order('publishedAt', { ascending: false });
+  if (error) { 
+    console.error("Erreur Supabase (getAllNews):", error.message); 
+    return []; 
+  }
+  // ==========================================================
+  // ====> PLACEZ LE CONSOLE.LOG EXACTEMENT ICI <====
+  // ==========================================================
+  console.log(
+    "--- DÉBOGAGE `getAllNews` --- Données brutes de Supabase:", 
+    JSON.stringify(data, null, 2)
+  );
+
   return data;
 }
 
 export async function getArticleBySlug(slug: string) {
-  const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).maybeSingle();
-  if (error) { console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); return null; }
+  const { data, error } = await supabase
+  .from('articles')
+  .select('*, categories (name, slug)')
+  .eq('slug', slug)
+  .maybeSingle();
+  if (error) { 
+    console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); 
+    return null; 
+  }
+  // ==========================================================
+  // ====> PLACEZ LE CONSOLE.LOG EXACTEMENT ICI <====
+  // ==========================================================
+  console.log(
+    "--- DÉBOGAGE `getAllNews` --- Données brutes de Supabase:", 
+    JSON.stringify(data, null, 2)
+  );
+
   return data;
 }
 
@@ -91,6 +120,81 @@ export async function getMarketStats() {
   return data;
 }
 
+// ====================================================================
+// --- FONCTIONS PUBLIQUES POUR LE PERSONNEL ---
+// ====================================================================
+
+/**
+ * Récupère les informations publiques d'un membre du personnel par son rôle.
+ * Sûr pour une utilisation côté client ou dans getStaticProps.
+ * @param role Le rôle de la personne à récupérer (ex: "ministre", "dg", "dga")
+ */
+export async function getPersonnelByRole(role: string) {
+  const { data, error } = await supabase
+    .from('personnel')
+    .select('*')
+    .eq('role', role)
+    .single();
+  
+  if (error) { 
+    console.error(`Erreur Supabase publique (getPersonnelByRole pour ${role}):`, error.message); 
+    return null; 
+  }
+
+  return data;
+}
+
+// ====================================================================
+// --- FONCTIONS PUBLIQUES POUR LES CATÉGORIES ---
+// ====================================================================
+
+/**
+ * Récupère TOUTES les catégories (utilisé pour générer les pages).
+ */
+export async function getAllCategories() {
+  const { data, error } = await supabase
+    .from('categories')
+    .select('id, name, slug');
+  
+  if (error) {
+    console.error("Erreur Supabase (getAllCategories):", error.message);
+    return [];
+  }
+  return data;
+}
+
+/**
+ * Récupère UN article par le slug de sa catégorie.
+ */
+export async function getArticlesByCategory(categorySlug: string) {
+  if (!categorySlug) return { articles: [], categoryName: null };
+
+  // 1. D'abord, on trouve la catégorie pour avoir son nom
+  const { data: category, error: categoryError } = await supabase
+    .from('categories')
+    .select('name')
+    .eq('slug', categorySlug)
+    .single();
+
+  if (categoryError || !category) {
+    console.error(`Erreur: impossible de trouver la catégorie avec le slug ${categorySlug}`);
+    return { articles: [], categoryName: null };
+  }
+  
+  // 2. Ensuite, on récupère les articles qui ont cette catégorie
+  const { data: articles, error: articlesError } = await supabase
+    .from('articles')
+    .select('*, categories!inner(slug)') // On s'assure que la catégorie existe
+    .eq('categories.slug', categorySlug)
+    .order('publishedAt', { ascending: false });
+
+  if (articlesError) {
+    console.error(`Erreur: impossible de récupérer les articles pour la catégorie ${categorySlug}`);
+    return { articles: [], categoryName: category.name };
+  }
+
+  return { articles, categoryName: category.name };
+}
 // ...et toutes vos autres fonctions GET...
 
 

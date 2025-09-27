@@ -7,10 +7,16 @@ import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import { ArticleForm } from '@/components/admin/ArticleForm';
 import { getArticleById } from '@/lib/api-admin';
 import type { NewsArticle } from '@/types/supabase';
+import type { Category } from '@/types/supabase';
+import type { User } from '@supabase/supabase-js';
+import { getAllCategoriesForAdmin } from '@/lib/api-admin';
+
 interface EditArticlePageProps {
 article: NewsArticle;
+user: User;
+categories: Category[];
 }
-const EditArticlePage: NextPage<EditArticlePageProps> = ({ article }) => {
+const EditArticlePage: NextPage<EditArticlePageProps> = ({ article,user, categories }) => {
 const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-100">
@@ -21,7 +27,7 @@ const router = useRouter();
         <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-2xl font-bold text-white">Modifier l&apos;Article</h1>
+              <h1 className="text-2xl font-bold text-white">Modifier l&apos;Article - {user?.email ?? 'Utilisateur Inconnu'}</h1>
               <p className="text-blue-100 mt-1">Mettez à jour les informations ci-dessous</p>
             </div>
             <button
@@ -35,7 +41,7 @@ const router = useRouter();
           </div>
         </div>
         
-        <ArticleForm article={article} />
+        <ArticleForm article={article} categories={categories} />
       </div>
     </div>
   </main>
@@ -62,10 +68,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   if (!article) {
     return { notFound: true };
   }
+
+  const categories = await getAllCategoriesForAdmin();
   
   return { 
     props: { 
       article: JSON.parse(JSON.stringify(article)),
+      categories: JSON.parse(JSON.stringify(categories)),
       user: session.user,
     } 
   };

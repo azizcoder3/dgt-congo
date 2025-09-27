@@ -121,7 +121,7 @@ const Footer = () => {
       {/* Copyright */}
       <div className="border-t border-gray-800 py-6">
         <p className="text-center text-sm text-gray-500">
-          &copy; {new Date().getFullYear()} DGTCP - République du Congo. Squelette de site développé à titre de démonstration.
+          &copy; {new Date().getFullYear()} DGT - République du Congo. Site développé par azizcoder3.0 assistée par google ai studio.
         </p>
       </div>
     </footer>

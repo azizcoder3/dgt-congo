@@ -3,6 +3,7 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/supabase-generated';
 
+
 // --- Types ---
 type ArticleInsert = Database['public']['Tables']['articles']['Insert'];
 type ArticleUpdate = Database['public']['Tables']['articles']['Update'];
@@ -13,6 +14,9 @@ type UpcomingAuctionUpdate = Database['public']['Tables']['upcoming_auctions']['
 type AuctionResultInsert = Database['public']['Tables']['auction_results']['Insert'];
 type AuctionResultUpdate = Database['public']['Tables']['auction_results']['Update'];
 type MarketStatUpdate = Database['public']['Tables']['statistiques_marche']['Update'];
+type PersonnelUpdate = Database['public']['Tables']['personnel']['Update'];
+type DirectorateInsert = Database['public']['Tables']['directorates']['Insert'];
+type DirectorateUpdate = Database['public']['Tables']['directorates']['Update'];
 
 
 
@@ -36,7 +40,11 @@ function createAdminClient() {
 
 export async function getArticlesForAdmin() {
     const supabaseAdmin = createAdminClient();
-    const { data, error } = await supabaseAdmin.from('articles').select('*').order('publishedAt', { ascending: false });
+    const { data, error } = await supabaseAdmin
+    .from('articles')
+    .select('*, categories (name)')
+    .order('publishedAt', { ascending: false });
+
     if (error) throw new Error(error.message);
     return data;
 }
@@ -207,3 +215,83 @@ export async function updateMarketStat(id: number, statData: MarketStatUpdate) {
     return data;
 }
 
+// ====================================================================
+// --- FONCTIONS ADMIN POUR LE PERSONNEL ---
+// ====================================================================
+
+export async function getPersonnelByRole(role: string) {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin.from('personnel').select('*').eq('role', role).single();
+    if (error) { console.error(`Erreur getPersonnelByRole pour ${role}:`, error.message); return null; }
+    return data;
+}
+
+export async function updatePersonnelByRole(role: string, dataToUpdate: PersonnelUpdate) {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin.from('personnel').update(dataToUpdate).eq('role', role).select().single();
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+// ====================================================================
+// --- NOUVEAU: FONCTIONS ADMIN POUR LES DIRECTIONS CENTRALES ---
+// ====================================================================
+
+export async function getDirectoratesForAdmin() {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin.from('directorates').select('*').order('id', { ascending: true });
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export async function getDirectorateById(id: number) {
+    const supabaseAdmin = createAdminClient();
+    if (isNaN(id)) return null;
+    const { data, error } = await supabaseAdmin.from('directorates').select('*').eq('id', id).single();
+    if (error) return null;
+    return data;
+}
+
+export async function createDirectorate(data: DirectorateInsert) {
+    const supabaseAdmin = createAdminClient();
+    const { error } = await supabaseAdmin.from('directorates').insert([data]);
+    if (error) throw new Error(error.message);
+    return true;
+}
+
+export async function updateDirectorate(id: number, data: DirectorateUpdate) {
+    const supabaseAdmin = createAdminClient();
+    const { error } = await supabaseAdmin.from('directorates').update(data).eq('id', id);
+    if (error) throw new Error(error.message);
+    return true;
+}
+
+export async function deleteDirectorateById(id: number) {
+    const supabaseAdmin = createAdminClient();
+    const { error } = await supabaseAdmin.from('directorates').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+    return true;
+}
+
+// ====================================================================
+// --- FONCTIONS ADMIN POUR LES CATÉGORIES ---
+// ====================================================================
+
+/**
+ * Récupère toutes les catégories pour les formulaires du back-office.
+ */
+export async function getAllCategoriesForAdmin() {
+    const supabaseAdmin = createAdminClient();
+    
+    const { data, error } = await supabaseAdmin
+        .from('categories')
+        .select('id, name') // On a seulement besoin de l'ID et du nom pour le menu déroulant
+        .order('name', { ascending: true }); // On les trie par ordre alphabétique
+
+    if (error) {
+        console.error("Erreur Supabase (getAllCategoriesForAdmin):", error.message);
+        throw new Error(error.message);
+    }
+    
+    return data;
+}

@@ -1,71 +1,126 @@
-// src/pages/api/articles/upload-image.ts (CODE FINAL ET PROPRE)
+// src/pages/api/articles/upload-image.ts
 
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import formidable from 'formidable';
 import fs from 'fs';
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+export const config = { api: { bodyParser: false } };
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
-  // 1. On vérifie que l'utilisateur est bien connecté
+  if (req.method !== 'POST') return res.status(405).end();
+  
   const supabase = createPagesServerClient({ req, res });
   const { data: { session } } = await supabase.auth.getSession();
+  if (!session) return res.status(401).json({ error: 'Non autorisé.' });
 
-  if (!session) {
-    return res.status(401).json({ error: 'Non autorisé. Veuillez vous reconnecter.' });
-  }
-  
-  // Si l'utilisateur est authentifié, on continue
   try {
     const form = formidable({});
-    // On ignore "fields" car on n'en a pas besoin
     const [, files] = await form.parse(req);
 
-    const file = files.image?.[0];
-    if (!file) {
-      return res.status(400).json({ error: 'Aucun fichier image n\'a été envoyé.' });
-    }
+    // On accepte 'image' ou 'file' pour être compatible avec tous les formulaires
+    const fileArray = files.image || files.file;
+    const file = fileArray?.[0];
+
+    if (!file) return res.status(400).json({ error: 'Aucun fichier trouvé.' });
 
     const fileContent = fs.readFileSync(file.filepath);
     const fileName = `${Date.now()}_${file.originalFilename}`;
+    
+    // On détermine le bucket en fonction de la route (ou d'un paramètre)
+    // Pour simplifier, on met tout dans 'images-articles' pour l'instant
+    const bucketName = 'images-articles';
 
-    // On uploade dans le bucket "images-articles"
-    const { error: uploadError } = await supabase.storage
-      .from('images-articles')
-      .upload(fileName, fileContent, {
-        contentType: file.mimetype || 'image/jpeg',
-        upsert: true,
-      });
+    const { error } = await supabase.storage.from(bucketName).upload(fileName, fileContent, {
+        contentType: file.mimetype!,
+        upsert: true
+    });
 
-    if (uploadError) {
-      throw uploadError;
-    }
+    if (error) throw error;
 
-    // On récupère l'URL publique
-    const { data: { publicUrl } } = supabase.storage
-      .from('images-articles')
-      .getPublicUrl(fileName);
+    const { data: { publicUrl } } = supabase.storage.from(bucketName).getPublicUrl(fileName);
 
-    if (!publicUrl) {
-      throw new Error('Impossible de récupérer l\'URL publique de l\'image.');
-    }
-
-    return res.status(200).json({ imageUrl: publicUrl });
+    res.status(200).json({ imageUrl: publicUrl });
 
   } catch (error) {
-    console.error('Erreur lors de l\'upload de l\'image:', error);
-    return res.status(500).json({ error: (error as Error).message });
+    res.status(500).json({ error: (error as Error).message });
   }
 }
+
+
+
+
+
+
+
+// // src/pages/api/articles/upload-image.ts (CODE FINAL ET PROPRE)
+
+// import type { NextApiRequest, NextApiResponse } from 'next';
+// import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
+// import formidable from 'formidable';
+// import fs from 'fs';
+
+// export const config = {
+//   api: {
+//     bodyParser: false,
+//   },
+// };
+
+// export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+//   if (req.method !== 'POST') {
+//     return res.status(405).json({ error: 'Method not allowed' });
+//   }
+
+//   // 1. On vérifie que l'utilisateur est bien connecté
+//   const supabase = createPagesServerClient({ req, res });
+//   const { data: { session } } = await supabase.auth.getSession();
+
+//   if (!session) {
+//     return res.status(401).json({ error: 'Non autorisé. Veuillez vous reconnecter.' });
+//   }
+  
+//   // Si l'utilisateur est authentifié, on continue
+//   try {
+//     const form = formidable({});
+//     // On ignore "fields" car on n'en a pas besoin
+//     const [, files] = await form.parse(req);
+
+//     const file = files.image?.[0];
+//     if (!file) {
+//       return res.status(400).json({ error: 'Aucun fichier image n\'a été envoyé.' });
+//     }
+
+//     const fileContent = fs.readFileSync(file.filepath);
+//     const fileName = `${Date.now()}_${file.originalFilename}`;
+
+//     // On uploade dans le bucket "images-articles"
+//     const { error: uploadError } = await supabase.storage
+//       .from('images-articles')
+//       .upload(fileName, fileContent, {
+//         contentType: file.mimetype || 'image/jpeg',
+//         upsert: true,
+//       });
+
+//     if (uploadError) {
+//       throw uploadError;
+//     }
+
+//     // On récupère l'URL publique
+//     const { data: { publicUrl } } = supabase.storage
+//       .from('images-articles')
+//       .getPublicUrl(fileName);
+
+//     if (!publicUrl) {
+//       throw new Error('Impossible de récupérer l\'URL publique de l\'image.');
+//     }
+
+//     return res.status(200).json({ imageUrl: publicUrl });
+
+//   } catch (error) {
+//     console.error('Erreur lors de l\'upload de l\'image:', error);
+//     return res.status(500).json({ error: (error as Error).message });
+//   }
+// }
 
 
 

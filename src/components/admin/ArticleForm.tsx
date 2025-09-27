@@ -2,21 +2,23 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import type { NewsArticle } from '@/types/supabase';
+import type { NewsArticle, Category } from '@/types/supabase';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 
 interface ArticleFormProps {
   article?: NewsArticle;
+  categories: Category[];
 }
 
-export const ArticleForm = ({ article }: ArticleFormProps) => {
+export const ArticleForm = ({ article, categories }: ArticleFormProps) => {
   const [formData, setFormData] = useState({
     title: article?.title || '',
     slug: article?.slug || '',
     excerpt: article?.excerpt || '',
     content: article?.content || '',
     publishedAt: article?.publishedAt ? new Date(article.publishedAt).toISOString().slice(0, 16) : new Date().toISOString().slice(0, 16),
+    category_id: article?.category_id || null, 
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [currentImageUrl, setCurrentImageUrl] = useState(article?.imageUrl || '');
@@ -102,7 +104,7 @@ export const ArticleForm = ({ article }: ArticleFormProps) => {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -150,6 +152,28 @@ export const ArticleForm = ({ article }: ArticleFormProps) => {
                 placeholder="Entrez le titre de l'article"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
               />
+            </div>
+
+            {/* NOUVEAU : Section Catégorie */}
+            <div className="space-y-4">
+              <label htmlFor="category_id" className="block text-lg font-semibold text-gray-800">
+                Catégorie
+              </label>
+              <select
+                name="category_id"
+                id="category_id"
+                required
+                value={formData.category_id || ''}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm"
+              >
+                <option value="" disabled>-- Sélectionner une catégorie --</option>
+                {categories.map(cat => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Section Image */}

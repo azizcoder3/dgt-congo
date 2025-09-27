@@ -7,6 +7,12 @@ export interface NewsArticle {
     imageUrl: string | null;
     publishedAt: string | null;
     content: string | null;
+    // category: string;
+    category_id: number | null;
+    categories: { 
+    name: string;
+    slug: string;
+  } | null;
 }
 
 export interface Report {
@@ -86,6 +92,9 @@ export interface Directorate {
     imageUrl: string | null;
     slug: string;
     services: string[]; // Un tableau de chaînes de caractères
+    directorMessage: string | null;
+    created_at: Date;
+    imagePosition?: string;
 }
 
 export interface MarketStat {
@@ -94,3 +103,20 @@ export interface MarketStat {
     valeur_statistique: string | null;
     libelle_statistique: string | null;
 }
+
+export interface Personnel {
+    id: number;
+    created_at: string;
+    name: string;
+    title: string;
+    bio: string | null;
+    imageUrl: string | null;
+    role: string;
+}
+
+export type Category = {
+  id: number;
+  name: string;
+  slug: string;
+};
+

@@ -161,6 +161,33 @@ const AdminDashboard: NextPage<AdminDashboardProps> = ({ user }) => {
                         </div>
                     </Link>
 
+                    {/* NOUVELLE Carte pour la Gestion Institutionnelle */}
+                    <Link 
+                        href="/admin/institutionnel" 
+                        className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 p-8 hover:border-gray-200 hover:-translate-y-1"
+                    >
+                        <div className="relative z-10">
+                            <div className="w-14 h-14 bg-gradient-to-br from-gray-500 to-gray-700 rounded-xl flex items-center justify-center mb-6">
+                                {/* Icône de statistiques */}
+                                <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 21.945V11C13 7.134 16.134 4 20 4v0a9.002 9.002 0 00-7-1.945z" />
+                                </svg>
+                            </div>
+                            {/* ... (vous pouvez copier le style d'une autre carte et changer l'icône et le texte) ... */}
+                            <h3 className="text-2xl font-bold text-gray-800 mb-3">Gestion Institutionnelle</h3>
+                            <p className="text-gray-600 leading-relaxed">
+                                Gérer le contenu des pages de présentation (ministre, direction, etc.).
+                            </p>
+                            <div className="mt-4 flex items-center text-gray-600 font-medium">
+                                <span>Accéder à la gestion</span>
+                                <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                </svg>
+                            </div>
+                        </div>
+                    </Link>
+
                 </div>
 
                 {/* Section Statistiques (optionnelle pour le futur) */}

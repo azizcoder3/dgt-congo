@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       articles: {
         Row: {
+          category_id: number | null
           content: string | null
           created_at: string
           excerpt: string | null
@@ -26,6 +27,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          category_id?: number | null
           content?: string | null
           created_at?: string
           excerpt?: string | null
@@ -36,6 +38,7 @@ export type Database = {
           title: string
         }
         Update: {
+          category_id?: number | null
           content?: string | null
           created_at?: string
           excerpt?: string | null
@@ -45,7 +48,15 @@ export type Database = {
           slug?: string
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "articles_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       auction_results: {
         Row: {
@@ -77,11 +88,34 @@ export type Database = {
         }
         Relationships: []
       }
+      categories: {
+        Row: {
+          created_at: string
+          id: number
+          name: string
+          slug: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          name: string
+          slug: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          name?: string
+          slug?: string
+        }
+        Relationships: []
+      }
       directorates: {
         Row: {
           created_at: string
+          directorMessage: string | null
           directorName: string | null
           id: number
+          imagePosition: string | null
           imageUrl: string | null
           missionExcerpt: string | null
           name: string
@@ -90,8 +124,10 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          directorMessage?: string | null
           directorName?: string | null
           id?: number
+          imagePosition?: string | null
           imageUrl?: string | null
           missionExcerpt?: string | null
           name: string
@@ -100,8 +136,10 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          directorMessage?: string | null
           directorName?: string | null
           id?: number
+          imagePosition?: string | null
           imageUrl?: string | null
           missionExcerpt?: string | null
           name?: string
@@ -164,6 +202,60 @@ export type Database = {
         }
         Relationships: []
       }
+      organigrammes: {
+        Row: {
+          created_at: string
+          id: number
+          imageUrl: string
+          isActive: boolean
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          id?: number
+          imageUrl: string
+          isActive?: boolean
+          title: string
+        }
+        Update: {
+          created_at?: string
+          id?: number
+          imageUrl?: string
+          isActive?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
+      personnel: {
+        Row: {
+          bio: string | null
+          created_at: string
+          id: number
+          imageUrl: string | null
+          name: string
+          role: string
+          title: string
+        }
+        Insert: {
+          bio?: string | null
+          created_at?: string
+          id?: number
+          imageUrl?: string | null
+          name: string
+          role: string
+          title: string
+        }
+        Update: {
+          bio?: string | null
+          created_at?: string
+          id?: number
+          imageUrl?: string | null
+          name?: string
+          role?: string
+          title?: string
+        }
+        Relationships: []
+      }
       rapports: {
         Row: {
           category: string | null
@@ -193,6 +285,45 @@ export type Database = {
           fileUrl?: string
           id?: number
           publishedDate?: string
+          title?: string
+        }
+        Relationships: []
+      }
+      reformes: {
+        Row: {
+          advantages: Json | null
+          context: string | null
+          created_at: string
+          description: string | null
+          document_url: string | null
+          id: number
+          is_active: boolean
+          main_image_url: string | null
+          subtitle: string | null
+          title: string
+        }
+        Insert: {
+          advantages?: Json | null
+          context?: string | null
+          created_at?: string
+          description?: string | null
+          document_url?: string | null
+          id?: number
+          is_active?: boolean
+          main_image_url?: string | null
+          subtitle?: string | null
+          title: string
+        }
+        Update: {
+          advantages?: Json | null
+          context?: string | null
+          created_at?: string
+          description?: string | null
+          document_url?: string | null
+          id?: number
+          is_active?: boolean
+          main_image_url?: string | null
+          subtitle?: string | null
           title?: string
         }
         Relationships: []
