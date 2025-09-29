@@ -18,7 +18,8 @@ const config = {
         'bottom-center': 'bottom center',
         'left-center': 'left center',
         'right-center': 'right center',
-      }
+      },
+      
     },
   },
   plugins: [],
