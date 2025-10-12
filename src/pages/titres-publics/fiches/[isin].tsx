@@ -14,8 +14,8 @@ import {
 import { getFicheTitreByIsin } from '@/lib/api';
 import { FicheTitre } from '@/types/titres-publics';
 import { FicheTitreResume } from '@/types/titres-publics';
-import { getAutresTitres } from '@/lib/api'; // Nouvelle fonction pour obtenir d'autres titres
-import { OfferSubmissionModal } from '@/components/titres-publics/OfferSubmissionModal'; // ou le chemin correct
+import { getAutresTitres } from '@/lib/api'; 
+import { OfferSubmissionModal } from '@/components/titres-publics/OfferSubmissionModal'; 
 import ContactSection from '@/components/titres-publics/ContactSection';
 import { useState } from 'react';
 
