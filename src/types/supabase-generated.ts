@@ -109,6 +109,60 @@ export type Database = {
         }
         Relationships: []
       }
+      chiffres_cles: {
+        Row: {
+          date_mise_a_jour: string | null
+          icone: string | null
+          id: number
+          label: string
+          valeur: string
+        }
+        Insert: {
+          date_mise_a_jour?: string | null
+          icone?: string | null
+          id?: never
+          label: string
+          valeur: string
+        }
+        Update: {
+          date_mise_a_jour?: string | null
+          icone?: string | null
+          id?: never
+          label?: string
+          valeur?: string
+        }
+        Relationships: []
+      }
+      communiques: {
+        Row: {
+          created_at: string | null
+          date: string
+          id: string
+          resume: string | null
+          titre: string
+          type: string | null
+          url_fichier: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          date: string
+          id?: string
+          resume?: string | null
+          titre: string
+          type?: string | null
+          url_fichier?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          date?: string
+          id?: string
+          resume?: string | null
+          titre?: string
+          type?: string | null
+          url_fichier?: string | null
+        }
+        Relationships: []
+      }
       directorates: {
         Row: {
           created_at: string
@@ -172,6 +226,186 @@ export type Database = {
         }
         Relationships: []
       }
+      documentation_titres: {
+        Row: {
+          categorie: string | null
+          created_at: string | null
+          date_publication: string
+          emission_id: string | null
+          id: string
+          titre: string
+          type_document: string
+          url_fichier: string
+        }
+        Insert: {
+          categorie?: string | null
+          created_at?: string | null
+          date_publication: string
+          emission_id?: string | null
+          id?: string
+          titre: string
+          type_document: string
+          url_fichier: string
+        }
+        Update: {
+          categorie?: string | null
+          created_at?: string | null
+          date_publication?: string
+          emission_id?: string | null
+          id?: string
+          titre?: string
+          type_document?: string
+          url_fichier?: string
+        }
+        Relationships: []
+      }
+      emissions: {
+        Row: {
+          code_emission: string | null
+          created_at: string | null
+          date_annonce: string | null
+          date_annonce_resultats: string | null
+          date_echeance: string
+          date_reglement: string | null
+          date_souscription: string | null
+          date_valeur: string | null
+          designation: string
+          devise: string | null
+          forme_des_titres: string | null
+          id: string
+          isin: string | null
+          lieu_souscription: string | null
+          remboursement: string | null
+          rendement_description: string | null
+          statut: string | null
+          taux_coupon: number | null
+          titre: string
+          type: string
+          url_fiche_pdf: string | null
+          valeur_nominale_unitaire: number | null
+          volume_emission_annonce: number | null
+        }
+        Insert: {
+          code_emission?: string | null
+          created_at?: string | null
+          date_annonce?: string | null
+          date_annonce_resultats?: string | null
+          date_echeance: string
+          date_reglement?: string | null
+          date_souscription?: string | null
+          date_valeur?: string | null
+          designation: string
+          devise?: string | null
+          forme_des_titres?: string | null
+          id?: string
+          isin?: string | null
+          lieu_souscription?: string | null
+          remboursement?: string | null
+          rendement_description?: string | null
+          statut?: string | null
+          taux_coupon?: number | null
+          titre: string
+          type: string
+          url_fiche_pdf?: string | null
+          valeur_nominale_unitaire?: number | null
+          volume_emission_annonce?: number | null
+        }
+        Update: {
+          code_emission?: string | null
+          created_at?: string | null
+          date_annonce?: string | null
+          date_annonce_resultats?: string | null
+          date_echeance?: string
+          date_reglement?: string | null
+          date_souscription?: string | null
+          date_valeur?: string | null
+          designation?: string
+          devise?: string | null
+          forme_des_titres?: string | null
+          id?: string
+          isin?: string | null
+          lieu_souscription?: string | null
+          remboursement?: string | null
+          rendement_description?: string | null
+          statut?: string | null
+          taux_coupon?: number | null
+          titre?: string
+          type?: string
+          url_fiche_pdf?: string | null
+          valeur_nominale_unitaire?: number | null
+          volume_emission_annonce?: number | null
+        }
+        Relationships: []
+      }
+      fiches_titres: {
+        Row: {
+          amortissement: string | null
+          arrete_creation: string | null
+          caracteristiques_juridiques: string | null
+          code_emission: string | null
+          coupon: number | null
+          created_at: string
+          demembrable: boolean | null
+          designation: string
+          devise: string | null
+          echeance: string | null
+          id: string
+          interets: string | null
+          isin: string
+          nature: string | null
+          premiere_date_jouissance: string | null
+          procedure_emission: string | null
+          texte_emission: string | null
+          type: string
+          updated_at: string
+          valeur_nominale: number | null
+        }
+        Insert: {
+          amortissement?: string | null
+          arrete_creation?: string | null
+          caracteristiques_juridiques?: string | null
+          code_emission?: string | null
+          coupon?: number | null
+          created_at?: string
+          demembrable?: boolean | null
+          designation: string
+          devise?: string | null
+          echeance?: string | null
+          id?: string
+          interets?: string | null
+          isin: string
+          nature?: string | null
+          premiere_date_jouissance?: string | null
+          procedure_emission?: string | null
+          texte_emission?: string | null
+          type: string
+          updated_at?: string
+          valeur_nominale?: number | null
+        }
+        Update: {
+          amortissement?: string | null
+          arrete_creation?: string | null
+          caracteristiques_juridiques?: string | null
+          code_emission?: string | null
+          coupon?: number | null
+          created_at?: string
+          demembrable?: boolean | null
+          designation?: string
+          devise?: string | null
+          echeance?: string | null
+          id?: string
+          interets?: string | null
+          isin?: string
+          nature?: string | null
+          premiere_date_jouissance?: string | null
+          procedure_emission?: string | null
+          texte_emission?: string | null
+          type?: string
+          updated_at?: string
+          valeur_nominale?: number | null
+        }
+        Relationships: []
+      }
       hero_slides: {
         Row: {
           buttonLink: string | null
@@ -201,6 +435,47 @@ export type Database = {
           title?: string
         }
         Relationships: []
+      }
+      historique_encours: {
+        Row: {
+          created_at: string
+          date_operation: string
+          fiche_titre_id: string
+          id: string
+          prix_moyen_pondere: number | null
+          taux_moyen_pondere: number | null
+          type_operation: string
+          volume_total_emis: number | null
+        }
+        Insert: {
+          created_at?: string
+          date_operation: string
+          fiche_titre_id: string
+          id?: string
+          prix_moyen_pondere?: number | null
+          taux_moyen_pondere?: number | null
+          type_operation: string
+          volume_total_emis?: number | null
+        }
+        Update: {
+          created_at?: string
+          date_operation?: string
+          fiche_titre_id?: string
+          id?: string
+          prix_moyen_pondere?: number | null
+          taux_moyen_pondere?: number | null
+          type_operation?: string
+          volume_total_emis?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "historique_encours_fiche_titre_id_fkey"
+            columns: ["fiche_titre_id"]
+            isOneToOne: false
+            referencedRelation: "fiches_titres"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       organigrammes: {
         Row: {
@@ -328,24 +603,83 @@ export type Database = {
         }
         Relationships: []
       }
-      statistiques_marche: {
+      resultats: {
         Row: {
-          id: number
-          libelle_statistique: string | null
-          nom_statistique: string
-          valeur_statistique: string | null
+          created_at: string | null
+          emission_id: string
+          id: string
+          montant_total_servi: number | null
+          montant_total_soumissions: number | null
+          nombre_svt_reseau: number | null
+          nombre_svt_soumissionnaires: number | null
+          prix_limite: number | null
+          prix_maximum_propose: number | null
+          prix_minimum_propose: number | null
+          prix_moyen_pondere: number | null
+          taux_couverture: number | null
         }
         Insert: {
-          id?: number
-          libelle_statistique?: string | null
-          nom_statistique: string
-          valeur_statistique?: string | null
+          created_at?: string | null
+          emission_id: string
+          id?: string
+          montant_total_servi?: number | null
+          montant_total_soumissions?: number | null
+          nombre_svt_reseau?: number | null
+          nombre_svt_soumissionnaires?: number | null
+          prix_limite?: number | null
+          prix_maximum_propose?: number | null
+          prix_minimum_propose?: number | null
+          prix_moyen_pondere?: number | null
+          taux_couverture?: number | null
         }
         Update: {
-          id?: number
-          libelle_statistique?: string | null
-          nom_statistique?: string
-          valeur_statistique?: string | null
+          created_at?: string | null
+          emission_id?: string
+          id?: string
+          montant_total_servi?: number | null
+          montant_total_soumissions?: number | null
+          nombre_svt_reseau?: number | null
+          nombre_svt_soumissionnaires?: number | null
+          prix_limite?: number | null
+          prix_maximum_propose?: number | null
+          prix_minimum_propose?: number | null
+          prix_moyen_pondere?: number | null
+          taux_couverture?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "resultats_emission_id_fkey"
+            columns: ["emission_id"]
+            isOneToOne: false
+            referencedRelation: "emissions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      statistiques_titres: {
+        Row: {
+          created_at: string | null
+          id: string
+          periode: string
+          type_statistique: string
+          unite: string | null
+          valeur: number
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          periode: string
+          type_statistique: string
+          unite?: string | null
+          valeur: number
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          periode?: string
+          type_statistique?: string
+          unite?: string | null
+          valeur?: number
         }
         Relationships: []
       }

@@ -22,7 +22,12 @@ const OrganigrammePage: NextPage = () => {
 
       <main className="flex-grow">
         {/* Hero Section modernisée */}
-        <section className="relative bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 lg:py-20">
+        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-24">
+           {/* Éléments décoratifs d'arrière-plan */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
+              <div className="absolute bottom-20 right-20 w-48 h-48 bg-white rounded-full"></div>
+            </div>
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
             <div className="max-w-4xl mx-auto">
@@ -122,7 +127,7 @@ const OrganigrammePage: NextPage = () => {
               {/* Section d'informations complémentaires */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12">
                 <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
-                  <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center mb-4">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
@@ -146,7 +151,7 @@ const OrganigrammePage: NextPage = () => {
                 </div>
 
                 <div className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-6 border border-purple-200">
-                  <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 bg-yellow-300 rounded-xl flex items-center justify-center mb-4">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
                     </svg>
@@ -160,7 +165,7 @@ const OrganigrammePage: NextPage = () => {
 
               {/* Call-to-action */}
               <div className="text-center mt-12">
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 lg:p-10 text-white">
+                <div className="bg-gradient-to-r from-green-600 to-green-700 rounded-2xl p-8 lg:p-10 text-white">
                   <h3 className="text-2xl lg:text-3xl font-bold mb-4">Besoin de plus d&apos;informations ?</h3>
                   <p className="text-blue-100 text-lg mb-6 max-w-2xl mx-auto">
                     Contactez-nous pour obtenir des détails spécifiques sur notre organisation 
@@ -169,7 +174,7 @@ const OrganigrammePage: NextPage = () => {
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
                     <Link 
                       href="/contact" 
-                      className="inline-flex items-center justify-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                      className="inline-flex items-center justify-center px-8 py-3 bg-white text-green-600 font-semibold rounded-xl hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl"
                     >
                       Nous contacter
                     </Link>
@@ -193,84 +198,3 @@ const OrganigrammePage: NextPage = () => {
 };
 
 export default OrganigrammePage;
-
-
-
-
-
-
-
-
-
-// // src/pages/organigramme.tsx (VERSION Ancienne)
-
-// import type { NextPage } from 'next';
-// import Head from 'next/head';
-// import Image from 'next/image';
-
-// import Header from '@/components/Header';
-// import Footer from '@/components/Footer';
-
-// const OrganigrammePage: NextPage = () => {
-//   const imageUrl = "/images/placeholders/organigramme-dgtcp.png"; // Le chemin vers votre image
-
-//   return (
-//     <div className="bg-gray-50 min-h-screen flex flex-col">
-//       <Head>
-//         <title>Organigramme | DGT - République du Congo</title>
-//         <meta name="description" content="Découvrez la structure organisationnelle de la Direction Générale du Trésor et de la Comptabilité Publique." />
-//       </Head>
-
-//       <Header />
-
-//       <main className="flex-grow">
-//         {/* En-tête de la page */}
-//         <div className="bg-brand-blue text-white py-12">
-//             <div className="container mx-auto px-6">
-//                 <h1 className="text-4xl font-bold">Organigramme de la DGTCP</h1>
-//                 <p className="mt-2 text-lg opacity-90">Notre structure au service de l&apos;État.</p>
-//             </div>
-//         </div>
-
-//         {/* Section de l'Organigramme */}
-//         <div className="container mx-auto px-6 py-16">
-//           <div className="bg-white p-6 md:p-10 rounded-lg shadow-lg border border-gray-200">
-            
-//             <div className="text-center mb-8">
-//               <p className="text-gray-600">
-//                 Voici la structure détaillée de la Direction Générale du Trésor et de la Comptabilité Publique.
-//               </p>
-//               <a 
-//                 href={imageUrl} 
-//                 download="Organigramme_DGTCP_Republique_du_Congo.png"
-//                 className="mt-4 inline-flex items-center px-4 py-2 bg-brand-green text-white font-semibold rounded-md hover:bg-green-700 transition-colors"
-//               >
-//                 <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-//                 Télécharger l&apos;organigramme
-//               </a>
-//             </div>
-
-//             {/* Conteneur de l'image pour un bon affichage */}
-//             <div className="w-full overflow-x-auto">
-//               <div className="relative w-full" style={{ minWidth: '800px' }}>
-//                 <Image
-//                   src={imageUrl}
-//                   alt="Organigramme officiel de la DGTCP"
-//                   width={1200}  // Mettez la largeur réelle de votre image pour une meilleure optimisation
-//                   height={800} // Mettez la hauteur réelle de votre image
-//                   layout="responsive"
-//                   quality={90}
-//                 />
-//               </div>
-//             </div>
-
-//           </div>
-//         </div>
-//       </main>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default OrganigrammePage;

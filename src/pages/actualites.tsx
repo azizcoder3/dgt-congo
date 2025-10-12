@@ -25,7 +25,7 @@ const ActualitesPage: NextPage<ActualitesPageProps> = ({ articles }) => {
 
       <main>
         {/* Hero Section modernisée */}
-        <section className="relative bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 lg:py-20">
+        <section className="relative bg-gradient-to-r from-green-800 via-green-700 to-green-900 text-white py-16 lg:py-20">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
             <div className="max-w-4xl mx-auto">
@@ -33,20 +33,20 @@ const ActualitesPage: NextPage<ActualitesPageProps> = ({ articles }) => {
               <p className="text-xl lg:text-2xl opacity-90 mb-6">
                 Restez informé des dernières nouvelles et événements de la DGT
               </p>
-              <div className="w-20 h-1 bg-blue-300 mx-auto rounded-full"></div>
+              <div className="w-20 h-1 bg-green-300 mx-auto rounded-full"></div>
               
               {/* Statistiques rapides */}
               <div className="mt-8 flex flex-wrap justify-center gap-6 text-sm">
                 <div className="flex items-center">
-                  <div className="w-3 h-3 bg-green-400 rounded-full mr-2"></div>
+                  <div className="w-3 h-3 bg-green-700 rounded-full mr-2"></div>
                   <span>{articles.length} articles publiés</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-3 h-3 bg-blue-400 rounded-full mr-2"></div>
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full mr-2"></div>
                   <span>Mises à jour régulières</span>
                 </div>
                 <div className="flex items-center">
-                  <div className="w-3 h-3 bg-purple-400 rounded-full mr-2"></div>
+                  <div className="w-3 h-3 bg-red-800 rounded-full mr-2"></div>
                   <span>Informations officielles</span>
                 </div>
               </div>
@@ -99,9 +99,9 @@ const ActualitesPage: NextPage<ActualitesPageProps> = ({ articles }) => {
                     <input 
                       type="email" 
                       placeholder="Votre adresse email" 
-                      className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
                     />
-                    <button className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-200 whitespace-nowrap">
+                    <button className="px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-200 whitespace-nowrap">
                       S&apos;abonner
                     </button>
                   </div>
@@ -129,160 +129,3 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default ActualitesPage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // src/pages/actualites.tsx (version dynamique ancienne version)
-// import type { GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head';
-
-// import Header from '@/components/Header';
-// import Footer from '@/components/Footer';
-// import NewsCard from '@/components/NewsCard';
-// import { getAllNews } from '@/lib/api';
-// import type { NewsArticle } from '@/types/supabase';
-
-// interface ActualitesPageProps {
-//   articles: NewsArticle[];
-// }
-
-// const ActualitesPage: NextPage<ActualitesPageProps> = ({ articles }) => {
-//   return (
-//     <div className="bg-gray-50 min-h-screen">
-//       <Head>
-//         <title>Actualités | DGTCP - République du Congo</title>
-//         <meta name="description" content="Toutes les dernières actualités de la Direction Générale du Trésor et de la Comptabilité Publique." />
-//       </Head>
-
-//       <Header />
-
-//       <main>
-//         <div className="bg-brand-blue text-white py-12">
-//             <div className="container mx-auto px-6">
-//                 <h1 className="text-4xl font-bold">Toutes les Actualités</h1>
-//             </div>
-//         </div>
-        
-//         <section className="py-16">
-//           <div className="container mx-auto px-6">
-//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//               {articles.map((article) => (
-//                 <NewsCard key={article.id} article={article} />
-//               ))}
-//             </div>
-//           </div>
-//         </section>
-//       </main>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const allNews = await getAllNews();
-  
-//   return {
-//     props: {
-//       articles: allNews,
-//     },
-//     revalidate: 60,
-//   };
-// };
-
-// export default ActualitesPage;
-
-
-
-
-
-
-
-// // src/pages/index.tsx
-// import type { GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head';
-// import Header from '@/components/Header'; // Assurez-vous que le chemin est correct
-// import NewsCard from '@/components/NewsCard';
-// import { getNews, NewsArticle } from '@/lib/api';
-// import Footer from '@/components/Footer'; // À créer
-
-// interface HomePageProps {
-//   recentNews: NewsArticle[];
-// }
-
-// const Home: NextPage<HomePageProps> = ({ recentNews }) => {
-//   return (
-//     <div className="bg-gray-50 min-h-screen">
-//       <Head>
-//         <title>DGTCP - République du Congo | Accueil</title>
-//         <meta name="description" content="Site officiel de la Direction Générale du Trésor et de la Comptabilité Publique de la République du Congo." />
-//         <link rel="icon" href="/favicon.ico" />
-//       </Head>
-
-//       <Header />
-
-//       <main>
-//         {/* Section Hero */}
-//         <section
-//           className="relative h-96 bg-cover bg-center text-white flex items-center justify-center"
-//           style={{ backgroundImage: "url('/images/placeholders/hero-main.png')" }}
-//           role="banner"
-//           aria-labelledby="hero-title"
-//         >
-//           <div className="absolute inset-0 bg-black opacity-50"></div>
-//           <div className="relative z-10 text-center px-4">
-//             <h1 id="hero-title" className="text-4xl md:text-5xl font-bold">
-//               Bienvenue sur le site de la DGTCP
-//             </h1>
-//             <p className="mt-4 text-lg">
-//               L&rsquo;excellence au service de la gestion des finances publiques.
-//             </p>
-//           </div>
-//         </section>
-        
-//         {/* Section Actualités Récentes */}
-//         <section className="py-16">
-//           <div className="container mx-auto px-6">
-//             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-//               Actualités Récentes
-//             </h2>
-//             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//               {recentNews.map((article) => (
-//                 <NewsCard key={article.id} article={article} />
-//               ))}
-//             </div>
-//           </div>
-//         </section>
-//       </main>
-
-//       {/* Footer (à créer) */}
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// // Fetch data at build time
-// export const getStaticProps: GetStaticProps = async () => {
-//   const allNews = await getNews();
-//   // On ne prend que les 3 plus récents pour la page d'accueil
-//   const recentNews = allNews.slice(0, 3);
-  
-//   return {
-//     props: {
-//       recentNews,
-//     },
-//     revalidate: 60, // Re-génère la page toutes les 60 secondes si nécessaire
-//   };
-// };
-
-// export default Home;

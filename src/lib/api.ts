@@ -2,6 +2,8 @@
 
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/supabase-generated';
+import type { SupabaseCommunique,  SupabaseChiffreCle, SupabaseEmission, SupabaseResultat, FicheTitre, FicheTitreResume, OperationHistorique } from '@/types/titres-publics';
+
 
 // --- Configuration ---
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
@@ -27,6 +29,12 @@ export async function getRecentReports() {
   return data;
 }
 
+export async function getAllReports() {
+    const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false });
+    if (error) { console.error("Erreur Supabase (getAllReports):", error.message); return []; }
+    return data;
+}
+
 export async function getHeroSlides() {
   const { data, error } = await supabase.from('hero_slides').select('*').order('created_at', { ascending: true });
   if (error) { console.error("Erreur Supabase (getHeroSlides):", error.message); return []; }
@@ -37,12 +45,6 @@ export async function getDiscoveryCards() {
   const { data, error } = await supabase.from('discovery_cards').select('*').order('id', { ascending: true });
   if (error) { console.error("Erreur Supabase (getDiscoveryCards):", error.message); return []; }
   return data;
-}
-
-export async function getAllReports() {
-    const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false });
-    if (error) { console.error("Erreur Supabase (getAllReports):", error.message); return []; }
-    return data;
 }
 
 export async function getAllNews() {
@@ -114,11 +116,14 @@ export async function getAuctionResults() {
   return data;
 }
 
-export async function getMarketStats() {
-  const { data, error } = await supabase.from('statistiques_marche').select('*');
-  if (error) { console.error("Erreur Supabase (getMarketStats):", error.message); return []; }
-  return data;
-}
+// export async function getMarketStats() {
+//   const { data, error } = await supabase.from('statistiques_marche').select('*');
+//   if (error) { 
+//     console.error("Erreur Supabase (getMarketStats):", error.message); 
+//     return []; 
+//   }
+//   return data;
+// }
 
 // ====================================================================
 // --- FONCTIONS PUBLIQUES POUR LE PERSONNEL ---
@@ -195,528 +200,325 @@ export async function getArticlesByCategory(categorySlug: string) {
 
   return { articles, categoryName: category.name };
 }
-// ...et toutes vos autres fonctions GET...
 
+// ====================================================================
+// --- FONCTIONS POUR LES TITRES PUBLICS Statistiques ---
+// ====================================================================
 
+// Statistiques
+export async function getStatistiquesTitres() {
+  const { data, error } = await supabase
+    .from('statistiques_titres')
+    .select('*')
+    .order('periode', { ascending: false });
+  
+  if (error) {
+    console.error("Erreur Supabase (getStatistiquesTitres):", error.message);
+    return [];
+  }
+  return data;
+}
 
-
-
-
-
-
-
-// // src/lib/api.ts (CODE COMPLET ET FINAL AVEC TYPES GÉNÉRÉS)
-
-// import { createClient } from '@supabase/supabase-js';
-// import type { Database } from '@/types/supabase-generated'; // <-- On importe les types générés
-
-// // --- Création de raccourcis pour les types (bonne pratique) ---
-// type ArticleInsert = Database['public']['Tables']['articles']['Insert'];
-// type ArticleUpdate = Database['public']['Tables']['articles']['Update'];
-
-// // --- Configuration des clients ---
-// const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-// const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
-
-// // Client PUBLIC : utilisé par le frontend et pour la lecture de données publiques
-// export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey);
-
-// // Client ADMIN : utilisé par le backend (API) pour l'écriture (création, modification, suppression)
-// // Il ne sera initialisé que côté serveur où la clé secrète est disponible.
-// let supabaseAdmin: ReturnType<typeof createClient<Database>>;
-// if (process.env.SUPABASE_SERVICE_ROLE_KEY) {
-//     supabaseAdmin = createClient<Database>(supabaseUrl, process.env.SUPABASE_SERVICE_ROLE_KEY);
-// } else {
-//     console.warn("Clé de service Supabase non trouvée. Les opérations d'écriture côté serveur échoueront.");
-// }
-
-
-// // ====================================================================
-// // --- FONCTIONS PUBLIQUES (utilisent le client "supabase") ---
-// // ====================================================================
-
-// export async function getRecentNews() {
-//   const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false }).limit(3);
-//   if (error) { console.error("Erreur Supabase (getRecentNews):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getRecentReports() {
-//   const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false }).limit(3);
-//   if (error) { console.error("Erreur Supabase (getRecentReports):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getHeroSlides() {
-//   const { data, error } = await supabase.from('hero_slides').select('*').order('created_at', { ascending: true });
-//   if (error) { console.error("Erreur Supabase (getHeroSlides):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getDiscoveryCards() {
-//   const { data, error } = await supabase.from('discovery_cards').select('*').order('id', { ascending: true });
-//   if (error) { console.error("Erreur Supabase (getDiscoveryCards):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getAllReports() {
-//     const { data, error } = await supabase.from('rapports').select('*').order('publishedDate', { ascending: false });
-//     if (error) { console.error("Erreur Supabase (getAllReports):", error.message); return []; }
-//     return data;
-// }
-
-// export async function getAllNews() {
-//   const { data, error } = await supabase.from('articles').select('*').order('publishedAt', { ascending: false });
-//   if (error) { console.error("Erreur Supabase (getAllNews):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getArticleBySlug(slug: string) {
-//   const { data, error } = await supabase.from('articles').select('*').eq('slug', slug).maybeSingle();
-//   if (error) { console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); return null; }
-//   return data;
-// }
-
-// // ... Ajoutez ici vos autres fonctions "get..." publiques si vous en avez (getDirectorates, etc.)
-
-// // ====================================================================
-// // --- FONCTIONS ADMIN (utilisent le client "supabaseAdmin") ---
-// // ====================================================================
-
-// export async function getArticlesForAdmin() {
-//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
-//   const { data, error } = await supabaseAdmin.from('articles').select('*').order('publishedAt', { ascending: false });
-//   if (error) { console.error("Erreur Supabase (getArticlesForAdmin):", error.message); return []; }
-//   return data;
-// }
-
-// export async function getArticleById(id: number) {
-//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
-//   const { data, error } = await supabaseAdmin.from('articles').select('*').eq('id', id).single();
-//   if (error) { console.error(`Erreur Supabase (getArticleById pour ${id}):`, error.message); return null; }
-//   return data;
-// }
-
-// export async function createArticle(articleData: ArticleInsert) {
-//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
-//   const { data, error } = await supabaseAdmin.from('articles').insert([articleData]).select().single();
-//   if (error) { console.error("Erreur Supabase (createArticle):", error); throw new Error(error.message); }
-//   return data;
-// }
-
-// export async function updateArticle(id: number, articleData: ArticleUpdate) {
-//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
-//   const { data, error } = await supabaseAdmin.from('articles').update(articleData).eq('id', id).select().single();
-//   if (error) { console.error("Erreur Supabase (updateArticle):", error); throw new Error(error.message); }
-//   return data;
-// }
-
-// export async function deleteArticleById(id: number) {
-//   if (!supabaseAdmin) throw new Error('Client Admin non initialisé.');
-//   const { error } = await supabaseAdmin.from('articles').delete().eq('id', id);
-//   if (error) { console.error("Erreur Supabase (deleteArticleById):", error.message); throw new Error(error.message); }
-//   return true;
-// }
-
-
-
-
-
-
-// src/lib/api.ts
+// ====================================================================
+// --- FONCTIONS POUR LES COMMUNIQUÉS ---
+// ====================================================================
 
 /**
- * Pour connecter un CMS (Supabase, Strapi, etc.) :
- * 1. Installer le client JS correspondant (ex: @supabase/supabase-js).
- * 2. Créer une instance du client avec vos clés d'API.
- * 3. Remplacer les données mockées ci-dessous par des appels à votre API.
- *    - getNews -> client.from('articles').select('*')
- *    - getReports -> client.from('reports').select('*')
- * 4. Penser à gérer les variables d'environnement (.env.local) pour les clés.
+ * Récupère tous les communiqués depuis la base de données,
+ * triés par date la plus récente en premier.
+ */
+export async function getCommuniques(): Promise<SupabaseCommunique[]> {
+  const { data, error } = await supabase
+    .from('communiques')
+    .select('*')
+    .order('date', { ascending: false }); // Tri par date décroissante
+  
+  if (error) {
+    console.error("Erreur Supabase (getCommuniques):", error.message);
+    // En cas d'erreur, retourner un tableau vide pour ne pas faire planter l'application
+    return [];
+  }
+
+  return (data as SupabaseCommunique[]) || [];
+}
+
+// Nouvelle fonction pour les chiffres clés
+export async function getChiffresCles(): Promise<SupabaseChiffreCle[]> {
+  const { data, error } = await supabase.from('chiffres_cles').select('*');
+  if (error) {
+    console.error("Erreur (getChiffresCles):", error.message);
+    return [];
+  }
+  return data || []; // L'assertion 'as' n'est pas nécessaire si les types générés sont à jour
+}
+
+// Ajoutez cette nouvelle fonction
+export async function getDerniersCommuniques(): Promise<SupabaseCommunique[]> {
+  const { data, error } = await supabase
+    .from('communiques')
+    .select('*')
+    .order('date', { ascending: false })
+    .limit(4); // La seule différence est cette ligne
+  
+  if (error) {
+    console.error("Erreur Supabase (getDerniersCommuniques):", error.message);
+    return [];
+  }
+  return (data as SupabaseCommunique[]) || [];
+}
+
+
+
+// ========================================================================
+// --- FONCTIONS POUR LES EMISSIONS QUI RECUPERENT TOUTES LES EMISSIONS ---
+// ========================================================================
+
+export async function getToutesLesEmissions(): Promise<SupabaseEmission[]> {
+  const { data, error } = await supabase
+    .from('emissions') // On utilise la bonne table
+    .select('*')
+    .order('date_souscription', { ascending: false }); // On ordonne par date de souscription décroissante
+  if (error) {
+    console.error("Erreur (getToutesLesEmissions):", error.message);
+    return [];
+  }
+  return (data as SupabaseEmission[]) || [];
+  }
+
+  export async function getEmissionByIsin(isin: string): Promise<SupabaseEmission | null> {
+    const { data, error } = await supabase
+      .from('emissions')
+      .select('*')
+      .eq('isin', isin)
+      .single(); // On s'attend à un seul résultat
+    if (error) {
+      console.error(`Erreur (getEmissionByIsin pour ISIN ${isin}):`, error.message);
+      return null;
+    }
+    return data as SupabaseEmission || null;
+  }
+
+  // Nouvelle fonction pour la page d'accueil
+export async function getDernieresEmissions(): Promise<SupabaseEmission[]> {
+  const { data, error } = await supabase
+    .from('emissions') // On utilise la bonne table
+    .select('*')
+    .order('date_souscription', { ascending: false })
+    .limit(3); // On prend les 3 plus récentes
+  if (error) {
+    console.error("Erreur (getDernieresEmissions):", error.message);
+    return [];
+  }
+  return (data as SupabaseEmission[]) || [];
+}
+
+// ====================================================================
+// --- FONCTION POUR LES RÉSULTATS D'ADJUDICATION ---
+// ====================================================================
+
+export async function getResultats(): Promise<SupabaseResultat[]> {
+  // Note: j'ai renommé la fonction en 'getResultats' pour plus de clarté
+  const { data, error } = await supabase
+    .from('resultats') // On utilise la nouvelle table 'resultats'
+    .select(`
+      *,
+      emissions (
+        id, titre, designation, type, isin, date_souscription, volume_emission_annonce
+      )
+    `)
+    .order('created_at', { ascending: false });
+  
+  if (error) {
+    console.error("Erreur Supabase (getResultats):", error.message);
+    return [];
+  }
+
+  return (data as SupabaseResultat[]) || [];
+}
+
+// ====================================================================
+// --- NOUVELLE FONCTION POUR LES DERNIERS RÉSULTATS D'ADJUDICATION ---
+// ====================================================================
+export async function getDerniersResultats() {
+  const { data, error } = await supabase
+    .from('resultats') // <-- On utilise le bon nom de table
+    .select(`
+      *, 
+      emissions (
+        isin,
+        designation,
+        date_souscription,
+        titre,
+        type,
+        volume_emission_annonce
+      )
+    `)
+    .order('created_at', { ascending: false })
+    .limit(5);
+
+  if (error) {
+    console.error("Erreur Supabase (getDerniersResultats):", error.message);
+    return []; 
+  }
+  return data || []; // On retourne directement data
+}
+
+// ====================================================================
+// --- FONCTIONS POUR LES FICHES TITRES ---
+// ====================================================================
+
+/**
+ * Récupère toutes les fiches titres résumées pour la page de liste
+ */
+export async function getFichesTitresResume(): Promise<FicheTitreResume[]> {
+  const { data, error } = await supabase
+    .from('emissions')
+    .select('isin, designation, type, date_echeance, taux_coupon, valeur_nominale_unitaire, devise')
+    .order('date_echeance', { ascending: true });
+
+  if (error) {
+    console.error("Erreur Supabase (getFichesTitresResume):", error.message);
+    return [];
+  }
+
+  // Transformation des données en format frontend
+  return data.map(emission => ({
+    isin: emission.isin || '',
+    designation: emission.designation || 'Titre sans désignation',
+    
+    // CORRECTION ICI : On "cast" le type
+    type: emission.type as 'BTA' | 'OTA' | 'OS',
+    
+    echeance: emission.date_echeance,
+    coupon: emission.taux_coupon,
+    valeurNominale: emission.valeur_nominale_unitaire,
+    devise: emission.devise
+  }));
+}
+
+/**
+ * Récupère une fiche titre complète par son ISIN
+ */
+export async function getFicheTitreByIsin(isin: string): Promise<FicheTitre | null> {
+  const { data, error } = await supabase
+    .from('emissions')
+    .select('*')
+    .eq('isin', isin)
+    .single();
+
+  if (error) {
+    console.error(`Erreur Supabase (getFicheTitreByIsin pour ${isin}):`, error.message);
+    return null;
+  }
+
+  // Récupérer l'historique des adjudications pour cet ISIN
+  const historique = await getHistoriquePourIsin(isin);
+
+  // Transformation des données
+  return {
+    isin: data.isin || '',
+    designation: data.designation || data.titre || 'Titre sans désignation',
+    type: data.type as 'BTA' | 'OTA' | 'OS',
+    codeEmission: data.code_emission,
+    nature: data.forme_des_titres || 'Nominal, taux fixe',
+    devise: data.devise || 'FCFA',
+    valeurNominale: data.valeur_nominale_unitaire || 10000,
+    echeance: data.date_echeance,
+    amortissement: data.remboursement || 'In fine et au pair à la date de maturité',
+    coupon: data.taux_coupon,
+    interets: data.rendement_description || 'Annuel, payable à terme échu',
+    premiereDateJouissance: data.date_valeur,
+    procedureEmission: 'Adjudication, par appel d\'offres',
+    texteEmission: 'Loi de finances. Décret relatif à l\'émission des valeurs du Trésor.',
+    arreteCreation: `Arrêté du ${formatDateForArrete(data.date_annonce)}`,
+    caracteristiquesJuridiques: data.forme_des_titres || 'Titres dématérialisés',
+    demembrable: false,
+    historiqueEncours: historique,
+    urlFichePdf: data.url_fiche_pdf
+  };
+}
+
+/** Récupère d'autres titres pour la section "Vous pourriez aussi aimer"
  */
 
+export async function getAutresTitres(excludeIsin: string, limit: number = 3): Promise<FicheTitreResume[]> {
+  const { data, error } = await supabase
+    .from('emissions')
+    .select('isin, designation, type, date_echeance, taux_coupon, valeur_nominale_unitaire, devise')
+    .neq('isin', excludeIsin) // Exclure le titre actuel
+    .order('date_echeance', { ascending: true })
+    .limit(limit);
 
-// ceci était le code original avant modification des donnée fictives
+  if (error) {
+    console.error("Erreur Supabase (getAutresTitres):", error.message);
+    return [];
+  }
 
-// export interface NewsArticle {
-//   id: number;
-//   slug: string;
-//   title: string;
-//   excerpt: string;
-//   imageUrl: string;
-//   publishedAt: string;
-//   content: string;
-// }
+  return data.map(emission => ({
+    isin: emission.isin || '',
+    designation: emission.designation || 'Titre sans désignation',
+    type: emission.type as 'BTA' | 'OTA' | 'OS',
+    echeance: emission.date_echeance,
+    coupon: emission.taux_coupon,
+    valeurNominale: emission.valeur_nominale_unitaire,
+    devise: emission.devise
+  }));
+}
 
-// export interface Report {
-//   id: number;
-//   title: string;
-//   description: string;
-//   fileUrl: string; // Lien vers le PDF
-//   coverImageUrl: string; // On le garde pour d'autres usages potentiels
-//   category: 'Annuel' | 'Mensuel' | 'Spécifique';
-//   publishedDate: string;
-// }
+/**
+ * Récupère l'historique des adjudications pour un ISIN donné
+ */
+export async function getHistoriquePourIsin(isin: string): Promise<OperationHistorique[]> {
+  // D'abord, récupérer l'émission pour avoir son ID
+  const { data: emission, error: emissionError } = await supabase
+    .from('emissions')
+    .select('id')
+    .eq('isin', isin)
+    .single();
 
-// // export interface Report {
-// //   id: number;
-// //   title: string;
-// //   description: string;
-// //   fileUrl: string; // Lien vers le PDF
-// //   coverImageUrl: string;
-// // }
+  if (emissionError || !emission) {
+    console.error(`Erreur pour récupérer l'émission avec ISIN ${isin}:`, emissionError?.message);
+    return [];
+  }
 
-// // Données mockées pour les actualités
-// const mockNews: NewsArticle[] = [
-//   {
-//     id: 1,
-//     slug: 'modernisation-procedures-fiscales-2025',
-//     title: 'Vers une modernisation des procédures fiscales en 2025',
-//     excerpt: 'Le gouvernement annonce une série de réformes visant à simplifier et numériser les déclarations fiscales pour les entreprises et les citoyens.',
-//     imageUrl: '/images/placeholders/news-1.png', // Assurez-vous d'avoir cette image dans public/images/placeholders/
-//     publishedAt: '2025-09-15',
-//     content: '<p>Contenu détaillé de l\'article sur la modernisation...</p>',
-//   },
-//   {
-//     id: 2,
-//     slug: 'modernisation-procedures-fiscales-2025',
-//     title: 'Vers une modernisation des procédures fiscales en 2025',
-//     excerpt: 'Le gouvernement annonce une série de réformes visant à simplifier et numériser les déclarations fiscales pour les entreprises et les citoyens.',
-//     imageUrl: '/images/placeholders/news-2.png', // Assurez-vous d'avoir cette image dans public/images/placeholders/
-//     publishedAt: '2025-09-15',
-//     content: '<p>Contenu détaillé de l\'article sur la modernisation...</p>',
-//   },
-//   {
-//     id: 3,
-//     slug: 'modernisation-procedures-fiscales-2025',
-//     title: 'Vers une modernisation des procédures fiscales en 2025',
-//     excerpt: 'Le gouvernement annonce une série de réformes visant à simplifier et numériser les déclarations fiscales pour les entreprises et les citoyens.',
-//     imageUrl: '/images/placeholders/news-3.png', // Assurez-vous d'avoir cette image dans public/images/placeholders/
-//     publishedAt: '2025-09-15',
-//     content: '<p>Contenu détaillé de l\'article sur la modernisation...</p>',
-//   },
-//   // ... Ajoutez 7 autres articles mockés ici
-// ];
+  // Ensuite, récupérer les résultats d'adjudication pour cette émission
+  const { data: resultats, error: resultatsError } = await supabase
+    .from('resultats')
+    .select(`
+      *,
+      emissions (
+        date_souscription,
+        volume_emission_annonce
+      )
+    `)
+    .eq('emission_id', emission.id)
+    .order('created_at', { ascending: true });
 
+  if (resultatsError) {
+    console.error(`Erreur pour récupérer les résultats pour l'émission ${emission.id}:`, resultatsError.message);
+    return [];
+  }
 
+  // Transformer les résultats en format historique
+  return resultats.map(resultat => ({
+    date: resultat.emissions?.date_souscription || new Date().toISOString().split('T')[0],
+    typeOperation: 'Adjudication',
+    volumeTotalEmis: resultat.montant_total_servi || resultat.emissions?.volume_emission_annonce || 0,
+    prixMoyenPondere: resultat.prix_moyen_pondere || 0,
+    tauxMoyenPondere: resultat.taux_couverture || 0
+  }));
+}
 
-// // Interfaces pour les rapports et publications
-
-// const mockReports: Report[] = [
-//   {
-//     id: 1,
-//     title: 'Rapport Annuel sur l\'Exécution du Budget 2024',
-//     description: 'Analyse détaillée des dépenses et des revenus de l\'État pour l\'exercice fiscal 2024.',
-//     fileUrl: '/reports/placeholder.pdf', // Assurez-vous d'avoir un PDF placeholder dans public/reports/
-//     coverImageUrl: '',
-//     category: 'Annuel',
-//     publishedDate: '2025-03-15',
-//   },
-//   {
-//     id: 2,
-//     title: 'Bulletin Mensuel de la Dette Publique - Août 2025',
-//     description: 'Situation de l\'endettement public à la fin du mois d\'août 2025.',
-//     fileUrl: '/reports/placeholder.pdf',
-//     coverImageUrl: '',
-//     category: 'Mensuel',
-//     publishedDate: '2025-09-10',
-//   },
-//   {
-//     id: 3,
-//     title: 'Bulletin Mensuel de la Dette Publique - Juillet 2025',
-//     description: 'Situation de l\'endettement public à la fin du mois de juillet 2025.',
-//     fileUrl: '/reports/placeholder.pdf',
-//     coverImageUrl: '',
-//     category: 'Mensuel',
-//     publishedDate: '2025-08-12',
-//   },
-//   {
-//     id: 4,
-//     title: 'Rapport sur l\'Impact des Réformes Fiscales',
-//     description: 'Étude d\'impact des nouvelles mesures fiscales sur l\'économie nationale.',
-//     fileUrl: '/reports/placeholder.pdf',
-//     coverImageUrl: '',
-//     category: 'Spécifique',
-//     publishedDate: '2025-06-20',
-//   },
-//   // Ajoutez d'autres rapports pour remplir la page
-// ];
-
-// export async function getNews(): Promise<NewsArticle[]> {
-//   // Simule un appel API
-//   return new Promise((resolve) => setTimeout(() => resolve(mockNews), 500));
-// }
-
-// export async function getNewsBySlug(slug: string): Promise<NewsArticle | undefined> {
-//   return new Promise((resolve) => {
-//     const article = mockNews.find((a) => a.slug === slug);
-//     setTimeout(() => resolve(article), 300);
-//   });
-// }
-
-// export async function getReports(): Promise<Report[]> {
-//   return new Promise((resolve) => setTimeout(() => resolve(mockReports), 500));
-// }
-
-// // Données mockées pour le slider Hero
-// export interface HeroSlide {
-//   id: number;
-//   imageUrl: string;
-//   date: string;
-//   title: string;
-//   buttonText: string;
-//   buttonLink: string;
-// }
-
-// const mockHeroSlides: HeroSlide[] = [
-//   {
-//     id: 1,
-//     imageUrl: '/images/placeholders/hero-1.png', // Vous devrez trouver cette image
-//     date: '17/04/2025',
-//     title: "Situation des depenses publiques exécutées en procédure d'urgence",
-//     buttonText: 'Voir plus',
-//     buttonLink: '/actualites/situation-depenses-publiques',
-//   },
-//   {
-//     id: 2,
-//     imageUrl: '/images/placeholders/hero-2.png', // Vous devrez trouver cette image
-//     date: '15/04/2025',
-//     title: 'Nouvelles réformes fiscales pour la transparence financière',
-//     buttonText: 'Découvrir',
-//     buttonLink: '/actualites/nouvelles-reformes-fiscales',
-//   },
-//   {
-//     id: 3,
-//     imageUrl: '/images/placeholders/hero-3.png', // Vous devrez trouver cette image
-//     date: '12/04/2025',
-//     title: 'Partenariat stratégique pour la modernisation du trésor',
-//     buttonText: 'En savoir plus',
-//     buttonLink: '/actualites/partenariat-strategique',
-//   },
-// ];
-
-// export async function getHeroSlides(): Promise<HeroSlide[]> {
-//   return new Promise((resolve) => setTimeout(() => resolve(mockHeroSlides), 200));
-// }
-
-// // Interface pour les cartes de découverte
-// export interface DiscoveryCard {
-//   id: number;
-//   title: string;
-//   link: string;
-//   imageUrl: string;
-// }
-
-// const mockDiscoveryCards: DiscoveryCard[] = [
-//   {
-//     id: 1,
-//     title: 'Présentation',
-//     link: '/presentation',
-//     imageUrl: '/images/placeholders/card-1.png', // Vous créerez ces images
-//   },
-//   {
-//     id: 2,
-//     title: 'Missions',
-//     link: '/missions',
-//     imageUrl: '/images/placeholders/card-2.png',
-//   },
-//   {
-//     id: 3,
-//     title: 'Attributions',
-//     link: '/attributions',
-//     imageUrl: '/images/placeholders/card-3.png',
-//   },
-//   {
-//     id: 4,
-//     title: 'Réformes',
-//     link: '/reformes',
-//     imageUrl: '/images/placeholders/card-4.png',
-//   },
-//   {
-//     id: 5,
-//     title: 'Organigramme',
-//     link: '/organigramme',
-//     imageUrl: '/images/placeholders/card-5.png',
-//   },
-//   {
-//     id: 6,
-//     title: 'Equipe Dirigeante',
-//     link: '/equipe-dirigeante',
-//     imageUrl: '/images/placeholders/card-6.png',
-//   },
-// ];
-
-// export async function getDiscoveryCards(): Promise<DiscoveryCard[]> {
-//   return new Promise((resolve) => setTimeout(() => resolve(mockDiscoveryCards), 200));
-// }
-
-// // Interface pour les directions
-
-// export interface Directorate {
-//   id: number;
-//   name: string;
-//   directorName: string; // Placeholder
-//   missionExcerpt: string;
-//   imageUrl: string;
-//   slug: string;
-//   services: string[];
-// }
-
-// const mockDirectorates: Directorate[] = [
-//   {
-//     id: 1,
-//     name: 'Direction du Contrôle et de l\'Audit Interne',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Assure la supervision, l\'audit et la maîtrise des risques opérationnels et fonctionnels de la direction générale.',
-//     imageUrl: '/images/placeholders/dir-1.png',
-//     slug: 'controle-audit-interne',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du contrôle interne et de la maîtrise des risques',
-//         'Service des audits, des inspections et des vérifications',
-//         'Service de la planification, des analyses et synthèses',
-//     ],
-//   },
-//   {
-//     id: 2,
-//     name: 'Direction des Affaires Administratives et Financières',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Gère les ressources humaines, matérielles, les crédits budgétaires et la comptabilité des matières.',
-//     imageUrl: '/images/placeholders/dir-2.png',
-//     slug: 'affaires-administratives-financieres',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 3,
-//     name: 'Direction des Affaires Juridiques',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-3.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 4,
-//     name: 'Direction des études et des prévisions',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-4.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 5,
-//     name: 'Direction de la centralisation comptable',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-5.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 6,
-//     name: 'Direction de la recette',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-6.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 7,
-//     name: 'Direction de la dépense',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-7.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-//   {
-//     id: 8,
-//     name: 'Direction des opérations bancaires et des marchés',
-//     directorName: '[Nom du Directeur à venir]',
-//     missionExcerpt: 'Traite le contentieux, gère les dossiers de réparation des dommages et veille à la réglementation.',
-//     imageUrl: '/images/placeholders/dir-8.png',
-//     slug: 'affaires-juridiques',
-//     services: [ // <-- AJOUTER CE BLOC
-//         'Service du personnel et de la formation',
-//         'Service des finances et des approvisionnements',
-//         'Service de la gestion des stocks',
-//         'Service des archives et de la documentation',
-//     ],
-//   },
-// ];
-
-// export async function getDirectorates(): Promise<Directorate[]> {
-//   return new Promise((resolve) => setTimeout(() => resolve(mockDirectorates), 200));
-// }
-
-// // Interfaces pour les enchères et résultats d'enchères
-
-// export interface UpcomingAuction {
-//   id: number;
-//   date: string;
-//   type: 'BTA' | 'OTA'; // Bons du Trésor Assimilables (court terme) | Obligations du Trésor Assimilables (long terme)
-//   amountMillions: number;
-//   status: 'À venir' | 'Annoncé';
-// }
-
-// export interface AuctionResult {
-//   id: number;
-//   date: string;
-//   type: 'BTA' | 'OTA';
-//   amountOffered: number;
-//   amountAwarded: number;
-//   interestRate: string;
-//   slug: string; // Pour un futur lien vers la page de détail
-// }
-
-// const mockUpcomingAuctions: UpcomingAuction[] = [
-//   { id: 1, date: '2025-10-01', type: 'BTA', amountMillions: 15000, status: 'À venir' },
-//   { id: 2, date: '2025-10-15', type: 'OTA', amountMillions: 25000, status: 'À venir' },
-//   { id: 3, date: '2025-11-05', type: 'BTA', amountMillions: 10000, status: 'Annoncé' },
-// ];
-
-// const mockAuctionResults: AuctionResult[] = [
-//   { id: 1, date: '2025-09-17', type: 'BTA', amountOffered: 20000, amountAwarded: 18500, interestRate: '2.45%', slug: 'resultat-2025-09-17' },
-//   { id: 2, date: '2025-09-03', type: 'OTA', amountOffered: 30000, amountAwarded: 30000, interestRate: '4.75%', slug: 'resultat-2025-09-03' },
-//   { id: 3, date: '2025-08-20', type: 'BTA', amountOffered: 15000, amountAwarded: 15000, interestRate: '2.30%', slug: 'resultat-2025-08-20' },
-// ];
-
-
-// export async function getUpcomingAuctions(): Promise<UpcomingAuction[]> {
-//     return new Promise((resolve) => setTimeout(() => resolve(mockUpcomingAuctions), 200));
-// }
-
-// export async function getAuctionResults(): Promise<AuctionResult[]> {
-//     return new Promise((resolve) => setTimeout(() => resolve(mockAuctionResults), 200));
-// }
+/**
+ * Fonction utilitaire pour formater la date pour l'arrêté
+ */
+function formatDateForArrete(dateString: string | null): string {
+  if (!dateString) return 'date non précisée';
+  
+  const date = new Date(dateString);
+  return date.toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric'
+  });
+}

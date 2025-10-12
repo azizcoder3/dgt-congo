@@ -29,33 +29,3 @@ const CategoriesWidget = ({ categories }: { categories: Category[] }) => (
   </div>
 );
 export default CategoriesWidget;
-
-
-
-
-
-
-
-
-
-
-// // src/components/sidebar/CategoriesWidget.tsx
-
-// import type { Category } from '@/types/supabase';
-// import Link from 'next/link';
-
-// const CategoriesWidget = ({ categories }: { categories: Category[] }) => (
-//   <div className="bg-white p-6 rounded-lg shadow-md border border-gray-100 mt-8">
-//     <h3 className="text-xl font-semibold mb-4 text-gray-800">Catégories</h3>
-//     <ul className="space-y-2">
-//       {categories.map(cat => (
-//         <li key={cat.id}>
-//           <Link href={`/actualites/categorie/${cat.slug}`} className="block text-gray-700 hover:text-blue-600 hover:pl-2 transition-all duration-200">
-//             {cat.name}
-//           </Link>
-//         </li>
-//       ))}
-//     </ul>
-//   </div>
-// );
-// export default CategoriesWidget;

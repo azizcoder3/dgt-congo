@@ -26,7 +26,12 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
 
       <main className="flex-grow">
         {/* Hero Section modernisée */}
-        <section className="relative bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-20 lg:py-24">
+        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-24">
+          {/* Éléments décoratifs d'arrière-plan */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
+              <div className="absolute bottom-20 right-20 w-48 h-48 bg-red-800 rounded-full"></div>
+            </div>
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
             <div className="max-w-4xl mx-auto">
@@ -53,11 +58,11 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
             </p>
             <div className="mt-6 flex justify-center items-center space-x-6 text-sm text-gray-500">
               <span className="flex items-center">
-                <div className="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
                 {directorates.length} directions actives
               </span>
               <span className="flex items-center">
-                <div className="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
                 {directorates.filter(d => d.directorName).length} directeurs nommés
               </span>
             </div>
@@ -94,7 +99,7 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
                       title={directorate.name}
                       subtitle={directorate.directorName || "Directeur à nommer"}
                       icon={
-                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <div className="w-10 h-10 bg-gradient-to-r from-green-500 to-green-600 rounded-lg flex items-center justify-center">
                           <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                           </svg>
@@ -137,13 +142,13 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
 
               {/* Call-to-action */}
               <div className="text-center mt-12">
-                <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-2xl p-8 text-white">
+                <div className="bg-gradient-to-br from-green-600 to-yellow-600 rounded-2xl p-8 text-white">
                   <h3 className="text-2xl font-bold mb-4">Vous cherchez un service spécifique ?</h3>
                   <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
                     Notre équipe est à votre disposition pour vous orienter vers la direction compétente 
                     et répondre à toutes vos questions concernant les services de la DGTCP.
                   </p>
-                  <button className="px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl">
+                  <button className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl">
                     Contactez-nous
                   </button>
                 </div>
@@ -170,187 +175,3 @@ export const getStaticProps: GetStaticProps = async () => {
 };
 
 export default DirectionsServicesPage;
-
-
-
-
-
-
-
-
-
-
-
-// // src/pages/presentation/directions-services.tsx (CODE COMPLET ET FINAL)
-
-// import type { GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head';
-
-// // --- Imports corrigés ---
-// import Header from '@/components/Header';
-// import Footer from '@/components/Footer';
-// import DirectorateCard from '@/components/DirectorateCard';
-// import AccordionItem from '@/components/AccordionItem';
-// import { getDirectorates } from '@/lib/api';
-// import type { Directorate } from '@/types/supabase';
-
-// interface DirectionsServicesPageProps {
-//   directorates: Directorate[];
-// }
-
-// const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directorates }) => {
-//   return (
-//     <div className="bg-gray-50 min-h-screen flex flex-col">
-//       <Head>
-//         <title>Directions et Services | DGTCP - République du Congo</title>
-//         <meta name="description" content="Présentation des différentes directions et services de la DGTCP." />
-//       </Head>
-
-//       <Header />
-
-//       <main className="flex-grow">
-//         <div className="bg-brand-blue text-white py-12">
-//             <div className="container mx-auto px-6">
-//                 <h1 className="text-4xl font-bold">Nos Directions et Services</h1>
-//                 <p className="mt-2 text-lg opacity-90">Les piliers de notre organisation au service des finances publiques.</p>
-//             </div>
-//         </div>
-
-//         <div className="container mx-auto px-6 py-16">
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-//             {directorates.map((directorate) => (
-//               <DirectorateCard key={directorate.id} directorate={directorate} />
-//             ))}
-//           </div>
-//         </div>
-
-//         <div className="container mx-auto px-6 py-16">
-//           <div className="max-w-4xl mx-auto">
-//             <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-//               Nos Services par Direction
-//             </h2>
-//             <div className="space-y-4">
-//               {directorates.map((directorate) => (
-//                 <AccordionItem key={directorate.id} title={directorate.name}>
-//                   {directorate.services && directorate.services.length > 0 ? (
-//                     <ul className="list-disc list-inside space-y-2 text-gray-600">
-//                       {directorate.services.map((service, index) => (
-//                         <li key={index}>{service}</li>
-//                       ))}
-//                     </ul>
-//                   ) : (
-//                     <p className="text-gray-500">Aucun service spécifique listé pour cette direction.</p>
-//                   )}
-//                 </AccordionItem>
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </main>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const allDirectorates = await getDirectorates();
-  
-//   return {
-//     props: {
-//       directorates: allDirectorates,
-//     },
-//     revalidate: 60,
-//   };
-// };
-
-// export default DirectionsServicesPage;
-
-
-
-
-
-
-
-
-
-// // src/pages/presentation/directions-services.tsx
-
-// import type { GetStaticProps, NextPage } from 'next';
-// import Head from 'next/head';
-// import Header from '@/components/Header';
-// import Footer from '@/components/Footer';
-// import DirectorateCard from '@/components/DirectorateCard';
-// import { getDirectorates, Directorate } from '@/lib/api';
-// import AccordionItem from '@/components/AccordionItem';
-
-
-// interface DirectionsServicesPageProps {
-//   directorates: Directorate[];
-// }
-
-// const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directorates }) => {
-//   return (
-//     <div className="bg-gray-50 min-h-screen flex flex-col">
-//       <Head>
-//         <title>Directions et Services | DGTCP - République du Congo</title>
-//         <meta name="description" content="Présentation des différentes directions et services de la DGTCP." />
-//       </Head>
-
-//       <Header />
-
-//       <main className="flex-grow">
-//         {/* En-tête de la page */}
-//         <div className="bg-brand-blue text-white py-12">
-//             <div className="container mx-auto px-6">
-//                 <h1 className="text-4xl font-bold">Nos Directions et Services</h1>
-//                 <p className="mt-2 text-lg opacity-90">Les piliers de notre organisation au service des finances publiques.</p>
-//             </div>
-//         </div>
-
-//         {/* Grille des directions */}
-//         <div className="container mx-auto px-6 py-16">
-//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-//             {directorates.map((directorate) => (
-//               <DirectorateCard key={directorate.id} directorate={directorate} />
-//             ))}
-//           </div>
-//         </div>
-//       </main>
-
-//       {/* NOUVELLE SECTION: Liste des Services en Accordéon */}
-//     <div className="container mx-auto px-6 py-16">
-//     <div className="max-w-4xl mx-auto">
-//         <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
-//         Nos Services par Direction
-//         </h2>
-//         <div className="space-y-4">
-//         {directorates.map((directorate) => (
-//             <AccordionItem key={directorate.id} title={directorate.name}>
-//             <ul className="list-disc list-inside space-y-2 text-gray-600">
-//                 {directorate.services.map((service, index) => (
-//                 <li key={index}>{service}</li>
-//                 ))}
-//             </ul>
-//             </AccordionItem>
-//         ))}
-//         </div>
-//     </div>
-//     </div>
-
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const allDirectorates = await getDirectorates();
-  
-//   return {
-//     props: {
-//       directorates: allDirectorates,
-//     },
-//   };
-// };
-
-// export default DirectionsServicesPage;

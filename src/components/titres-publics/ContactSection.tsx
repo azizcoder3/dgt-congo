@@ -1,10 +1,21 @@
-//
+import Link from 'next/link';
 
-export default function ContactSection() {
-  const intermediaries = [
-    { name: 'Banque A', contact: 'contact@banque-a.cg', phone: '+242 XX XX XX XX' },
-    { name: 'Banque B', contact: 'contact@banque-b.cg', phone: '+242 XX XX XX XX' },
-    { name: 'Banque C', contact: 'contact@banque-c.cg', phone: '+242 XX XX XX XX' }
+interface Intermediary {
+  name: string;
+  contact: string;
+  phone: string;
+}
+
+interface ContactSectionProps {
+  titre?: string;
+  isin?: string;
+}
+
+export default function ContactSection({ titre, isin }: ContactSectionProps) {
+  const intermediaries: Intermediary[] = [
+    { name: 'Banque Commerciale Internationale (BCI)', contact: 'marches@bci.cg', phone: '+242 22 281 1000' },
+    { name: 'Banque de l\'Habitat du Congo (BHC)', contact: 'operations@bhc.cg', phone: '+242 22 281 2000' },
+    { name: 'Ecobank Congo', contact: 'tresor@ecobank.cg', phone: '+242 22 281 3000' }
   ];
 
   return (
@@ -17,8 +28,9 @@ export default function ContactSection() {
             <h3 className="text-lg font-semibold mb-4">Équipe Marchés de la DGT</h3>
             <div className="space-y-3">
               <p><strong>Email:</strong> marches@dgt.cg</p>
-              <p><strong>Téléphone:</strong> +242 XX XX XX XX</p>
+              <p><strong>Téléphone:</strong> +242 22 281 0000</p>
               <p><strong>Adresse:</strong> Ministère des Finances, Brazzaville, République du Congo</p>
+              <p><strong>Horaires:</strong> Lundi - Vendredi, 8h00 - 16h00</p>
             </div>
           </div>
 
@@ -26,8 +38,8 @@ export default function ContactSection() {
             <h3 className="text-lg font-semibold mb-4">Intermédiaires Agréés</h3>
             <div className="space-y-3">
               {intermediaries.map((inter, index) => (
-                <div key={index} className="border rounded-lg p-3">
-                  <div className="font-medium">{inter.name}</div>
+                <div key={index} className="border border-gray-200 rounded-lg p-3 hover:border-green-300 transition-colors">
+                  <div className="font-medium text-gray-900">{inter.name}</div>
                   <div className="text-sm text-gray-600">{inter.contact}</div>
                   <div className="text-sm text-gray-600">{inter.phone}</div>
                 </div>
@@ -36,10 +48,13 @@ export default function ContactSection() {
           </div>
         </div>
 
-        <div className="mt-8 p-6 bg-brand-blue text-white rounded-lg">
+        <div className="mt-8 p-6 bg-gradient-to-r from-green-700 to-green-900 text-white rounded-lg">
           <h3 className="text-lg font-semibold mb-2">Devenir Intermédiaire Agréé</h3>
-          <p className="mb-4">Les institutions financières intéressées par le statut d&apos;intermédiaire agréé peuvent soumettre leur candidature.</p>
-          <button className="bg-white text-brand-blue px-4 py-2 rounded-lg font-semibold hover:bg-gray-100">
+          <p className="mb-4">
+            Les institutions financières intéressées par le statut d&apos;intermédiaire agréé 
+            peuvent soumettre leur candidature auprès de la Direction Générale du Trésor.
+          </p>
+          <button className="bg-white text-green-700 px-6 py-2 rounded-lg font-semibold hover:bg-gray-100 transition-colors">
             Télécharger le dossier de candidature
           </button>
         </div>

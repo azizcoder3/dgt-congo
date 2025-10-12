@@ -13,7 +13,7 @@ type UpcomingAuctionInsert = Database['public']['Tables']['upcoming_auctions']['
 type UpcomingAuctionUpdate = Database['public']['Tables']['upcoming_auctions']['Update'];
 type AuctionResultInsert = Database['public']['Tables']['auction_results']['Insert'];
 type AuctionResultUpdate = Database['public']['Tables']['auction_results']['Update'];
-type MarketStatUpdate = Database['public']['Tables']['statistiques_marche']['Update'];
+// type MarketStatUpdate = Database['public']['Tables']['statistiques_marche']['Update'];
 type PersonnelUpdate = Database['public']['Tables']['personnel']['Update'];
 type DirectorateInsert = Database['public']['Tables']['directorates']['Insert'];
 type DirectorateUpdate = Database['public']['Tables']['directorates']['Update'];
@@ -201,19 +201,19 @@ export async function deleteAuctionResultById(id: number) {
 
 // --- Statistiques du Marché ---
 
-export async function getAllMarketStatsForAdmin() {
-    const supabaseAdmin = createAdminClient();
-    const { data, error } = await supabaseAdmin.from('statistiques_marche').select('*');
-    if (error) throw new Error(error.message);
-    return data;
-}
+// export async function getAllMarketStatsForAdmin() {
+//     const supabaseAdmin = createAdminClient();
+//     const { data, error } = await supabaseAdmin.from('statistiques_marche').select('*');
+//     if (error) throw new Error(error.message);
+//     return data;
+// }
 
-export async function updateMarketStat(id: number, statData: MarketStatUpdate) {
-    const supabaseAdmin = createAdminClient();
-    const { data, error } = await supabaseAdmin.from('statistiques_marche').update(statData).eq('id', id).select().single();
-    if (error) throw new Error(error.message);
-    return data;
-}
+// export async function updateMarketStat(id: number, statData: MarketStatUpdate) {
+//     const supabaseAdmin = createAdminClient();
+//     const { data, error } = await supabaseAdmin.from('statistiques_marche').update(statData).eq('id', id).select().single();
+//     if (error) throw new Error(error.message);
+//     return data;
+// }
 
 // ====================================================================
 // --- FONCTIONS ADMIN POUR LE PERSONNEL ---
