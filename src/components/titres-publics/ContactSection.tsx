@@ -1,5 +1,3 @@
-import Link from 'next/link';
-
 interface Intermediary {
   name: string;
   contact: string;
@@ -21,7 +19,18 @@ export default function ContactSection({ titre, isin }: ContactSectionProps) {
   return (
     <section className="bg-white py-12">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">Contact & Intermédiaires</h2>
+        <h2 className="text-2xl font-bold text-gray-900 mb-6">
+          {titre || "Contact & Intermédiaires"}
+        </h2>
+        
+        {/* Afficher l'ISIN s'il est fourni */}
+        {isin && (
+          <div className="mb-6 p-4 bg-gray-50 rounded-lg">
+            <p className="text-lg font-medium text-gray-700">
+              <strong>ISIN:</strong> {isin}
+            </p>
+          </div>
+        )}
         
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <div>
