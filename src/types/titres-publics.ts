@@ -152,7 +152,8 @@ export interface Emission {
  */
 export interface SupabaseResultat {
   id: string; // UUID du résultat
-  emission_id: string;
+  emission_id: string; // UUID de l'émission associée
+  
   
   // Chiffres du résultat
   nombre_svt_reseau: number | null;
@@ -167,10 +168,10 @@ export interface SupabaseResultat {
   
   // L'objet imbriqué venant de la table 'emissions' grâce à la jointure
   emissions: {
-    id: string;
+    id: string // UUID de l'émission
     titre: string;
     designation: string | null;
-    type: 'BTA' | 'OTA' | 'OS';
+    type: 'BTA' | 'OTA';
     isin: string | null;
     date_souscription: string; // On prendra la date de l'émission
     volume_emission_annonce: number | null;
@@ -181,20 +182,42 @@ export interface SupabaseResultat {
  * Représente la structure "propre" d'un résultat, prête à être
  * utilisée par les composants React.
  */
+// export interface Resultat {
+//   id: string;
+//   emissionId: string;
+//   isin?: string;
+//   titre: string;
+//   designation: string | null;
+//   type: string;
+//   codeEmission: string;
+//   dateSeance: string;
+  
+//   // Chiffres
+//   nombreSvtReseau: number | null;
+//   nombreSvtSoumissionnaires: number | null;
+//   montantAnnonce: number | null; // Vient de l'émission
+//   montantTotalSoumissions: number | null;
+//   montantTotalServi: number | null;
+//   prixMaximumPropose: number | null;
+//   prixMinimumPropose: number | null;
+//   prixLimite: number | null;
+//   prixMoyenPondere: number | null;
+//   tauxCouverture: number | null;
+// }
+
 export interface Resultat {
   id: string;
   emissionId: string;
-  isin?: string;
   titre: string;
   designation: string | null;
   type: string;
   codeEmission: string;
-  dateSeance: string;
+  dateSouscription: string;
   
   // Chiffres
   nombreSvtReseau: number | null;
   nombreSvtSoumissionnaires: number | null;
-  montantAnnonce: number | null; // Vient de l'émission
+  montantAnnonce: number | null;
   montantTotalSoumissions: number | null;
   montantTotalServi: number | null;
   prixMaximumPropose: number | null;
@@ -202,6 +225,7 @@ export interface Resultat {
   prixLimite: number | null;
   prixMoyenPondere: number | null;
   tauxCouverture: number | null;
+  isin?: string; // Optionnel
 }
 
 // ... (le code existant reste)
