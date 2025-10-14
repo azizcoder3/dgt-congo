@@ -58,7 +58,7 @@ const HeroSlider = ({ slides }: HeroSliderProps) => {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
               {/* Contenu textuel avec design amélioré */}
-              <div className="absolute inset-0 z-10 flex flex-col justify-center items-start  px-6 sm:px-8 lg:px-12 xl:px-16">
+              <div className="absolute inset-0 z-10 flex flex-col justify-center items-start  px-12 sm:px-16 lg:px-24 xl:px-32">
                 <div className="max-w-2xl lg:max-w-3xl xl:max-w-4xl space-y-6">
                   
                   {/* Badge de date avec design moderne */}
