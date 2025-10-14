@@ -9,6 +9,8 @@ import { useLoading } from '@/hooks/useLoading';
 import { LoadingSpinnerBudget } from '@/components/LoadingSpinner'; // Importez la nouvelle version
 import { Toaster } from 'react-hot-toast';
 import '@/styles/globals.css';
+import Head from 'next/head';
+
 
 function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) {
   const [supabaseClient] = useState(() => createPagesBrowserClient());
@@ -35,6 +37,14 @@ function MyApp({ Component, pageProps }: AppProps<{ initialSession: Session }>) 
       supabaseClient={supabaseClient}
       initialSession={pageProps.initialSession}
     >
+
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+        {/* Vous pouvez laisser le <title> dans chaque page pour un meilleur SEO, */}
+        {/* ou en mettre un par défaut ici. */}
+      </Head>
+
       {/* Utilisez le nouveau LoadingSpinnerBudget */}
       {isLoading && <LoadingSpinnerBudget text="Chargement des données..." />}
       
