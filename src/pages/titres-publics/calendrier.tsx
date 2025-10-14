@@ -160,7 +160,7 @@ export default function CalendrierEmissions({ emissions }: InferGetServerSidePro
           {/* En-tête */}
           <div className="mb-8">
             <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-4">
-              <Link href="/titres-publics" className="hover:text-green-600">Marché des Titres Publics</Link>
+              <Link href="/les-titres-publics" className="hover:text-green-600">Marché des Titres Publics</Link>
               <span>›</span>
               <span className="text-gray-900">Calendrier des Émissions</span>
             </nav>
