@@ -63,7 +63,7 @@ export default function ResultatsAdjudicationPage({ resultats }: InferGetServerS
     try {
       const uniquePeriods = new Set(
         resultats
-          .map(resultat => resultat.dateSeance?.substring(0, 7))
+          .map(resultat => resultat.dateSouscription?.substring(0, 7))
           .filter(Boolean)
       );
       
@@ -110,7 +110,7 @@ export default function ResultatsAdjudicationPage({ resultats }: InferGetServerS
     if (!resultats || !Array.isArray(resultats)) return [];
     
     return resultats.filter(resultat => {
-      const resultatPeriod = resultat.dateSeance?.substring(0, 7);
+      const resultatPeriod = resultat.dateSouscription?.substring(0, 7);
       const matchesPeriod = selectedPeriod === 'Tous' || resultatPeriod === selectedPeriod;
       const matchesType = selectedType === 'Tous' || resultat.type === selectedType;
       return matchesPeriod && matchesType;
@@ -423,7 +423,7 @@ const formatMontant = (amount: number | null | undefined) => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {resultat.dateSeance}
+                              {resultat.dateSouscription}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -626,7 +626,7 @@ const formatMontant = (amount: number | null | undefined) => {
                   COMMUNIQUE DES RESULTATS DES ADJUDICATIONS
                 </h2>
                 <p className="text-lg text-gray-700 mt-2">
-                  - Séance du {selectedResultat.dateSeance} -
+                  - Séance du {selectedResultat.dateSouscription} -
                 </p>
               </div>
 
@@ -635,7 +635,7 @@ const formatMontant = (amount: number | null | undefined) => {
                 {/* Introduction */}
                 <div className="mb-6 text-gray-700 leading-relaxed">
                   <p>
-                    Le Trésor Public de la République du Congo a procédé, le {selectedResultat.dateSeance}, 
+                    Le Trésor Public de la République du Congo a procédé, le {selectedResultat.dateSouscription}, 
                     à l&apos;émission des {selectedResultat.type === 'BTA' ? 'Bons du Trésor Assimilables' : 
                     selectedResultat.type === 'OTA' ? 'Obligations du Trésor Assimilables' : 
                     'Obligations Sécurisées'} par abondement.
@@ -833,7 +833,7 @@ export const getServerSideProps: GetServerSideProps<{ resultats: Resultat[] }> =
         designation: emissionData?.designation || null,
         type: emissionData?.type || 'BTA',
         codeEmission: emissionData?.isin || 'N/A',
-        dateSeance: emissionData?.date_souscription ? 
+        dateSouscription: emissionData?.date_souscription ? 
           new Date(emissionData.date_souscription).toLocaleDateString('fr-FR', { 
             day: '2-digit', 
             month: 'long', 

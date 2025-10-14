@@ -182,28 +182,7 @@ export interface SupabaseResultat {
  * Représente la structure "propre" d'un résultat, prête à être
  * utilisée par les composants React.
  */
-// export interface Resultat {
-//   id: string;
-//   emissionId: string;
-//   isin?: string;
-//   titre: string;
-//   designation: string | null;
-//   type: string;
-//   codeEmission: string;
-//   dateSeance: string;
-  
-//   // Chiffres
-//   nombreSvtReseau: number | null;
-//   nombreSvtSoumissionnaires: number | null;
-//   montantAnnonce: number | null; // Vient de l'émission
-//   montantTotalSoumissions: number | null;
-//   montantTotalServi: number | null;
-//   prixMaximumPropose: number | null;
-//   prixMinimumPropose: number | null;
-//   prixLimite: number | null;
-//   prixMoyenPondere: number | null;
-//   tauxCouverture: number | null;
-// }
+
 
 export interface Resultat {
   id: string;
