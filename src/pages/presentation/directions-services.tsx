@@ -2,6 +2,7 @@
 
 import type { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import DirectorateCard from '@/components/DirectorateCard';
@@ -17,8 +18,8 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Directions et Services | DGTCP - République du Congo</title>
-        <meta name="description" content="Découvrez l'organisation complète de la DGTCP : directions centrales et services dédiés aux finances publiques." />
+        <title>Directions et Services | DGT-RC</title>
+        <meta name="description" content="Découvrez l'organisation complète de la DGT : directions centrales et services dédiés aux finances publiques." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
 
@@ -26,11 +27,11 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
 
       <main className="flex-grow">
         {/* Hero Section modernisée */}
-        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-24">
+        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-500 text-white py-20 lg:py-24">
           {/* Éléments décoratifs d'arrière-plan */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
-              <div className="absolute bottom-20 right-20 w-48 h-48 bg-red-800 rounded-full"></div>
+              <div className="absolute bottom-20 right-20 w-48 h-48 bg-white rounded-full"></div>
             </div>
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
@@ -142,15 +143,18 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
 
               {/* Call-to-action */}
               <div className="text-center mt-12">
-                <div className="bg-gradient-to-br from-green-600 to-yellow-600 rounded-2xl p-8 text-white">
+                <div className="bg-gradient-to-br from-green-600 to-green-800 rounded-2xl p-8 text-white">
                   <h3 className="text-2xl font-bold mb-4">Vous cherchez un service spécifique ?</h3>
                   <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-                    Notre équipe est à votre disposition pour vous orienter vers la direction compétente 
-                    et répondre à toutes vos questions concernant les services de la DGTCP.
+                    Notre équipe est à votre disposition pour vous orienter vers la direction compétente
+                    et répondre à toutes vos questions concernant les services de la DGT.
                   </p>
-                  <button className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl">
+                  <Link 
+                    href="/contact"
+                    className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl"
+                  >
                     Contactez-nous
-                  </button>
+                  </Link>
                 </div>
               </div>
             </div>

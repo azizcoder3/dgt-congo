@@ -51,7 +51,7 @@ const ReformePage: NextPage<ReformePageProps> = ({ reformes }) => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Head>
-          <title>Réformes | DGT - République du Congo</title>
+          <title>Réformes | DGT-RC</title>
         </Head>
         <Header />
         <div className="text-center py-20">
@@ -65,14 +65,14 @@ const ReformePage: NextPage<ReformePageProps> = ({ reformes }) => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Head>
-        <title>Réformes Structurelles | DGT - République du Congo</title>
+        <title>Réformes Structurelles | DGT-RC</title>
         <meta name="description" content="Découvrez les réformes majeures de la Direction Générale du Trésor et de la Comptabilité Publique" />
       </Head>
 
       <Header />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-10">
+      <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-500 text-white py-20 lg:py-10">
          {/* Éléments décoratifs d'arrière-plan */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>

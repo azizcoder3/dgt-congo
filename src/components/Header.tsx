@@ -46,26 +46,19 @@ const Header = () => {
         
         {/* Logo DGT */}
         <Link href="/">
-          <div className="flex items-center space-x-3 cursor-pointer group">
-            <div className="relative w-12 h-12">
+            <div className="cursor-pointer group">
               <Image 
-                src="/images/placeholders/logo_tresor-footer.png"
+                src="/images/placeholders/dgt-logo.png"
                 alt="Logo DGT-RC" 
-                width={48} 
-                height={48}
+                width={160} 
+                height={97}
                 className="transition-transform duration-300 group-hover:scale-105"
               />
             </div>
-            <span className="text-lg font-bold text-gray-900 hidden sm:block">
-              <span className="text-brand-green">D</span><span className="text-brand-gold">G</span><span className="text-brand-red">T</span>
-              <span className="text-brand-gold">-</span>
-              <span className="text-brand-green">RC</span>
-            </span>
-          </div>
         </Link>
 
         {/* Navigation Centrale */}
-        <nav className="hidden lg:flex space-x-8">
+        <nav className="hidden lg:flex space-x-8 items-center">
 
           <Link href="/" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">Accueil</Link>
           
@@ -143,11 +136,11 @@ const Header = () => {
               className="transition-transform duration-300 group-hover:scale-110"
             />
           </div>
-          <div className="text-right">
+          <div className="text-left">
             <span className="block text-xs font-semibold text-gray-600 group-hover:text-brand-green transition-colors duration-200 leading-tight">
               Ministère des Finances,
             </span>
-            <span className="block text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-200 leading-tight">
+            <span className="block text-xs text-gray-500 group-hover:text-brand-red transition-colors duration-200 leading-tight">
               du Budget et du Portefeuille Public
             </span>
           </div>

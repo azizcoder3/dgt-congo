@@ -499,7 +499,12 @@ export default function TitresPublicsPage({
       <Header />
 
       {/* Bannière Hero */}
-      <div className="bg-gradient-to-r from-green-700 to-green-900 text-white">
+      <div className="bg-gradient-to-br from-green-700 to-green-900 text-white">
+        {/* Éléments décoratifs d'arrière-plan */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full"></div>
+              <div className="absolute top-40 right-20 w-48 h-48 bg-white rounded-full"></div>
+            </div>
         <div className="container mx-auto px-4 py-16">
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">

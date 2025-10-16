@@ -13,7 +13,7 @@ const OrganigrammePage: NextPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Organigramme | DGT - République du Congo</title>
+        <title>Organigramme | DGT-RC</title>
         <meta name="description" content="Découvrez la structure organisationnelle de la Direction Générale du Trésor et de la Comptabilité Publique." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -22,7 +22,7 @@ const OrganigrammePage: NextPage = () => {
 
       <main className="flex-grow">
         {/* Hero Section modernisée */}
-        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-24">
+        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-500 text-white py-20 lg:py-24">
            {/* Éléments décoratifs d'arrière-plan */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>

@@ -72,15 +72,15 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
               
               {/* Contenu mission */}
               <div className="max-w-2xl text-center lg:text-left">
-                <div className="inline-flex items-center px-4 py-2 bg-brand-red/10 rounded-full mb-6">
-                  <span className="w-2 h-2 bg-brand-red rounded-full mr-2"></span>
-                  <p className="font-semibold text-brand-red text-sm uppercase tracking-wide">Notre principale mission</p>
+                <div className="inline-flex items-center px-4 py-2 bg-brand-gold/10 rounded-full mb-6">
+                  <span className="w-2 h-2 bg-brand-green rounded-full mr-2"></span>
+                  <p className="font-semibold text-brand-green text-sm uppercase tracking-wide">Notre principale mission</p>
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6">
                   Mise en œuvre opérationnelle de la politique budgétaire en termes d&apos;exécution des dépenses et de suivi des recettes perçues par les administrations financières
                 </h2>
                 <div className="flex justify-center lg:justify-start">
-                  <div className="w-20 h-1 bg-gradient-to-r from-brand-green to-brand-blue rounded-full"></div>
+                  <div className="w-20 h-1 bg-gradient-to-br from-brand-green to-brand-green rounded-full"></div>
                 </div>
               </div>
             </div>
@@ -155,7 +155,7 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
           <div className="container mx-auto px-4 sm:px-6">
             {/* En-tête de section */}
             <div className="text-center mb-12 lg:mb-16">
-              <span className="inline-flex items-center px-4 py-2 bg-brand-green/10 text-brand-green rounded-full text-sm font-semibold mb-4">
+              <span className="inline-flex items-center px-4 py-2 bg-brand-red/10 text-brand-green rounded-full text-sm font-semibold mb-4">
                 <svg className="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
                 </svg>

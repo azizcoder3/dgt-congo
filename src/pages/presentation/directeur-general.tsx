@@ -334,7 +334,7 @@ const LeaderCard = ({
 
 // --- Section Vision Commune ---
 const VisionSection = () => (
-  <div className="relative bg-gradient-to-br from-green-600 to-yellow-300 rounded-2xl shadow-2xl overflow-hidden">
+  <div className="relative bg-gradient-to-br from-green-600 to-green-800 rounded-2xl shadow-2xl overflow-hidden">
     <div className="absolute inset-0 bg-black/10"></div>
     <div className="relative p-10 lg:p-16 text-center text-white">
       <div className="max-w-4xl mx-auto">
@@ -373,14 +373,21 @@ const DirecteurGeneralPage: NextPage<PageProps> = ({ dg, dga }) => {
 
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-yellow-500 text-white py-20 lg:py-24">
+        <section className="relative bg-gradient-to-br from-green-800 via-green-700 to-green-900 text-white py-20 lg:py-24">
+          {/* Éléments décoratifs d'arrière-plan */}
+            <div className="absolute inset-0 opacity-5">
+              <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
+              <div className="absolute bottom-20 right-20 w-48 h-48 bg-white rounded-full"></div>
+            </div>
           <div className="absolute inset-0 bg-black/20"></div>
-          <div className="relative container mx-auto px-6 text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">L&apos;Équipe de Direction</h1>
-            <p className="text-xl lg:text-2xl opacity-90 max-w-3xl mx-auto">
+          <div className="relative container mx-auto px-6 flex flex-col justify-center">
+            <div className="max-w-4xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">L&apos;Équipe de Direction</h1>
+            <p className="text-xl md:text-2xl opacity-90 mb-6">
               À la tête du Trésor Public Congolais
             </p>
-            <div className="mt-6 w-20 h-1 bg-blue-300 mx-auto rounded-full"></div>
+            <div className="w-20 h-1 bg-blue-300 rounded-full"></div>
+          </div>
           </div>
         </section>
 
@@ -394,7 +401,7 @@ const DirecteurGeneralPage: NextPage<PageProps> = ({ dg, dga }) => {
                   <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-3">
                     Directeur Général
                   </h2>
-                  <div className="w-16 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                  <div className="w-16 h-1 bg-green-600 mx-auto rounded-full"></div>
                 </div>
                 <LeaderCard
                   name={dg.name}
@@ -414,7 +421,7 @@ const DirecteurGeneralPage: NextPage<PageProps> = ({ dg, dga }) => {
                   <h2 className="text-3xl lg:text-4xl font-bold text-gray-800 mb-3">
                     Directeur Général Adjoint
                   </h2>
-                  <div className="w-16 h-1 bg-blue-600 mx-auto rounded-full"></div>
+                  <div className="w-16 h-1 bg-green-600 mx-auto rounded-full"></div>
                 </div>
                 <LeaderCard
                   name={dga.name}
