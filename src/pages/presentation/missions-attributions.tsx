@@ -87,15 +87,22 @@ const MissionsAttributionsPage: NextPage = () => {
                       <h2 className="text-3xl lg:text-4xl font-bold text-gray-800">Nos Attributions</h2>
                     </div>
                     <ul className="space-y-4">
-                        <MissionItem>Organiser la gestion de la trésorerie de l&apos;État et des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
-                        <MissionItem>Centraliser la gestion des fonds publics via le compte unique du trésor à la banque centrale.</MissionItem>
-                        <MissionItem>Organiser l&apos;émission et la gestion des titres publics à souscription libre.</MissionItem>
-                        <MissionItem>Participer à la gestion de la dette à moyen et long terme.</MissionItem>
-                        <MissionItem>Assurer le recouvrement des recettes et le règlement des dépenses publiques.</MissionItem>
-                        <MissionItem>Tenir la comptabilité des recettes et des dépenses budgétaires de l&apos;État.</MissionItem>
-                        <MissionItem>Centraliser la comptabilité de l&apos;État et les fonds des bailleurs destinés aux projets publics.</MissionItem>
-                        <MissionItem>Contribuer à l&apos;élaboration du compte général de l&apos;État et des statistiques des finances publiques.</MissionItem>
-                    </ul>
+                      <MissionItem>Organiser la gestion de la trésorerie de l&apos;État, des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
+                      <MissionItem>Centraliser la gestion des fonds publics à travers le compte unique du trésor ouvert à la banque centrale.</MissionItem>
+                      <MissionItem>Organiser, de concert avec les autres administrations concernées, l&apos;émission et la gestion des titres publics à souscription libre.</MissionItem>
+                      <MissionItem>Participer à la gestion de la dette à moyen et long terme.</MissionItem>
+                      <MissionItem>Prendre en charge les titres de perception et assurer le recouvrement des recettes publiques.</MissionItem>
+                      <MissionItem>Assurer l&apos;encaissement et la gestion comptable des créances publiques.</MissionItem>
+                      <MissionItem>Prendre en charge les titres de paiement et assurer le règlement des dépenses publiques.</MissionItem>
+                      <MissionItem>Tenir, dans le respect des règles et principes du plan comptable de l&apos;État, la comptabilité des recettes et des dépenses budgétaires ainsi que des ressources et des charges de trésorerie de l&apos;État, des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
+                      <MissionItem>Centraliser la comptabilité de l&apos;État.</MissionItem>
+                      <MissionItem>Centraliser les fonds de bailleurs destinés au financement des projets ou programmes publics.</MissionItem>
+                      <MissionItem>Contribuer à l&apos;élaboration du compte général de l&apos;État ainsi qu&apos;à la production des comptes annuels des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
+                      <MissionItem>Contribuer à la compilation des statistiques des finances publiques.</MissionItem>
+                      <MissionItem>Participer à l&apos;élaboration de la réglementation financière et comptable de l&apos;État, des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
+                      <MissionItem>Contribuer à la mise en place des référentiels normatifs de la comptabilité publique.</MissionItem>
+                      <MissionItem>Contribuer à la rédaction des manuels, guides de procédures ou instructions d&apos;exécution ou de reporting des opérations budgétaires et de trésorerie de l&apos;État, des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.</MissionItem>
+                  </ul>
                   </div>
                 </section>
 
