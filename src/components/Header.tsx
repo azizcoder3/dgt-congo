@@ -133,14 +133,7 @@ const Header = () => {
           rel="noopener noreferrer" 
           className="items-center space-x-3 group hidden md:flex"
         >
-          <div className="text-right">
-            <span className="block text-xs font-semibold text-gray-600 group-hover:text-brand-green transition-colors duration-200 leading-tight">
-              Ministère des Finances,
-            </span>
-            <span className="block text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-200 leading-tight">
-              du Budget et du Portefeuille Public
-            </span>
-          </div>
+          
           <div className="relative w-10 h-10">
             <Image 
               src="/images/placeholders/armoirie-RC.png"
@@ -149,6 +142,14 @@ const Header = () => {
               height={40}
               className="transition-transform duration-300 group-hover:scale-110"
             />
+          </div>
+          <div className="text-right">
+            <span className="block text-xs font-semibold text-gray-600 group-hover:text-brand-green transition-colors duration-200 leading-tight">
+              Ministère des Finances,
+            </span>
+            <span className="block text-xs text-gray-500 group-hover:text-gray-700 transition-colors duration-200 leading-tight">
+              du Budget et du Portefeuille Public
+            </span>
           </div>
         </a>
 
