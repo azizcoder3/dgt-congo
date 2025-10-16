@@ -366,7 +366,7 @@ const AdjudicationsSection: React.FC<{ emissionsBTA: EmissionAccueil[]; emission
 
       <Link 
         href="/titres-publics/emissions-adjudication" 
-        className="block text-center mt-4 text-green-600 hover:text-green-700 font-semibold"
+        className="block text-center mt-4 text-green-600 hover:text-green-700 font-semibold cursor-pointer"
       >
         Voir le détail des adjudications →
       </Link>
@@ -499,13 +499,13 @@ export default function TitresPublicsPage({
       <Header />
 
       {/* Bannière Hero */}
-      <div className="bg-gradient-to-br from-green-700 to-green-900 text-white">
+      <div className="relative bg-gradient-to-br from-green-700 to-green-900 text-white">
         {/* Éléments décoratifs d'arrière-plan */}
             <div className="absolute inset-0 opacity-5">
-              <div className="absolute top-20 left-10 w-32 h-32 bg-white rounded-full"></div>
-              <div className="absolute top-40 right-20 w-48 h-48 bg-white rounded-full"></div>
+              <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
+              <div className="absolute top-20 right-20 w-48 h-48 bg-white rounded-full"></div>
             </div>
-        <div className="container mx-auto px-4 py-16">
+        <div className="relative container mx-auto px-4 py-16">
           <div className="max-w-4xl">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Direction Générale du Trésor
@@ -518,13 +518,13 @@ export default function TitresPublicsPage({
             <div className="flex flex-wrap gap-4">
               <Link 
                 href="/titres-publics/emissions-adjudication"
-                className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+                className="bg-white text-green-700 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors cursor-pointer"
               >
                 Consulter les adjudications
               </Link>
               <Link 
                 href="/titres-publics/calendrier-indicatif"
-                className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 hover:bg-opacity-10 transition-colors"
+                className="border-2 border-white text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-800 hover:bg-opacity-10 transition-colors cursor-pointer"
               >
                 Voir le Calendrier Indicatif des Émissions
               </Link>
