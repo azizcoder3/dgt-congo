@@ -263,15 +263,6 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Actions</h3>
                 <div className="space-y-3">
-                    {/* {titre.urlFichePdf && (
-                    <button
-                        onClick={() => handleDownload(titre.urlFichePdf!, `fiche-titre-${titre.isin}.pdf`)} 
-                        className="w-full flex items-center justify-center px-4 py-2 border border-green-600 text-green-600 rounded-lg hover:bg-green-50 transition-colors cursor-pointer"
-                    >
-                        <DocumentTextIcon className="w-4 h-4 mr-2" />
-                        Télécharger la fiche PDF
-                    </button>
-                   )} */}
                    {/* Dans votre sidebar - remplacez tout le bouton PDF par : */}
                     {titre.urlFichePdf ? (
                       <a 
@@ -292,10 +283,6 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
                         PDF non disponible
                       </button>
                     )}
-                  {/* <button className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
-                    <CurrencyDollarIcon className="w-4 h-4 mr-2" />
-                    Soumettre une offre
-                  </button> */}
                   <button 
                     onClick={() => setIsOfferModalOpen(true)}
                     className="w-full flex items-center justify-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
@@ -314,30 +301,11 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
                   Pour plus d&apos;informations sur ce titre, contactez la Direction Générale du Trésor.
                 </p>
                 <Link href="/contact" passHref>
-                <button className="w-full text-sm text-blue-600 hover:text-blue-700 font-medium cursor-pointer">
+                <button className="w-full text-sm text-green-600 hover:text-green-700 font-medium cursor-pointer">
                   Nous contacter →
                 </button>
                 </Link>
               </div>
-
-              {/* Autres fiches titres */}
-              {/* <div className="bg-white rounded-xl shadow-sm p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Autres Fiches Titres</h3>
-                <div className="space-y-2">
-                  {['BTA 13 semaines', 'OTA 5 ans', 'OS 7 ans'].map((fiche, index) => (
-                    <Link 
-                      key={index}
-                      href="#"
-                      className="block p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors group"
-                    >
-                      <div className="font-medium text-gray-900 group-hover:text-green-700">
-                        {fiche}
-                      </div>
-                      <div className="text-sm text-gray-500">Code ISIN: CG00{index+1}</div>
-                    </Link>
-                  ))}
-                </div>
-              </div> */}
               {/* Autres fiches titres - DYNAMIQUE */}
               <div className="bg-white rounded-xl shadow-sm p-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">Autres Fiches Titres</h3>
@@ -361,9 +329,9 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
                             </div>
                           </div>
                           <span className={`ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium border ${
-                            fiche.type === 'BTA' ? 'bg-blue-100 text-blue-800 border-blue-200' :
+                            fiche.type === 'BTA' ? 'bg-blue-100 text-green-800 border-blue-200' :
                             fiche.type === 'OTA' ? 'bg-green-100 text-green-800 border-green-200' :
-                            'bg-purple-100 text-purple-800 border-purple-200'
+                            'bg-purple-100 text-yellow-800 border-yellow-200'
                           }`}>
                             {fiche.type}
                           </span>

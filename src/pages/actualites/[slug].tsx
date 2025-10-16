@@ -24,7 +24,7 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800 mb-4">Article non trouvé</h1>
-          <Link href="/actualites" className="text-blue-600 hover:underline">
+          <Link href="/actualites" className="text-green-600 hover:underline">
             Retour aux actualités
           </Link>
         </div>
@@ -49,9 +49,9 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
           {/* Breadcrumb */}
           <nav className="mb-8">
             <ol className="flex items-center space-x-2 text-sm text-gray-600">
-              <li><Link href="/" className="hover:text-blue-600 transition-colors">Accueil</Link></li>
+              <li><Link href="/" className="hover:text-green-600 transition-colors">Accueil</Link></li>
               <li className="text-gray-300">/</li>
-              <li><Link href="/actualites" className="hover:text-blue-600 transition-colors">Actualités</Link></li>
+              <li><Link href="/actualites" className="hover:text-green-600 transition-colors">Actualités</Link></li>
               <li className="text-gray-300">/</li>
               <li className="text-gray-800 font-medium truncate max-w-xs lg:max-w-md">{article.title}</li>
             </ol>
@@ -114,7 +114,7 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
                         Temps de lecture : {Math.ceil((article.content?.length || 0) / 1000)} min
                       </span>
                       {article.categories && (
-                        <span className="px-3 py-1 bg-blue-100 text-blue-600 rounded-full text-xs font-medium">
+                        <span className="px-3 py-1 bg-green-100 text-green-600 rounded-full text-xs font-medium">
                           {article.categories.name}
                         </span>
                       )}
@@ -148,18 +148,18 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
                     </button>
                   </div>
                 </div> */}
-                <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white">
+                <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-2xl p-6 text-white">
                 <h3 className="font-semibold text-lg mb-3">Newsletter</h3>
-                <p className="text-blue-100 text-sm mb-4">
+                <p className="text-green-100 text-sm mb-4">
                   Recevez nos actualités directement dans votre boîte email.
                 </p>
                 <div className="space-y-3">
                   <input 
                     type="email" 
                     placeholder="Votre email" 
-                    className="w-full px-4 py-2 rounded-lg text-gray-800 text-sm bg-white/80 placeholder-gray-500 border-2 border-transparent focus:bg-white focus:border-blue-300 focus:outline-none transition-all duration-200"
+                    className="w-full px-4 py-2 rounded-lg text-gray-800 text-sm bg-white/80 placeholder-gray-500 border-2 border-transparent focus:bg-white focus:border-green-300 focus:outline-none transition-all duration-200"
                   />
-                  <button className="w-full bg-white text-blue-600 font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm cursor-pointer">
+                  <button className="w-full bg-white text-green-600 font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm cursor-pointer">
                     S&apos;abonner
                   </button>
                 </div>

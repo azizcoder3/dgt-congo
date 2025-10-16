@@ -2,6 +2,7 @@
 
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import Image from 'next/image';
 
 import Header from '@/components/Header';
@@ -38,6 +39,7 @@ const MissionsAttributionsPage: NextPage = () => {
               src="/images/placeholders/tresor-public-building.webp"
               alt="Bâtiment du Trésor Public"
               fill
+              objectPosition='50% 80%'
               className="object-cover"
               priority
           />
@@ -195,12 +197,16 @@ const MissionsAttributionsPage: NextPage = () => {
                       Découvrez en détail chaque direction centrale et ses missions spécifiques à travers notre présentation complète.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <button className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl">
+                      <Link href="/presentation/directions-services"
+                        target="_blank" 
+                        className="px-8 py-3 bg-white text-green-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200 shadow-lg hover:shadow-xl">
                         Voir les directions
-                      </button>
-                      <button className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors duration-200">
-                        Télécharger l&apos;organigramme
-                      </button>
+                      </Link>
+                      <Link href="/presentation/organigramme"
+                        target="_blank" 
+                        className="px-8 py-3 bg-transparent border-2 border-white text-white font-semibold rounded-lg hover:bg-white/10 transition-colors duration-200">
+                        Voir l&apos;organigramme
+                      </Link>
                     </div>
                   </div>
                 </section>

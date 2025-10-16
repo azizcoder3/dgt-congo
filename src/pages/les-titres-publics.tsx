@@ -151,12 +151,12 @@ const ResultatsSection: React.FC<{ resultats: Resultat[] }> = ({ resultats }) =>
                 <div className="text-right flex-shrink-0 ml-4">
                   <div className="text-lg font-bold text-green-600">
                     {resultat.montantTotalServi ? 
-                      `${formatCurrency(resultat.montantTotalServi / 1000)} Md` : 
+                      `${formatCurrency(resultat.montantTotalServi)}` : 
                       'N/A'
                     }
                   </div>
                   <div className="text-sm text-gray-500">
-                    Montant servi (FCFA)
+                    Montant servi (en millions de FCFA)
                   </div>
                 </div>
               </div>

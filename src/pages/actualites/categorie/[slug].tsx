@@ -21,18 +21,18 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ articles, categoryName, cat
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Catégorie : {categoryName} | DGTCP - République du Congo</title>
+        <title>Catégorie : {categoryName} | DGT - République du Congo</title>
         <meta name="description" content={`Retrouvez toutes les actualités de la catégorie "${categoryName}" sur le site de la DGTCP.`} />
       </Head>
 
       <Header />
-
+      
       <main>
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 lg:py-20">
+        <section className="relative bg-gradient-to-r from-green-800 via-green-700 to-green-900 text-white py-16 lg:py-20">
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
-            <p className="text-lg font-semibold text-blue-200 mb-2">Catégorie</p>
+            <p className="text-lg font-semibold text-green-200 mb-2">Catégorie</p>
             <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               {categoryName}
             </h1>
