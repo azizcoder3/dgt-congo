@@ -41,11 +41,11 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100">
+    <header className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100 h-24">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
         
         {/* Logo DGT */}
-        <Link href="/">
+        {/* <Link href="/">
             <div className="cursor-pointer group">
               <Image 
                 src="/images/placeholders/dgt-logo.png"
@@ -55,12 +55,24 @@ const Header = () => {
                 className="transition-transform duration-300 group-hover:scale-105"
               />
             </div>
+        </Link> */}
+        <Link href="/">
+            {/* On donne une largeur plus généreuse au conteneur */}
+            <div className="relative h-16 w-52 group cursor-pointer"> {/* Ex: hauteur 64px, largeur 208px */}
+              <Image 
+                src="/images/placeholders/dgt-logo.png"
+                alt="Logo DGT-RC" 
+                fill
+                className="object-contain transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
+            </div>
         </Link>
 
         {/* Navigation Centrale */}
-        <nav className="hidden lg:flex space-x-8 items-center">
+        <nav className="hidden lg:flex space-x-4 items-center">
 
-          <Link href="/" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">Accueil</Link>
+          <Link href="/" className="text-gray-700 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Accueil</Link>
           
           <div 
             className="relative" 
@@ -70,7 +82,7 @@ const Header = () => {
           >
             <button 
               onClick={() => setDropdownOpen(!isDropdownOpen)} 
-              className="flex items-center text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2"
+              className="flex items-center text-gray-700 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight"
             >
               Présentation
               <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -89,38 +101,38 @@ const Header = () => {
                 transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-8px)'
               }}
             >
-              <Link href="/presentation/directeur-general" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-green transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue">
+              <Link href="/presentation/directeur-general" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Directeur Général
               </Link>
-              <Link href="/presentation/missions-attributions" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-green transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue">
-                Missions Et Attributions
+              <Link href="/presentation/missions-attributions" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+                Attributions Et Organisation
               </Link>
-              <Link href="/presentation/directions-services" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-green transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue">
+              <Link href="/presentation/directions-services" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Directions Et Services
               </Link>
-              <Link href="/presentation/organigramme" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-green transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue">
+              <Link href="/presentation/organigramme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Organigramme
               </Link>
-              <Link href="/presentation/reforme" className="block px-4 py-3 text-sm text-gray-700 hover:bg-gray-50 hover:text-brand-green transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue">
+              <Link href="/presentation/reforme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Réforme
               </Link>
             </div>
           </div>
 
-          <Link href="/les-titres-publics" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">
+          <Link href="/les-titres-publics" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">
             Marchés des Titres Publics
           </Link>
-          <Link href="/rapports" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">Rapports</Link>
-          <Link href="/actualites" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">Actualités</Link>
-          <Link href="/contact" className="text-gray-700 hover:text-brand-green font-medium transition-colors duration-200 py-2">Contact</Link>
-          
-          <Link href="/login" className="bg-brand-green text-white px-4 py-2 rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 shadow-sm">
+          <Link href="/rapports" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Rapports</Link>
+          <Link href="/actualites" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Actualités</Link>
+          <Link href="/contact" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Contact</Link>
+
+          <Link href="/login" className="bg-brand-green text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 shadow-sm text-sm uppercase tracking-tight">
             Connexion
           </Link>
         </nav>
 
         {/* Logo Ministère */}
-        <a 
+        {/* <a 
           href="https://www.finances.gouv.cg/" 
           target="_blank" 
           rel="noopener noreferrer" 
@@ -141,6 +153,31 @@ const Header = () => {
               Ministère des Finances,
             </span>
             <span className="block text-xs text-gray-500 group-hover:text-brand-red transition-colors duration-200 leading-tight">
+              du Budget et du Portefeuille Public
+            </span>
+          </div>
+        </a> */}
+        <a 
+          href="https://www.finances.gouv.cg/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="items-center space-x-4 group hidden md:flex" // Augmentation de l'espacement
+        >
+          
+          <div className="relative w-14 h-14"> {/* Taille augmentée à 56px */}
+            <Image 
+              src="/images/placeholders/armoirie-RC.png"
+              alt="Logo Ministère des Finances" 
+              fill
+              className="object-contain transition-transform duration-300 group-hover:scale-110"
+            />
+          </div>
+          <div className="text-left">
+            {/* On peut augmenter la taille du texte ici aussi */}
+            <span className="block text-sm font-semibold text-gray-600 ...">
+              Ministère des Finances,
+            </span>
+            <span className="block text-sm text-gray-500 ...">
               du Budget et du Portefeuille Public
             </span>
           </div>
