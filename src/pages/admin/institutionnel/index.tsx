@@ -23,7 +23,7 @@ const InstitutionnelDashboard: NextPage<Props> = ({ user }) => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
             <Head>
-                <title>Gestion Institutionnelle | Administration DGTCP</title>
+                <title>Gestion Institutionnelle | Administration DGT</title>
             </Head>
             
             <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200/60 shadow-sm">

@@ -18,12 +18,12 @@ export default async function handler(
   try {
     // CORRECTION 1: On ne récupère que "error" car on n'utilise pas "data"
  const { error } = await resend.emails.send({
-  from: 'Contact Site DGTCP <onboarding@resend.dev>', // L'adresse d'envoi doit être un domaine vérifié sur Resend
+  from: 'Contact Site DGT <onboarding@resend.dev>', // L'adresse d'envoi doit être un domaine vérifié sur Resend
   to: ['tresorpublicg65@gmail.com'], // <-- METTEZ VOTRE VRAIE ADRESSE ICI
   replyTo: email, // Permet de répondre directement à l'utilisateur
   subject: `Nouveau message de contact: ${subject}`,
   html: `
-    <h1>Nouveau message depuis le site DGTCP</h1>
+    <h1>Nouveau message depuis le site DGT</h1>
     <p><strong>De :</strong> ${name}</p>
     <p><strong>Email :</strong> ${email}</p>
     <hr>

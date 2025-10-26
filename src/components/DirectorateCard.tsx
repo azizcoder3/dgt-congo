@@ -1,4 +1,4 @@
-// src/components/DirectorateCard.tsx (VERSION MODERNISÉE)
+// src/components/DirectorateCard.tsx (VERSION SIMPLIFIÉE)
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Directorate } from '@/types/supabase';
@@ -34,31 +34,24 @@ const DirectorateCard = ({ directorate }: DirectorateCardProps) => {
       </div>
       
       <div className="p-8 flex flex-col flex-grow">
-        <div className="mb-4">
-          <h3 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+        <div className="mb-6">
+          <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-tight">
             {directorate.name}
           </h3>
           {directorate.directorName && (
-            <p className="text-lg text-brand-blue font-medium">
+            <p className="text-lg text-green-600 font-medium">
               {directorate.directorName}
             </p>
           )}
         </div>
 
-        {directorate.missionExcerpt && (
-          <p className="text-gray-600 leading-relaxed mb-6 line-clamp-3">
-            {directorate.missionExcerpt}
-          </p>
-        )}
-
+        {/* Bouton "Découvrir la direction" en vert */}
         <Link 
           href={`/presentation/directions/${directorate.slug}`} 
-          className="mt-auto inline-flex items-center text-brand-blue font-semibold hover:text-brand-blue/80 transition-colors duration-200 group/link"
+          className="mt-auto inline-flex items-center justify-center w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all duration-200 shadow-md hover:shadow-lg group/btn"
         >
-          <span className="border-b border-transparent hover:border-brand-blue transition-all duration-200">
-            Lire la suite
-          </span>
-          <span className="ml-2 group-hover/link:translate-x-1 transition-transform duration-200">
+          <span>Découvrir la direction</span>
+          <span className="ml-2 group-hover/btn:translate-x-1 transition-transform duration-200">
             &rarr;
           </span>
         </Link>

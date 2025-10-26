@@ -1,9 +1,18 @@
-// src/components/admin/PersonnelForm.tsx
+// src/components/admin/PersonnelForm.tsx (AVEC RICHTEXTEDITOR)
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import type { Personnel } from '@/types/supabase';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+
+// Import dynamique du RichTextEditor pour éviter les erreurs SSR
+const RichTextEditor = dynamic(() => import('./RichTextEditor'), {
+  ssr: false,
+  loading: () => <div className="p-4 border rounded-lg bg-gray-50 min-h-[200px] flex items-center justify-center">
+    <div className="animate-pulse text-gray-500">Chargement de l&apos;éditeur...</div>
+  </div>,
+});
 
 interface Props {
   person: Personnel | null;
@@ -46,6 +55,11 @@ export const PersonnelForm = ({ person, role, roleName }: Props) => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // Nouveau gestionnaire pour l'éditeur de biographie
+  const handleBioChange = (htmlContent: string) => {
+    setFormData(prev => ({ ...prev, bio: htmlContent }));
   };
   
   const handleSubmit = async (event: React.FormEvent) => {
@@ -134,7 +148,8 @@ export const PersonnelForm = ({ person, role, roleName }: Props) => {
                     alt="Aperçu" 
                     width={208} 
                     height={208} 
-                    className="rounded-lg object-cover w-full h-full shadow-md"
+                    className="rounded-lg w-full h-full shadow-md"
+                    style={{ objectFit: "cover" }}
                   />
                   <button 
                     type="button" 
@@ -169,18 +184,18 @@ export const PersonnelForm = ({ person, role, roleName }: Props) => {
           </div>
         </div>
 
+        {/* Section Biographie - AVEC RICHTEXTEDITOR */}
         <div className="space-y-4">
-          <label htmlFor={`bio-${role}`} className="block text-sm font-semibold text-gray-700">
+          <label className="block text-sm font-semibold text-gray-700">
             Biographie
           </label>
-          <textarea 
-            name="bio" 
-            id={`bio-${role}`} 
-            value={formData.bio || ''} 
-            onChange={handleChange} 
-            rows={8} 
-            className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+          <RichTextEditor
+            content={formData.bio}
+            onChange={handleBioChange}
           />
+          <p className="text-xs text-gray-500">
+            Utilisez l&apos;éditeur pour formater la biographie avec du texte enrichi (gras, italique, listes, etc.).
+          </p>
         </div>
       </div>
 

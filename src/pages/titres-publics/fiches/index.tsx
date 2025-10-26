@@ -35,10 +35,10 @@ export default function FichesTitresPage({ fichesTitres }: Props) {
         return 'bg-blue-100 text-blue-800 border-blue-200';
       case 'OTA':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'OS':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+      // case 'OS':
+      //   return 'bg-purple-100 text-purple-800 border-purple-200';
+      // default:
+      //   return 'bg-gray-100 text-gray-800 border-gray-200'; le jour ou il y'aura ce titre OS, je decommente pour lr mettre en action
     }
   };
 
@@ -53,7 +53,7 @@ export default function FichesTitresPage({ fichesTitres }: Props) {
   return (
     <>
       <Head>
-        <title>Fiches Titres | DGT - République du Congo</title>
+        <title>Fiches Titres | DGT-République du Congo</title>
         <meta name="description" content="Fiches techniques des titres publics de la République du Congo" />
       </Head>
 
@@ -104,7 +104,7 @@ export default function FichesTitresPage({ fichesTitres }: Props) {
                   <option value="Tous">Tous les types</option>
                   <option value="BTA">BTA</option>
                   <option value="OTA">OTA</option>
-                  <option value="OS">OS</option>
+                  {/* <option value="OS">OS</option> le jour ou il y'aura ce titre OS, je decommente pour lr mettre en action */}
                 </select>
               </div>
             </div>

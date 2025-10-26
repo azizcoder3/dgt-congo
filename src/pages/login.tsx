@@ -45,7 +45,8 @@ const LoginPage: NextPage = () => {
             src="/images/placeholders/tresor-public-building.webp"
             alt="Direction Générale du Trésor"
             fill
-            className="object-cover opacity-20"
+            className="opacity-20"
+            style ={{ objectFit: 'cover' }}
             priority
           />
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/30 to-green-800/30"></div>
@@ -69,7 +70,7 @@ const LoginPage: NextPage = () => {
                   alt="Logo DGT"
                   width={48}
                   height={48}
-                  className="object-contain"
+                  style ={{ objectFit: 'contain' }}
                 />
               </div>
               <div>

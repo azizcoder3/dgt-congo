@@ -35,12 +35,6 @@ export async function getAllReports() {
     return data;
 }
 
-export async function getHeroSlides() {
-  const { data, error } = await supabase.from('hero_slides').select('*').order('created_at', { ascending: true });
-  if (error) { console.error("Erreur Supabase (getHeroSlides):", error.message); return []; }
-  return data;
-}
-
 export async function getDiscoveryCards() {
   const { data, error } = await supabase.from('discovery_cards').select('*').order('id', { ascending: true });
   if (error) { console.error("Erreur Supabase (getDiscoveryCards):", error.message); return []; }
@@ -56,13 +50,6 @@ export async function getAllNews() {
     console.error("Erreur Supabase (getAllNews):", error.message); 
     return []; 
   }
-  // ==========================================================
-  // ====> PLACEZ LE CONSOLE.LOG EXACTEMENT ICI <====
-  // ==========================================================
-  console.log(
-    "--- DÉBOGAGE `getAllNews` --- Données brutes de Supabase:", 
-    JSON.stringify(data, null, 2)
-  );
 
   return data;
 }
@@ -77,13 +64,6 @@ export async function getArticleBySlug(slug: string) {
     console.error(`Erreur Supabase (getArticleBySlug pour ${slug}):`, error.message); 
     return null; 
   }
-  // ==========================================================
-  // ====> PLACEZ LE CONSOLE.LOG EXACTEMENT ICI <====
-  // ==========================================================
-  console.log(
-    "--- DÉBOGAGE `getAllNews` --- Données brutes de Supabase:", 
-    JSON.stringify(data, null, 2)
-  );
 
   return data;
 }
@@ -116,15 +96,6 @@ export async function getAuctionResults() {
   return data;
 }
 
-// export async function getMarketStats() {
-//   const { data, error } = await supabase.from('statistiques_marche').select('*');
-//   if (error) { 
-//     console.error("Erreur Supabase (getMarketStats):", error.message); 
-//     return []; 
-//   }
-//   return data;
-// }
-
 // ====================================================================
 // --- FONCTIONS PUBLIQUES POUR LE PERSONNEL ---
 // ====================================================================
@@ -140,6 +111,7 @@ export async function getPersonnelByRole(role: string) {
     .select('*')
     .eq('role', role)
     .single();
+    
   
   if (error) { 
     console.error(`Erreur Supabase publique (getPersonnelByRole pour ${role}):`, error.message); 
@@ -521,4 +493,44 @@ function formatDateForArrete(dateString: string | null): string {
     month: 'long',
     year: 'numeric'
   });
+}
+
+// ====================================================================
+// --- FONCTIONS POUR L'ORGANIGRAMME ---
+// ====================================================================
+
+
+/**
+ * Récupère l'organigramme actif pour l'affichage public.
+ */
+export async function getActiveOrganigramme() {
+  const { data, error } = await supabase
+    .from('organigrammes')
+    .select('*')
+    .eq('isActive', true)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Erreur Supabase (getActiveOrganigramme):", error.message);
+    return null;
+  }
+  return data;
+}
+
+// ====================================================================
+// --- FONCTIONS POUR L'HERO SLIDES ---
+// ====================================================================
+
+export const getHeroSlides = async () => {
+  const { data, error } = await supabase
+    .from('hero_slides')
+    .select('*')
+    .order('created_at', { ascending: true })
+
+  if (error) {
+    console.error('Error fetching hero slides:', error)
+    return []
+  }
+
+  return data
 }

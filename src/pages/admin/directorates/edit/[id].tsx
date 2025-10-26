@@ -18,7 +18,7 @@ const EditDirectoratePage: NextPage<EditPageProps> = ({ directorate }) => {
   return (
     <div className="min-h-screen bg-gray-100">
       <Head>
-        <title>Modifier: {directorate.name} | Administration</title>
+        <title>{`Modifier: ${directorate.name} | Administration`}</title>
       </Head>
       
       <main className="container mx-auto py-12 px-6">

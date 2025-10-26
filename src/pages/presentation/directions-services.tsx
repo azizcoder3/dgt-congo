@@ -9,6 +9,7 @@ import DirectorateCard from '@/components/DirectorateCard';
 import AccordionItem from '@/components/AccordionItem';
 import { getDirectorates } from '@/lib/api';
 import type { Directorate } from '@/types/supabase';
+import ContentRenderer from '@/components/ContentRenderer';
 
 interface DirectionsServicesPageProps {
   directorates: Directorate[];
@@ -18,7 +19,7 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Directions et Services | DGT-RC</title>
+        <title>Directions et Services | DGT-République du Congo</title>
         <meta name="description" content="Découvrez l'organisation complète de la DGT : directions centrales et services dédiés aux finances publiques." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -110,7 +111,7 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
                       <div className="p-6 bg-blue-50/30 rounded-lg">
                         {directorate.services && directorate.services.length > 0 ? (
                           <div className="space-y-4">
-                            <h4 className="font-semibold text-gray-800 text-lg mb-3">Missions principales :</h4>
+                            <h4 className="font-semibold text-gray-800 text-lg mb-3">Services :</h4>
                             <ul className="space-y-3">
                               {directorate.services.map((service, index) => (
                                 <li key={index} className="flex items-start">
@@ -121,11 +122,20 @@ const DirectionsServicesPage: NextPage<DirectionsServicesPageProps> = ({ directo
                                 </li>
                               ))}
                             </ul>
-                            {directorate.missionExcerpt && (
+                            {/* {directorate.missionExcerpt && (
                               <div className="mt-4 p-4 bg-white rounded-lg border border-blue-100">
                                 <p className="text-sm text-gray-600 italic">&quot;{directorate.missionExcerpt}&quot;</p>
                               </div>
-                            )}
+                            )} */}
+                            {directorate.missionExcerpt && (
+                            <div className="mt-4 pt-4 border-t border-gray-200">
+                              <h4 className="font-semibold text-gray-800 text-lg mb-3">Missions principales :</h4>
+                              <ContentRenderer 
+                                htmlContent={directorate.missionExcerpt}
+                                className="prose-sm" // 'prose-sm' est souvent bien adapté pour des textes courts
+                              />
+                            </div>
+                          )}
                           </div>
                         ) : (
                           <div className="text-center py-8 text-gray-500">

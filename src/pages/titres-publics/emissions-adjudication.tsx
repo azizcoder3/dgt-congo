@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import Head from 'next/head';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { 
   CalendarIcon,
@@ -234,7 +235,7 @@ export default function AdjudicationsPage({ emissions }: InferGetServerSideProps
   return (
     <>
       <Head>
-        <title>Adjudications des Titres Publics | DGT - République du Congo</title>
+        <title>Adjudications des Titres Publics | DGT-République du Congo</title>
         <meta name="description" content="Résultats des adjudications de titres publics de la République du Congo" />
       </Head>
 
@@ -605,6 +606,7 @@ export default function AdjudicationsPage({ emissions }: InferGetServerSideProps
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

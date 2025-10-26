@@ -22,9 +22,9 @@ return (
         <Image
           src={imageUrl}
           alt={`Vignette pour l'article : ${article.title}`}
-          layout="fill"
-          objectFit="cover"
+          fill
           className="group-hover:scale-105 transition-transform duration-300"
+          style={{ objectFit: "cover" }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
         {publishedDate && (

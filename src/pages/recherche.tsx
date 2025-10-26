@@ -15,7 +15,7 @@ const SearchPage: NextPage<SearchPageProps> = ({ articles, query }) => {
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       <Head>
-        <title>Résultats de recherche pour &quot;{query}&quot; | DGTCP</title>
+        <title>Résultats de recherche pour &quot;{query}&quot; | DGT - République du Congo</title>
       </Head>
 
       <Header />

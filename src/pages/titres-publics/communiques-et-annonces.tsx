@@ -112,7 +112,7 @@ export default function CommuniquesPage({ communiques }: InferGetServerSideProps
     return (
     <>
       <Head>
-        <title>Communiqués de Presse | DGT - République du Congo</title>
+        <title>Communiqués de Presse | DGT-République du Congo</title>
         <meta name="description" content="Communiqués de presse de la Direction Générale du Trésor de la République du Congo" />
       </Head>
 

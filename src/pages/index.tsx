@@ -15,6 +15,7 @@ import HeroSlider from '@/components/HeroSlider';
 import HomeNewsCard from '@/components/HomeNewsCard';
 import DiscoveryCarousel from '@/components/DiscoveryCarousel';
 import Footer from '@/components/Footer';
+import { useState } from 'react';
 
 // Définition de toutes les données que notre page reçoit
 interface HomePageProps {
@@ -26,10 +27,11 @@ interface HomePageProps {
 }
 
 const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discoveryCards, ministreData }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div className="bg-white min-h-screen">
       <Head>
-        <title>DGT - République du Congo | Accueil</title>
+        <title>Accueil | DGT - République du Congo</title>
         <meta name="description" content="Site officiel de la Direction Générale du Trésor et de la Comptabilité Publique de la République du Congo." />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -59,7 +61,8 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
                     alt="Logo du Trésor Public" 
                     width={256} 
                     height={256} 
-                    className="object-contain w-full h-full"
+                    className="w-full h-full"
+                    style = {{ objectFit: 'contain' }}
                   />
                 </div>
                 {/* Élément décoratif */}
@@ -77,7 +80,8 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
                   <p className="font-semibold text-brand-green text-sm uppercase tracking-wide">Notre principale mission</p>
                 </div>
                 <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight mb-6">
-                  Mise en œuvre opérationnelle de la politique budgétaire en termes d&apos;exécution des dépenses et de suivi des recettes perçues par les administrations financières
+                  Mise en œuvre opérationnelle de la politique budgétaire en termes de gestion de la trésorerie et d&apos;exécution comptable du budget 
+                  de l&apos;Etat, des collectivités locales et des autres organismes publics soumis aux règles de la comptabilité publique.
                 </h2>
                 <div className="flex justify-center lg:justify-start">
                   <div className="w-20 h-1 bg-gradient-to-br from-brand-green to-brand-green rounded-full"></div>
@@ -87,10 +91,9 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
           </div>
         </section>
 
-        {/* Section 3: Le Mot du Ministre/DG */}
+       {/* Section 3: Le Mot du Ministre/DG */}
         {ministreData && (
           <section className="py-16 lg:py-24 bg-gradient-to-br from-green-900 via-green-800 to-yellow-900 text-white relative overflow-hidden">
-            {/* Éléments décoratifs d'arrière-plan */}
             <div className="absolute inset-0 opacity-5">
               <div className="absolute top-10 left-10 w-32 h-32 bg-white rounded-full"></div>
               <div className="absolute bottom-20 right-20 w-48 h-48 bg-white rounded-full"></div>
@@ -110,7 +113,8 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
                           alt={`Photo de ${ministreData.name}`}
                           width={400} 
                           height={500} 
-                          className="rounded-xl object-cover shadow-2xl w-full max-w-sm"
+                          className="rounded-xl shadow-2xl w-full max-w-sm"
+                          style={{ objectFit: 'cover' }}
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl"></div>
                       </div>
@@ -131,18 +135,50 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
                       <p className="text-xl text-gray-200 font-semibold">{ministreData.name}</p>
                     </div>
                     
-                    {/* Biographie/Mot avec design amélioré */}
-                    <div className="prose prose-lg prose-invert max-w-none">
-                      <div className="space-y-4 text-gray-200 leading-relaxed">
-                        {ministreData.bio && ministreData.bio.split('\n').map((paragraphe: string, index: number) => (
-                          paragraphe.trim() !== '' && (
-                            <p key={index} className="relative pl-6 before:absolute before:left-0 before:top-3 before:w-2 before:h-0.5 before:bg-brand-gold">
-                              {paragraphe}
-                            </p>
-                          )
-                        ))}
-                      </div>
+                    {/* Biographie/Mot du Ministre avec fonctionnalité de lecture continue */}
+                    <div className="relative">
+                      <div 
+                        className={`prose prose-lg prose-invert max-w-none text-gray-200 leading-relaxed transition-all duration-300 ${
+                          !isExpanded ? 'max-h-96 overflow-hidden' : 'max-h-none'
+                        }`}
+                        dangerouslySetInnerHTML={{ __html: ministreData.bio || '' }}
+                      />
+                      
+                      {/* Overlay gradient pour indiquer qu'il y a plus de contenu */}
+                      {!isExpanded && (
+                        <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-green-900/90 to-transparent pointer-events-none" />
+                      )}
                     </div>
+                    
+                    {/* Bouton Continuer la lecture */}
+                    {!isExpanded && (
+                      <div className="mt-6 text-center">
+                        <button 
+                          onClick={() => setIsExpanded(true)}
+                          className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white font-semibold transition-all duration-200 hover:scale-105 cursor-pointer"
+                        >
+                          Continuer la lecture
+                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
+                    
+                    {/* Bouton Réduire (quand le texte est entièrement déployé) */}
+                    {isExpanded && (
+                      <div className="mt-6 text-center">
+                        <button 
+                          onClick={() => setIsExpanded(false)}
+                          className="inline-flex items-center px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-full text-white font-semibold transition-all duration-200 hover:scale-105"
+                        >
+                          Réduire le texte
+                          <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+                          </svg>
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -210,68 +246,69 @@ const Home: NextPage<HomePageProps> = ({ recentNews, reports, heroSlides, discov
           </div>
         </section>
 
-        {/* Section 5: Dernières Annonces (Actualités) */}
-        <section className=" bg-white border-t border-gray-100">
-          <div className="flex flex-col lg:flex-row min-h-[600px]">
-            {/* Colonne de gauche avec drapeau */}
-            <div className="lg:w-5/12 relative min-h-[400px] lg:min-h-auto flex flex-col justify-center items-end text-white p-6 lg:p-8">
-              <div className="absolute inset-0">
-                <Image 
-                  src="/images/placeholders/congo-flag.jpg" 
-                  alt="Drapeau de la République du Congo" 
-                  layout="fill" 
-                  objectFit="cover" 
-                  className="brightness-90"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-brand-green/50 to-brand-red/80" />
+       {/* Section 5: Dernières Annonces (Actualités) */}
+      <section className="bg-white border-t border-gray-100">
+        <div className="flex flex-col lg:flex-row min-h-[600px]">
+          {/* Colonne de gauche avec drapeau */}
+          <div className="lg:w-4/12 relative min-h-[400px] lg:min-h-auto flex flex-col justify-center items-end text-white p-6 lg:p-8">
+            <div className="absolute inset-0">
+              <Image 
+                src="/images/placeholders/congo-flag.jpg" 
+                alt="Drapeau de la République du Congo" 
+                fill
+                style ={{ objectFit: 'cover' }}
+                className="brightness-90"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-green/50 to-brand-red/80" />
+            </div>
+            
+            <div className="relative z-10 p-6 lg:p-8 border-4 border-r-0 border-white/20 w-full lg:w-[60%] backdrop-blur-sm bg-white/10 rounded-l-2xl">
+              <div className="flex items-center mb-4">
+                <div className="w-3 h-3 bg-brand-gold rounded-full mr-3"></div>
+                <p className="text-sm font-semibold uppercase tracking-widest">À la une</p>
               </div>
-              
-              <div className="relative z-10 p-6 lg:p-8 border-4 border-r-0 border-white/20 w-full lg:w-[80%] backdrop-blur-sm bg-white/10 rounded-l-2xl">
-                <div className="flex items-center mb-4">
-                  <div className="w-3 h-3 bg-brand-gold rounded-full mr-3"></div>
-                  <p className="text-sm font-semibold uppercase tracking-widest">À la une</p>
-                </div>
-                <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-4">
-                  Les dernières annonces publiées
-                </h2>
-                <p className="text-lg text-white/90">
-                  Restez informé des dernières actualités et communications officielles
-                </p>
+              <h2 className="text-3xl lg:text-4xl xl:text-5xl font-bold leading-tight mb-4">
+                Les dernières annonces publiées
+              </h2>
+              <p className="text-lg text-white/90">
+                Restez informé des dernières actualités et communications officielles
+              </p>
+            </div>
+          </div>
+          
+          {/* Colonne de droite avec actualités - MODIFIÉ POUR 3 COLONNES */}
+          <div className="lg:w-8/12 py-12 px-6 lg:px-8">
+            <div className="flex items-center mb-8">
+              <div className="w-10 h-10 bg-gradient-to-br from-brand-green to-green-600 rounded-lg flex items-center justify-center mr-4">
+                <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9m0 0V3m0 3h6V3m0 0h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2V5a2 2 0 012-2z" />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900">Actualités récentes</h3>
+                <p className="text-sm text-gray-600">Dernières publications et annonces</p>
               </div>
             </div>
             
-            {/* Colonne de droite avec actualités */}
-            <div className="lg:w-7/12 py-12 px-6 lg:px-12">
-              <div className="flex items-center mb-8">
-                <div className="w-10 h-10 bg-gradient-to-br from-brand-green to-green-600 rounded-lg flex items-center justify-center mr-4">
-                  <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9m0 0V3m0 3h6V3m0 0h2a2 2 0 012 2v12a2 2 0 01-2 2h-2a2 2 0 01-2-2V5a2 2 0 012-2z" />
-                  </svg>
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-900">Actualités récentes</h3>
-                  <p className="text-sm text-gray-600">Dernières publications et annonces</p>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 lg:gap-8">
-                {recentNews.map((article) => (
-                  <HomeNewsCard key={article.id.toString()} article={article} />
-                ))}
-              </div>
-              
-              {/* Lien vers toutes les actualités */}
-              <div className="text-center mt-8">
-                <Link href="/actualites" className="inline-flex items-center text-brand-green hover:text-green-700 font-semibold transition-colors duration-200">
-                  Voir toutes les actualités
-                  <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
+            {/* MODIFICATION PRINCIPALE : Grille à 3 colonnes */}
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-4">
+              {recentNews.map((article) => (
+                <HomeNewsCard key={article.id.toString()} article={article} />
+              ))}
+            </div>
+            
+            {/* Lien vers toutes les actualités */}
+            <div className="text-center mt-8">
+              <Link href="/actualites" className="inline-flex items-center text-brand-green hover:text-green-700 font-semibold transition-colors duration-200">
+                Voir toutes les actualités
+                <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
         
         {/* Section 6: Découvrir la DGTCP */}
         <section className="py-16 lg:py-24 bg-gradient-to-br from-green-900 via-green-800 to-yellow-900 text-white relative overflow-hidden">

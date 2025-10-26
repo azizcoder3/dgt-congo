@@ -1,3 +1,4 @@
+// src/pages/les-titres-publics.tsx
 import { useState, useMemo, useCallback } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -374,6 +375,35 @@ const AdjudicationsSection: React.FC<{ emissionsBTA: EmissionAccueil[]; emission
   );
 };
 
+// const FichesTitresSection: React.FC<{ fichesTitres: FicheTitreResume[] }> = ({ fichesTitres }) => (
+//   <section className="bg-white rounded-xl shadow-sm p-6">
+//     <h2 className="text-2xl font-bold text-gray-900 mb-4">Fiches Titres</h2>
+//     <p className="text-gray-600 mb-4">
+//       Retrouvez toutes les caractéristiques techniques de nos instruments de dette.
+//     </p>
+//     <div className="space-y-2">
+//       {fichesTitres.map((fiche) => (
+//         <Link 
+//           key={fiche.isin}
+//           href={`/titres-publics/fiches/${fiche.isin.toLowerCase()}`}
+//           className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors group"
+//         >
+//           <span className="font-medium text-gray-900 group-hover:text-green-700">
+//             {fiche.type} - {fiche.designation}
+//           </span>
+//           <DocumentTextIcon className="w-5 h-5 text-gray-400 group-hover:text-green-600" />
+//         </Link>
+//       ))}
+//     </div>
+//     <Link 
+//       href="/titres-publics/fiches" 
+//       className="block text-center mt-4 text-green-600 hover:text-green-700 font-semibold"
+//     >
+//       Voir toutes les fiches →
+//     </Link>
+//   </section>
+// );
+
 const FichesTitresSection: React.FC<{ fichesTitres: FicheTitreResume[] }> = ({ fichesTitres }) => (
   <section className="bg-white rounded-xl shadow-sm p-6">
     <h2 className="text-2xl font-bold text-gray-900 mb-4">Fiches Titres</h2>
@@ -384,7 +414,7 @@ const FichesTitresSection: React.FC<{ fichesTitres: FicheTitreResume[] }> = ({ f
       {fichesTitres.map((fiche) => (
         <Link 
           key={fiche.isin}
-          href={`/titres-publics/fiches/${fiche.isin.toLowerCase()}`}
+          href={`/titres-publics/fiches/${fiche.isin}`} // Retirer .toLowerCase()
           className="flex items-center justify-between p-3 rounded-lg border border-gray-200 hover:border-green-300 hover:bg-green-50 transition-colors group"
         >
           <span className="font-medium text-gray-900 group-hover:text-green-700">
@@ -467,27 +497,43 @@ export default function TitresPublicsPage({
     [dernieresEmissions]
   );
 
-  const fichesTitresDisponibles: FicheTitreResume[] = useMemo(() => {
-    const typesUniques = new Set(dernieresEmissions.map(em => em.type));
+  // const fichesTitresDisponibles: FicheTitreResume[] = useMemo(() => {
+  //   const typesUniques = new Set(dernieresEmissions.map(em => em.type));
     
-    return Array.from(typesUniques).map(type => {
-      let designation = '';
-      switch (type) {
-        case 'BTA': designation = 'Bons du Trésor'; break;
-        case 'OTA': designation = 'Obligations du Trésor'; break;
-        default: designation = 'Titre Inconnu';
-      }
-      return {
-        isin: type,
-        designation,
-        type: type as 'BTA' | 'OTA',
-        echeance: '',
-        coupon: null,
-        valeurNominale: null,
-        devise: 'FCFA'
-      };
-    });
-  }, [dernieresEmissions]);
+  //   return Array.from(typesUniques).map(type => {
+  //     let designation = '';
+  //     switch (type) {
+  //       case 'BTA': designation = 'Bons du Trésor'; break;
+  //       case 'OTA': designation = 'Obligations du Trésor'; break;
+  //       default: designation = 'Titre Inconnu';
+  //     }
+  //     return {
+  //       isin: type,
+  //       designation,
+  //       type: type as 'BTA' | 'OTA',
+  //       echeance: '',
+  //       coupon: null,
+  //       valeurNominale: null,
+  //       devise: 'FCFA'
+  //     };
+  //   });
+  // }, [dernieresEmissions]);
+
+  const fichesTitresDisponibles: FicheTitreResume[] = useMemo(() => {
+  // Utiliser les vraies émissions avec leurs vrais ISIN
+  return dernieresEmissions
+    .filter(emission => emission.isin) // Ne garder que les émissions avec ISIN
+    .slice(0, 3) // Limiter à 3 fiches
+    .map(emission => ({
+      isin: emission.isin!, // Utiliser le vrai ISIN
+      designation: emission.designation || `Titre ${emission.type}`,
+      type: emission.type as 'BTA' | 'OTA',
+      echeance: emission.dateEcheance || '',
+      coupon: emission.taux,
+      valeurNominale: null,
+      devise: 'FCFA'
+    }));
+}, [dernieresEmissions]);
 
   return (
     <>
@@ -624,7 +670,9 @@ export const getServerSideProps: GetServerSideProps<PageProps> = async () => {
       dateSouscription: item.date_souscription,
       volumeEmissionAnnonce: item.volume_emission_annonce,
       taux: item.taux_coupon,
-      statut: item.statut 
+      statut: item.statut,
+      isin: item.isin,
+      dateEcheance: item.date_echeance
     }));
 
     const rapports: Report[] = rapportsData as Report[];

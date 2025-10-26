@@ -208,7 +208,7 @@ const CalendrierIndicatif = () => {
   return (
     <>
           <Head>
-            <title>Calendrier Indicatif Annuel | DGT - République du Congo</title>
+            <title>Calendrier Indicatif Annuel | DGT-République du Congo</title>
             <meta name="description" content="Communiqués de presse de la Direction Générale du Trésor de la République du Congo" />
           </Head>
     
@@ -335,62 +335,6 @@ const CalendrierIndicatif = () => {
         <div className="bg-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
           <div className="overflow-x-auto">
             {/* Tableau Annuel */}
-            {/* {activeTab === 'annuel' && (
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-blue-50 border-b border-gray-200">
-                    <th className="px-4 py-3 text-left font-semibold text-gray-700 border-r border-gray-200">INSTRUMENT</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">JANV-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">FÉVR-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">MARS-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">AVR-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">MAI-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">JUIN-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">JUIL-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">AOÛT-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">SEPT-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">OCT-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">NOV-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700 border-r border-gray-200">DÉC-24</th>
-                    <th className="px-4 py-3 text-center font-semibold text-gray-700">TOTAL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {annuelData.map((row, index) => (
-                    <tr 
-                      key={index} 
-                      className={`border-b border-gray-200 ${
-                        row.instrument === 'TOTAL' ? 'bg-blue-50 font-bold' : 'hover:bg-gray-50'
-                      }`}
-                    >
-                      <td className="px-4 py-3 border-r border-gray-200 font-medium">
-                        <input
-                          type="text"
-                          value={row.instrument}
-                          onChange={(e) => handleAnnuelChange(index, 'instrument', e.target.value)}
-                          className={`w-full bg-transparent focus:outline-none focus:ring-1 focus:ring-blue-500 px-1 ${
-                            row.instrument === 'TOTAL' ? 'font-bold' : ''
-                          }`}
-                          readOnly={row.instrument === 'TOTAL'}
-                        />
-                      </td>
-                      {(['janv24', 'fevr24', 'mars24', 'avr24', 'mai24', 'juin24', 'juil24', 'aout24', 'sept24', 'oct24', 'nov24', 'dec24', 'total'] as (keyof AnnuelData)[]).map((field) => (
-                        <td key={field} className="px-4 py-3 text-center border-r border-gray-200 last:border-r-0">
-                          <input
-                            type="text"
-                            value={formatNumber(Number(row[field]))}
-                            onChange={(e) => handleAnnuelChange(index, field, e.target.value)}
-                            className={`w-full bg-transparent text-center focus:outline-none focus:ring-1 focus:ring-blue-500 px-1 ${
-                              row.instrument === 'TOTAL' ? 'font-bold' : ''
-                            }`}
-                          />
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )} */}
             {activeTab === 'annuel' && (
               <div className="overflow-x-auto">
                 <table className="w-full border-collapse min-w-[1200px]">
@@ -420,17 +364,6 @@ const CalendrierIndicatif = () => {
                           row.instrument === 'TOTAL' ? 'bg-blue-50 font-bold' : 'hover:bg-gray-50'
                         }`}
                       >
-                        {/* <td className="px-3 py-3 border-r border-gray-200 font-medium">
-                          <input
-                            type="text"
-                            value={row.instrument}
-                            onChange={(e) => handleAnnuelChange(index, 'instrument', e.target.value)}
-                            className={`w-full bg-transparent focus:outline-none focus:ring-1 focus:ring-blue-500 px-1 text-sm ${
-                              row.instrument === 'TOTAL' ? 'font-bold' : ''
-                            }`}
-                            readOnly={row.instrument === 'TOTAL'}
-                          />
-                        </td> */}
                         <td className="px-3 py-3 border-r border-gray-200 font-medium">
                           {row.instrument.includes('\n') ? (
                             <div className="flex flex-col">

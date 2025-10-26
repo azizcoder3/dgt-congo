@@ -20,7 +20,7 @@ const EditArticlePage: NextPage<EditArticlePageProps> = ({ article,user, categor
 const router = useRouter();
   return (
     <div className="min-h-screen bg-gray-100">
-    <Head><title>Modifier: {article.title} | Administration</title></Head>
+    <Head><title>{`Modifier: ${article.title} | Administration`}</title></Head>
       <main className="container mx-auto py-12 px-6">
     <div className="max-w-4xl mx-auto">
       <div className="bg-white rounded-xl shadow-lg overflow-hidden">

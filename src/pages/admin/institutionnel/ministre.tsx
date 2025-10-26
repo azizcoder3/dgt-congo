@@ -4,11 +4,20 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import { supabase } from '@/lib/api';
 import { createPagesServerClient } from '@supabase/auth-helpers-nextjs';
 import toast from 'react-hot-toast';
 import { getPersonnelByRole } from '@/lib/api-admin'; 
 import type { User } from '@supabase/supabase-js';
+
+// Import dynamique du RichTextEditor pour éviter les erreurs SSR
+const RichTextEditor = dynamic(() => import('@/components/admin/RichTextEditor'), {
+  ssr: false,
+  loading: () => <div className="p-4 border rounded-lg bg-gray-50 min-h-[200px] flex items-center justify-center">
+    <div className="animate-pulse text-gray-500">Chargement de l&apos;éditeur...</div>
+  </div>,
+});
 
 interface PersonnelData {
   role: string;
@@ -56,6 +65,11 @@ const GestionMinistrePage: NextPage<PageProps> = ({ personnelData, user }) => {
     if (imageInput) imageInput.value = "";
   };
 
+  // Nouveau gestionnaire pour l'éditeur de biographie
+  const handleBioChange = (htmlContent: string) => {
+    setBio(htmlContent);
+  };
+
   const handleSave = async () => {
     setLoading(true);
     const toastId = toast.loading("Sauvegarde en cours...");
@@ -99,7 +113,7 @@ const GestionMinistrePage: NextPage<PageProps> = ({ personnelData, user }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
       <Head>
-        <title>Gestion du Ministre | Administration DGTCP</title>
+        <title>Gestion du Ministre | Administration DGT</title>
       </Head>
 
       <header className="bg-white/80 backdrop-blur-lg border-b border-gray-200/60 shadow-sm sticky top-0 z-10">
@@ -125,7 +139,7 @@ const GestionMinistrePage: NextPage<PageProps> = ({ personnelData, user }) => {
       </header>
 
       <main className="container mx-auto py-8 px-6">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto"> {/* Augmenté la largeur pour l'éditeur */}
           <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-200/60 overflow-hidden">
             {/* En-tête de la section */}
             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
@@ -190,7 +204,7 @@ const GestionMinistrePage: NextPage<PageProps> = ({ personnelData, user }) => {
                               src={imagePreview} 
                               alt="Photo du ministre" 
                               fill
-                              className="object-cover"
+                              style ={{ objectFit: "cover" }}
                             />
                           </div>
                           <button 
@@ -235,19 +249,18 @@ const GestionMinistrePage: NextPage<PageProps> = ({ personnelData, user }) => {
                 </div>
               </div>
 
-              {/* Champ Biographie */}
+              {/* Champ Biographie - AVEC RICHTEXTEDITOR */}
               <div className="space-y-4">
-                <label htmlFor="bio" className="block text-sm font-semibold text-gray-700">
+                <label className="block text-sm font-semibold text-gray-700">
                   Biographie / Mot du Ministre
                 </label>
-                <textarea 
-                  id="bio" 
-                  rows={12} 
-                  value={bio} 
-                  onChange={(e) => setBio(e.target.value)} 
-                  placeholder="Saisir la biographie complète ou le mot du ministre..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm resize-none"
-                ></textarea>
+                <RichTextEditor
+                  content={bio}
+                  onChange={handleBioChange}
+                />
+                <p className="text-xs text-gray-500">
+                  Utilisez l&apos;éditeur pour formater la biographie avec du texte enrichi (gras, italique, listes, liens, etc.).
+                </p>
               </div>
 
               {/* Bouton de sauvegarde */}

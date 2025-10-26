@@ -17,6 +17,9 @@ type AuctionResultUpdate = Database['public']['Tables']['auction_results']['Upda
 type PersonnelUpdate = Database['public']['Tables']['personnel']['Update'];
 type DirectorateInsert = Database['public']['Tables']['directorates']['Insert'];
 type DirectorateUpdate = Database['public']['Tables']['directorates']['Update'];
+type OrganigrammeUpdate = Database['public']['Tables']['organigrammes']['Update'];
+type HeroSlideInsert = Database['public']['Tables']['hero_slides']['Insert'];
+type HeroSlideUpdate = Database['public']['Tables']['hero_slides']['Update'];
 
 
 
@@ -294,4 +297,87 @@ export async function getAllCategoriesForAdmin() {
     }
     
     return data;
+}
+
+// ====================================================================
+// --- FONCTIONS ADMIN POUR L'ORGANIGRAMME ---
+// ====================================================================
+
+/**
+ * Récupère la ligne de l'organigramme qui est actuellement marquée comme "active".
+ */
+export async function getActiveOrganigrammeForAdmin() {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin
+        .from('organigrammes')
+        .select('*')
+        .eq('isActive', true) // On cherche la ligne où isActive est VRAI
+        .maybeSingle(); // Utilise maybeSingle car il se peut qu'il n'y en ait pas
+
+    if (error) {
+        console.error("Erreur Supabase (getActiveOrganigrammeForAdmin):", error.message);
+        throw new Error(error.message);
+    }
+    return data;
+}
+
+/**
+ * Met à jour une ligne spécifique dans la table des organigrammes.
+ * On l'utilisera pour changer l'URL de l'image.
+ */
+export async function updateOrganigramme(id: number, data: OrganigrammeUpdate) {
+    const supabaseAdmin = createAdminClient();
+    const { error } = await supabaseAdmin
+        .from('organigrammes')
+        .update(data)
+        .eq('id', id);
+
+    if (error) {
+        console.error("Erreur Supabase (updateOrganigramme):", error.message);
+        throw new Error(error.message);
+    }
+    return true;
+}
+
+// ====================================================================
+// --- FONCTIONS ADMIN POUR LE HERO SLIDER ---
+// ====================================================================
+
+export async function getHeroSlidesForAdmin() {
+       const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin
+        .from('hero_slides')
+        .select('*')
+        .order('created_at', { ascending: false });
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export async function getHeroSlideById(id: number) {
+    const supabaseAdmin = createAdminClient();
+    if (isNaN(id)) return null;
+    const { data, error } = await supabaseAdmin.from('hero_slides').select('*').eq('id', id).single();
+    if (error) return null;
+    return data;
+}
+
+export async function createHeroSlide(slideData: HeroSlideInsert) {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin.from('hero_slides').insert([slideData]).select().single();
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export async function updateHeroSlide(id: number, slideData: HeroSlideUpdate) {
+    const supabaseAdmin = createAdminClient();
+    const { data, error } = await supabaseAdmin.from('hero_slides').update(slideData).eq('id', id).select().single();
+    if (error) throw new Error(error.message);
+    return data;
+}
+
+export async function deleteHeroSlideById(id: number) {
+    const supabaseAdmin = createAdminClient();
+    const { error } = await supabaseAdmin.from('hero_slides').delete().eq('id', id);
+    if (error) throw new Error(error.message);
+    return true;
 }

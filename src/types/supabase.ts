@@ -120,3 +120,12 @@ export type Category = {
   slug: string;
 };
 
+export interface Organigramme {
+    id: number;
+    created_at: string;
+    title: string;
+    imageUrl: string;
+    isActive: boolean;
+}
+
+

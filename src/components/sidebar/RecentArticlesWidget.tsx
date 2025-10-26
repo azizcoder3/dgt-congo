@@ -23,7 +23,8 @@ const RecentArticlesWidget = ({ articles }: { articles: NewsArticle[] }) => (
                   alt={article.title} 
                   width={64} 
                   height={64} 
-                  className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-200" 
+                  className="w-full h-full group-hover:scale-105 transition-transform duration-200" 
+                  style={{ objectFit: "cover" }}
                 />
               </div>
             )}

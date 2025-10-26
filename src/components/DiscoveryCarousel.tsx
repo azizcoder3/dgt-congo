@@ -33,8 +33,8 @@ const DiscoveryCarousel = ({ cards }: DiscoveryCarouselProps) => {
               <Image
                 src={card.imageUrl}
                 alt={card.title}
-                layout="fill"
-                objectFit="cover"
+                fill
+                style={{ objectFit: "cover" }}
                 className="group-hover:scale-105 transition-transform duration-300"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />

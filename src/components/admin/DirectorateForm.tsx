@@ -1,17 +1,25 @@
-// src/components/admin/DirectorateForm.tsx (CODE FINAL ET CORRIGÉ)
+// src/components/admin/DirectorateForm.tsx
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import type { Directorate } from '@/types/supabase';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
+
+// On importe l'éditeur de manière dynamique pour éviter les erreurs SSR
+const RichTextEditor = dynamic(() => import('./RichTextEditor'), {
+  ssr: false,
+  loading: () => <div className="p-4 border rounded-lg bg-gray-50 min-h-[200px] flex items-center justify-center">
+    <div className="animate-pulse text-gray-500">Chargement de l&apos;éditeur...</div>
+  </div>,
+});
 
 interface FormProps {
   directorate?: Directorate;
 }
 
 export const DirectorateForm = ({ directorate }: FormProps) => {
-  // CORRECTION 1: On ajoute "directorMessage" à l'état du formulaire
   const [formData, setFormData] = useState({
     name: directorate?.name || '',
     directorName: directorate?.directorName || '',
@@ -19,6 +27,7 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
     slug: directorate?.slug || '',
     directorMessage: directorate?.directorMessage || '',
     imagePosition: directorate?.imagePosition || 'center',
+    imageUrl: directorate?.imageUrl || '',
   });
 
   const [services, setServices] = useState<string[]>(directorate?.services || []);
@@ -29,64 +38,27 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
   const router = useRouter();
 
   useEffect(() => {
-    if (!imageFile) { setPreviewUrl(null); return; }
+    if (!imageFile) { 
+      setPreviewUrl(null); 
+      return; 
+    }
     const objectUrl = URL.createObjectURL(imageFile);
     setPreviewUrl(objectUrl);
     return () => URL.revokeObjectURL(objectUrl);
   }, [imageFile]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) { setImageFile(e.target.files[0]); }
+    if (e.target.files && e.target.files[0]) { 
+      setImageFile(e.target.files[0]); 
+    }
   };
 
   const handleRemoveImage = () => {
     setImageFile(null);
     setCurrentImageUrl('');
+    setPreviewUrl(null);
     setFormData(prev => ({ ...prev, imageUrl: '' }));
   };
-
-  // const handleSubmit = async (event: React.FormEvent) => {
-  //   event.preventDefault();
-  //   setLoading(true);
-  //   const toastId = toast.loading("Sauvegarde en cours...");
-  //   let finalImageUrl = currentImageUrl;
-
-  //   if (imageFile) {
-  //     try {
-  //       const uploadFormData = new FormData();
-  //       uploadFormData.append('image', imageFile);
-  //       // Assurez-vous d'avoir une API pour cet upload
-  //       const uploadResponse = await fetch('/api/institutionnel/upload-image', { method: 'POST', body: uploadFormData });
-  //       const result = await uploadResponse.json();
-  //       if (!uploadResponse.ok) throw new Error(result.error);
-  //       finalImageUrl = result.imageUrl;
-  //     } catch (error) {
-  //       toast.error((error as Error).message, { id: toastId });
-  //       setLoading(false);
-  //       return;
-  //     }
-  //   }
-
-  //   try {
-  //     const payload = { ...formData, services, imageUrl: finalImageUrl };
-  //     const apiEndpoint = directorate ? `/api/directorates/update?id=${directorate.id}` : '/api/directorates/create';
-  //     const method = directorate ? 'PUT' : 'POST';
-
-  //     const response = await fetch(apiEndpoint, {
-  //       method,
-  //       headers: { 'Content-Type': 'application/json' },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     if (!response.ok) throw new Error('Échec de la sauvegarde');
-  //     toast.success("Direction sauvegardée avec succès !", { id: toastId });
-  //     router.push('/admin/directorates');
-  //   } catch (error) {
-  //     toast.error((error as Error).message, { id: toastId });
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -97,10 +69,8 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
     if (imageFile) {
       try {
         const uploadFormData = new FormData();
-        // On envoie sous la clé 'image'
         uploadFormData.append('image', imageFile); 
         
-        // On appelle l'API unifiée
         const uploadResponse = await fetch('/api/articles/upload-image', { 
             method: 'POST', 
             body: uploadFormData 
@@ -116,9 +86,18 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
     }
 
     try {
-      const payload = { ...formData, services, imageUrl: finalImageUrl };
-      const apiEndpoint = directorate ? `/api/directorates/update?id=${directorate.id}` : '/api/directorates/create';
+      const payload = { 
+        ...formData, 
+        services, 
+        imageUrl: finalImageUrl 
+      };
+      
+      const apiEndpoint = directorate 
+        ? `/api/directorates/update?id=${directorate.id}` 
+        : '/api/directorates/create';
+      
       const method = directorate ? 'PUT' : 'POST';
+      
       const response = await fetch(apiEndpoint, {
         method,
         headers: { 'Content-Type': 'application/json' },
@@ -126,6 +105,7 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
       });
 
       if (!response.ok) throw new Error('Échec de la sauvegarde');
+      
       toast.success("Direction sauvegardée !", { id: toastId });
       router.push('/admin/directorates');
     } catch (error) {
@@ -134,13 +114,10 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
       setLoading(false);
     }
   };  
-  // const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-  //   setFormData({ ...formData, [e.target.name]: e.target.value });
-  // };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-  setFormData({ ...formData, [e.target.name]: e.target.value });
-};
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
   
   const handleServiceChange = (index: number, value: string) => {
     const newServices = [...services];
@@ -150,6 +127,15 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
   
   const addService = () => setServices([...services, '']);
   const removeService = (index: number) => setServices(services.filter((_, i) => i !== index));
+
+  // Gestionnaires pour les éditeurs de texte riche
+  const handleDirectorMessageChange = (htmlContent: string) => {
+    setFormData(prev => ({ ...prev, directorMessage: htmlContent }));
+  };
+
+  const handleMissionExcerptChange = (htmlContent: string) => {
+    setFormData(prev => ({ ...prev, missionExcerpt: htmlContent }));
+  };
 
   return (
     <form onSubmit={handleSubmit} className="p-8 space-y-8 bg-white rounded-xl shadow-lg border border-gray-100">
@@ -213,7 +199,8 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
                   alt="Aperçu" 
                   width={208} 
                   height={208} 
-                  className="rounded-lg object-cover w-full h-full shadow-md"
+                  className="rounded-lg w-full h-full shadow-md"
+                  style={{ objectFit: "cover" }}
                 />
                 <button 
                   type="button" 
@@ -248,17 +235,17 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
         </div>
       </div>
 
-
-      <div>
+      {/* Position de l'image */}
+      <div className="space-y-4">
         <label htmlFor="imagePosition" className="block text-sm font-medium text-gray-700">
           Position de l&apos;image (cadrage)
         </label>
         <select
           id="imagePosition"
           name="imagePosition"
-          value={formData.imagePosition || 'center'} // Assurez-vous que formData gère cet état
-          onChange={handleChange} // Assurez-vous que votre fonction handleChange met à jour l'état
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-md shadow-sm"
+          value={formData.imagePosition}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         >
           <option value="center">Centre</option>
           <option value="top-center">Haut</option>
@@ -271,36 +258,32 @@ export const DirectorateForm = ({ directorate }: FormProps) => {
         </p>
       </div>
 
-      {/* Extrait de la mission */}
+      {/* Message du directeur - Éditeur riche */}
       <div className="space-y-4">
-        <label htmlFor="missionExcerpt" className="block text-sm font-semibold text-gray-700">
-          Extrait de la mission
-        </label>
-        <textarea 
-          name="missionExcerpt" 
-          id="missionExcerpt" 
-          value={formData.missionExcerpt} 
-          onChange={handleChange} 
-          rows={3}
-          placeholder="Courte description de la mission..."
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
-        />
-      </div>
-
-      {/* Message du directeur */}
-      <div className="space-y-4">
-        <label htmlFor="directorMessage" className="block text-sm font-semibold text-gray-700">
+        <label className="block text-sm font-semibold text-gray-700">
           Message du directeur
         </label>
-        <textarea 
-          name="directorMessage" 
-          id="directorMessage" 
-          value={formData.directorMessage} 
-          onChange={handleChange} 
-          rows={6}
-          placeholder="Message complet du directeur..."
-          className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 resize-vertical"
+        <RichTextEditor
+          content={formData.directorMessage}
+          onChange={handleDirectorMessageChange}
         />
+        <p className="text-xs text-gray-500">
+          Utilisez l&apos;éditeur pour formater le message du directeur avec du texte enrichi.
+        </p>
+      </div>
+
+      {/* Mission - Éditeur riche */}
+      <div className="space-y-4">
+        <label className="block text-sm font-semibold text-gray-700">
+          Description de la mission
+        </label>
+        <RichTextEditor
+          content={formData.missionExcerpt}
+          onChange={handleMissionExcerptChange}
+        />
+        <p className="text-xs text-gray-500">
+          Décrivez en détail la mission et les responsabilités de cette direction.
+        </p>
       </div>
       
       {/* Services */}

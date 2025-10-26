@@ -1,9 +1,10 @@
-// pages/titres-publics/fiches/[isin].tsx (Donnée Statiques)
+// pages/titres-publics/fiches/[isin].tsx 
 
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 import Header from '@/components/Header';
+import Footer from '@/components/Footer';
 import Link from 'next/link';
 import { 
   DocumentTextIcon,
@@ -73,7 +74,7 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
   return (
     <>
       <Head>
-        <title>{titre.designation} | DGT - République du Congo</title>
+        <title>{`${titre.designation} | DGT-République du Congo`}</title>
         <meta name="description" content={`Fiche titre ${titre.designation}`} />
       </Head>
 
@@ -360,6 +361,7 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
 
       {/* Section Contact en bas de page */}
       <ContactSection titre={titre.designation} isin={titre.isin} />
+      <Footer />
     </>
   );
 }

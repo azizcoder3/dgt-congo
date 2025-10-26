@@ -149,7 +149,7 @@ export default function CalendrierEmissions({ emissions }: InferGetServerSidePro
   return (
     <>
       <Head>
-        <title>Calendrier des Émissions | DGT - République du Congo</title>
+        <title>Calendrier des Émissions | DGT-République du Congo</title>
         <meta name="description" content="Calendrier des émissions de titres publics de la Direction Générale du Trésor" />
       </Head>
 

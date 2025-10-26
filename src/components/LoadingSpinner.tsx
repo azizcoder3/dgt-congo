@@ -33,13 +33,14 @@ export function LoadingSpinnerBudget({
               </div>
             ) : (
               // Vrai logo avec composant Image de Next.js
-              <div className="w-16 h-16 flex items-center justify-center bg-white rounded-full p-1 shadow-lg">
+              <div className="w-30 h-30 flex items-center justify-center bg-white rounded-full p-1 shadow-lg">
                 <Image 
                   src="/images/placeholders/logo_tresor-mission.png" 
                   alt="Ministère des Finances - République du Congo"
-                  width={40}
-                  height={40}
-                  className="max-w-full max-h-full object-contain"
+                  width={140}
+                  height={140}
+                  className="max-w-full max-h-full"
+                  style={{ objectFit: "contain" }}
                   onError={() => setLogoError(true)}
                   priority
                 />

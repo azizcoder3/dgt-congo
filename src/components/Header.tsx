@@ -1,5 +1,4 @@
-// src/components/Header.tsx (VERSION 2 MODERNISE CORRIGÉE)
-
+// src/components/Header.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
@@ -30,7 +29,6 @@ const Header = () => {
     if (dropdownTimerRef.current) {
       clearTimeout(dropdownTimerRef.current);
     }
-    
     if (open) {
       setDropdownOpen(true);
     } else {
@@ -43,37 +41,26 @@ const Header = () => {
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-100 h-24">
       <div className="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center">
-        
-        {/* Logo DGT */}
-        {/* <Link href="/">
-            <div className="cursor-pointer group">
-              <Image 
-                src="/images/placeholders/dgt-logo.png"
-                alt="Logo DGT-RC" 
-                width={160} 
-                height={97}
-                className="transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-        </Link> */}
+        {/* Logo principal */}
         <Link href="/">
-            {/* On donne une largeur plus généreuse au conteneur */}
-            <div className="relative h-16 w-52 group cursor-pointer"> {/* Ex: hauteur 64px, largeur 208px */}
-              <Image 
-                src="/images/placeholders/dgt-logo.png"
-                alt="Logo DGT-RC" 
-                fill
-                className="object-contain transition-transform duration-300 group-hover:scale-105"
-                priority
-              />
-            </div>
+          <div className="relative h-16 w-52 group cursor-pointer">
+            <Image 
+              src="/images/placeholders/logo-v4.png"
+              alt="Logo DGT-RC" 
+              fill
+              className="transition-transform duration-300 group-hover:scale-105"
+              priority
+              style={{ objectFit: "contain" }}
+            />
+          </div>
         </Link>
 
-        {/* Navigation Centrale */}
-        <nav className="hidden lg:flex space-x-4 items-center">
-
-          <Link href="/" className="text-gray-700 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Accueil</Link>
-          
+        {/* Navigation Centrale - Ajustée pour différentes résolutions */}
+        <nav className="hidden lg:flex xl:space-x-4 lg:space-x-2 items-center">
+          <Link href="/" className="text-gray-700 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+            Accueil
+          </Link>
+  
           <div 
             className="relative" 
             ref={dropdownRef}
@@ -82,7 +69,7 @@ const Header = () => {
           >
             <button 
               onClick={() => setDropdownOpen(!isDropdownOpen)} 
-              className="flex items-center text-gray-700 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight"
+              className="flex items-center text-gray-700 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap"
             >
               Présentation
               <svg className={`w-4 h-4 ml-1 transition-transform duration-200 ${isDropdownOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -101,84 +88,87 @@ const Header = () => {
                 transform: isDropdownOpen ? 'translateY(0)' : 'translateY(-8px)'
               }}
             >
-              <Link href="/presentation/directeur-general" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+              <Link href="/presentation/directeur-general" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-bold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Directeur Général
               </Link>
-              <Link href="/presentation/missions-attributions" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+              <Link href="/presentation/missions-attributions" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-bold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Attributions Et Organisation
               </Link>
-              <Link href="/presentation/directions-services" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+              <Link href="/presentation/directions-services" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-bold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Directions Et Services
               </Link>
-              <Link href="/presentation/organigramme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+              <Link href="/presentation/organigramme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-bold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Organigramme
               </Link>
-              <Link href="/presentation/reforme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-semibold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
+              <Link href="/presentation/reforme" className="block px-4 py-3 text-sm text-gray-900 hover:bg-gray-50 hover:text-brand-green font-bold transition-colors duration-200 border-l-4 border-transparent hover:border-brand-blue uppercase tracking-tight">
                 Réforme
               </Link>
             </div>
           </div>
 
-          <Link href="/les-titres-publics" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">
+          <Link href="/les-titres-publics" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
             Marchés des Titres Publics
           </Link>
-          <Link href="/rapports" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Rapports</Link>
-          <Link href="/actualites" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Actualités</Link>
-          <Link href="/contact" className="text-gray-900 hover:text-brand-green font-semibold transition-colors duration-200 py-2 text-sm uppercase tracking-tight">Contact</Link>
+          <Link href="/rapports" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+            Rapports
+          </Link>
+          <Link href="/actualites" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+            Actualités
+          </Link>
+          <Link href="/contact" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+            Contact
+          </Link>
 
-          <Link href="/login" className="bg-brand-green text-white px-4 py-2 rounded-lg font-semibold hover:bg-green-700 transition-colors duration-200 shadow-sm text-sm uppercase tracking-tight">
+          <Link href="/login" className="text-green-700 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
             Connexion
           </Link>
         </nav>
 
-        {/* Logo Ministère */}
-        {/* <a 
-          href="https://www.finances.gouv.cg/" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="items-center space-x-3 group hidden md:flex"
-        >
-          
-          <div className="relative w-10 h-10">
-            <Image 
-              src="/images/placeholders/armoirie-RC.png"
-              alt="Logo Ministère des Finances" 
-              width={40} 
-              height={40}
-              className="transition-transform duration-300 group-hover:scale-110"
-            />
-          </div>
-          <div className="text-left">
-            <span className="block text-xs font-semibold text-gray-600 group-hover:text-brand-green transition-colors duration-200 leading-tight">
-              Ministère des Finances,
-            </span>
-            <span className="block text-xs text-gray-500 group-hover:text-brand-red transition-colors duration-200 leading-tight">
-              du Budget et du Portefeuille Public
-            </span>
-          </div>
-        </a> */}
+        {/* Logo Ministère des Finances - Ajusté pour différentes résolutions */}
         <a 
           href="https://www.finances.gouv.cg/" 
           target="_blank" 
           rel="noopener noreferrer" 
-          className="items-center space-x-4 group hidden md:flex" // Augmentation de l'espacement
+          className="items-center space-x-3 group hidden xl:flex"
         >
-          
-          <div className="relative w-14 h-14"> {/* Taille augmentée à 56px */}
+          <div className="relative w-14 h-14">
             <Image 
               src="/images/placeholders/armoirie-RC.png"
               alt="Logo Ministère des Finances" 
               fill
-              className="object-contain transition-transform duration-300 group-hover:scale-110"
+              className="transition-transform duration-300 group-hover:scale-110"
+              style={{ objectFit: "contain" }}
             />
           </div>
-          <div className="text-left">
-            {/* On peut augmenter la taille du texte ici aussi */}
-            <span className="block text-sm font-semibold text-gray-600 ...">
+          <div className="text-left min-w-0 flex-shrink">
+            <span className="block text-sm font-semibold text-gray-600 leading-tight whitespace-nowrap">
               Ministère des Finances,
             </span>
-            <span className="block text-sm text-gray-500 ...">
+            <span className="block text-sm text-gray-500 leading-tight whitespace-nowrap">
               du Budget et du Portefeuille Public
+            </span>
+          </div>
+        </a>
+
+        {/* Version réduite du logo ministère pour 1024px-1279px */}
+        <a 
+          href="https://www.finances.gouv.cg/" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className="items-center group hidden lg:flex xl:hidden"
+        >
+          <div className="relative w-12 h-12">
+            <Image 
+              src="/images/placeholders/armoirie-RC.png"
+              alt="Logo Ministère des Finances" 
+              fill
+              className="transition-transform duration-300 group-hover:scale-110"
+              style={{ objectFit: "contain" }}
+            />
+          </div>
+          <div className="text-left ml-2 min-w-0">
+            <span className="block text-xs font-semibold text-gray-600 leading-tight">
+              Ministère des Finances
             </span>
           </div>
         </a>
@@ -219,7 +209,9 @@ const Header = () => {
         </div>
 
         <nav className="p-6 flex flex-col space-y-2">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">Accueil</Link>
+          <Link href="/" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Accueil
+          </Link>
           
           <div>
             <button 
@@ -233,19 +225,37 @@ const Header = () => {
             </button>
             <div className={`pl-4 pt-1 overflow-hidden transition-all duration-300 ${isSubMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
               <div className="flex flex-col space-y-1 border-l-2 border-gray-200 ml-4">
-                <Link href="/presentation/directeur-general" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">Directeur Général</Link>
-                <Link href="/presentation/missions-attributions" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">Missions Et Attributions</Link>
-                <Link href="/presentation/directions-services" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">Directions Et Services</Link>
-                <Link href="/presentation/organigramme" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">Organigramme</Link>
-                <Link href="/presentation/reforme" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">Réforme</Link>
+                <Link href="/presentation/directeur-general" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">
+                  Directeur Général
+                </Link>
+                <Link href="/presentation/missions-attributions" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">
+                  Missions Et Attributions
+                </Link>
+                <Link href="/presentation/directions-services" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">
+                  Directions Et Services
+                </Link>
+                <Link href="/presentation/organigramme" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">
+                  Organigramme
+                </Link>
+                <Link href="/presentation/reforme" onClick={() => setMobileMenuOpen(false)} className="pl-4 py-2 text-gray-600 hover:text-brand-green hover:bg-gray-50 rounded-r-lg transition-colors duration-200">
+                  Réforme
+                </Link>
               </div>
             </div>
           </div>
           
-          <Link href="/marches-titres-publics" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">Marchés des Titres Publics</Link>
-          <Link href="/rapports" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">Rapports</Link>
-          <Link href="/actualites" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">Actualités</Link>
-          <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">Contact</Link>
+          <Link href="/marches-titres-publics" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Marchés des Titres Publics
+          </Link>
+          <Link href="/rapports" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Rapports
+          </Link>
+          <Link href="/actualites" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Actualités
+          </Link>
+          <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Contact
+          </Link>
         </nav>
       </div>
     </header>

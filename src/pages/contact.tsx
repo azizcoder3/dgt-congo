@@ -72,7 +72,7 @@ const ContactPage: NextPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Contact | DGTCP - République du Congo</title>
+        <title>Contact | DGT - République du Congo</title>
         <meta name="description" content="Contactez la Direction Générale du Trésor et de la Comptabilité Publique." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -107,6 +107,17 @@ const ContactPage: NextPage = () => {
               {/* Colonne des informations de contact */}
               <div className="lg:col-span-1">
                 <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-8 lg:p-10">
+                  {/* Image du bâtiment */}
+                  <div className="mt-8 rounded-xl overflow-hidden shadow-lg mb-8">
+                    <div className="relative w-full h-48">
+                      <Image
+                        src="/images/placeholders/tresor-public-building.webp"
+                        alt="Bâtiment de la DGTCP"
+                        fill
+                        style = {{ objectFit: 'cover' }}
+                      />
+                    </div>
+                  </div>
                   <h2 className="text-2xl lg:text-3xl font-bold text-gray-800 mb-8">Nos Coordonnées</h2>
                   
                   <div className="space-y-8">
@@ -144,18 +155,6 @@ const ContactPage: NextPage = () => {
                         <p className="text-gray-600 mb-1">+242 XX XX XX XX</p>
                         <p className="text-gray-500 text-sm">Lun - Ven: 8h - 17h</p>
                       </div>
-                    </div>
-                  </div>
-
-                  {/* Image du bâtiment */}
-                  <div className="mt-8 rounded-xl overflow-hidden shadow-lg">
-                    <div className="relative w-full h-48">
-                      <Image
-                        src="/images/placeholders/tresor-public-building.webp"
-                        alt="Bâtiment de la DGTCP"
-                        fill
-                        className="object-cover"
-                      />
                     </div>
                   </div>
                 </div>

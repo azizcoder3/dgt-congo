@@ -79,9 +79,12 @@ const Footer = () => {
             <ul className="space-y-3 text-sm">
               <li><Link href="/organigramme" className="hover:text-white hover:underline">Organigramme</Link></li>
               <li><Link href="/rapports" className="hover:text-white hover:underline">Rapports d&apos;activité</Link></li>
-              <li><Link href="/partenaires" className="hover:text-white hover:underline">Partenaires</Link></li>
+              <li><Link href="/#" className="hover:text-white hover:underline">Devenir investisseur</Link></li>
+              <li><Link href="/les-titres-publics" className="hover:text-white hover:underline">Marché des Titres Publics</Link></li>
+              <li><Link href="/actualites" className="hover:text-white hover:underline">Actualité</Link></li>
               <li><Link href="/conditions-utilisation" className="hover:text-white hover:underline">Conditions d&apos;utilisation</Link></li>
               <li><Link href="/confidentialite" className="hover:text-white hover:underline">Termes de confidentialité</Link></li>
+
             </ul>
           </div>
 
@@ -89,10 +92,13 @@ const Footer = () => {
           <div>
             <h4 className="font-bold text-white mb-4">Liens Utiles</h4>
             <ul className="space-y-3 text-sm">
-              <li><a href="#" className="hover:text-white hover:underline">Présidence</a></li>
-              <li><a href="#" className="hover:text-white hover:underline">Primature</a></li>
-              <li><a href="#" className="hover:text-white hover:underline">Sénat</a></li>
-              <li><a href="#" className="hover:text-white hover:underline">Ministère des finances</a></li>
+              <li><Link href="/" className="hover:text-white hover:underline">Présidence</Link></li>
+              <li><Link href="/" className="hover:text-white hover:underline">Primature</Link></li>
+              <li><Link href="/" className="hover:text-white hover:underline">Ministère des finances</Link></li>
+              <li><Link href="/" className="hover:text-white hover:underline">Direction Générale du Budget</Link></li>
+              <li><Link href="/" className="hover:text-white hover:underline">Direction Générale des impots</Link></li>
+              <li><Link href="/contact" className="hover:text-white hover:underline">Contacter-Nous</Link></li>
+              
               {/* ... ajoutez les autres liens ici */}
             </ul>
           </div>

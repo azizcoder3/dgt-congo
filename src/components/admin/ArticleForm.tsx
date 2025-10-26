@@ -1,10 +1,19 @@
-// src/components/admin/ArticleForm.tsx (VERSION MODERNISÉE)
+// src/components/admin/ArticleForm.tsx (VERSION AVEC RICHTEXTEDITOR)
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 import type { NewsArticle, Category } from '@/types/supabase';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
+
+// Import dynamique du RichTextEditor pour éviter les erreurs SSR
+const RichTextEditor = dynamic(() => import('./RichTextEditor'), {
+  ssr: false,
+  loading: () => <div className="p-4 border rounded-lg bg-gray-50 min-h-[200px] flex items-center justify-center">
+    <div className="animate-pulse text-gray-500">Chargement de l&apos;éditeur...</div>
+  </div>,
+});
 
 interface ArticleFormProps {
   article?: NewsArticle;
@@ -108,34 +117,19 @@ export const ArticleForm = ({ article, categories }: ArticleFormProps) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  // Gestionnaires pour les éditeurs de texte riche
+  const handleExcerptChange = (htmlContent: string) => {
+    setFormData(prev => ({ ...prev, excerpt: htmlContent }));
+  };
+
+  const handleContentChange = (htmlContent: string) => {
+    setFormData(prev => ({ ...prev, content: htmlContent }));
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
-      <div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-6xl mx-auto px-4"> {/* Augmenté la largeur max pour les éditeurs */}
         <div className="bg-white/80 backdrop-blur-lg rounded-2xl shadow-xl border border-gray-200/60 overflow-hidden">
-          {/* En-tête du formulaire */}
-          {/* <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-white">
-                  {article ? 'Modifier l\'article' : 'Créer un Nouvel Article'}
-                </h1>
-                <p className="text-blue-100 mt-1">
-                  Remplissez les informations ci-dessous pour {article ? 'modifier' : 'créer'} votre article
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => router.push('/admin/articles')}
-                className="flex items-center gap-2 px-4 py-2 text-white bg-white/20 rounded-lg hover:bg-white/30 transition-colors"
-              >
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Retour
-              </button>
-            </div>
-          </div> */}
-
           <form onSubmit={handleSubmit} className="p-8 space-y-8">
             {/* Section Titre */}
             <div className="space-y-4">
@@ -154,7 +148,7 @@ export const ArticleForm = ({ article, categories }: ArticleFormProps) => {
               />
             </div>
 
-            {/* NOUVEAU : Section Catégorie */}
+            {/* Section Catégorie */}
             <div className="space-y-4">
               <label htmlFor="category_id" className="block text-lg font-semibold text-gray-800">
                 Catégorie
@@ -193,7 +187,7 @@ export const ArticleForm = ({ article, categories }: ArticleFormProps) => {
                             src={previewUrl || currentImageUrl} 
                             alt="Aperçu de l'article" 
                             fill
-                            className="object-cover"
+                            style={{ objectFit: "cover" }}
                           />
                         </div>
                         <button 
@@ -274,36 +268,32 @@ export const ArticleForm = ({ article, categories }: ArticleFormProps) => {
               </div>
             </div>
 
-            {/* Section Extrait */}
+            {/* Section Extrait - AVEC RICHTEXTEDITOR */}
             <div className="space-y-4">
-              <label htmlFor="excerpt" className="block text-lg font-semibold text-gray-800">
+              <label className="block text-lg font-semibold text-gray-800">
                 Extrait
               </label>
-              <textarea
-                name="excerpt"
-                id="excerpt"
-                rows={3}
-                value={formData.excerpt}
-                onChange={handleChange}
-                placeholder="Brève description de l'article..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm resize-none"
+              <RichTextEditor
+                content={formData.excerpt}
+                onChange={handleExcerptChange}
               />
+              <p className="text-xs text-gray-500">
+                Résumé court de l&apos;article qui sera affiché dans les listes et aperçus.
+              </p>
             </div>
 
-            {/* Section Contenu */}
+            {/* Section Contenu - AVEC RICHTEXTEDITOR */}
             <div className="space-y-4">
-              <label htmlFor="content" className="block text-lg font-semibold text-gray-800">
-                Contenu (HTML autorisé)
+              <label className="block text-lg font-semibold text-gray-800">
+                Contenu de l&apos;article
               </label>
-              <textarea
-                name="content"
-                id="content"
-                rows={12}
-                value={formData.content}
-                onChange={handleChange}
-                placeholder="Contenu détaillé de l'article... Vous pouvez utiliser du HTML pour la mise en forme."
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200 bg-white/50 backdrop-blur-sm resize-none font-mono text-sm"
+              <RichTextEditor
+                content={formData.content}
+                onChange={handleContentChange}
               />
+              <p className="text-xs text-gray-500">
+                Contenu détaillé de l&apos;article avec mise en forme avancée.
+              </p>
             </div>
 
             {/* Boutons d'action */}

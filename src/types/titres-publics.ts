@@ -1,4 +1,4 @@
-
+// types/titres-publics.ts
 
 /**
  * Représente la structure d'un communiqué telle qu'elle provient
@@ -68,6 +68,8 @@ export interface EmissionAccueil {
   volumeEmissionAnnonce: number | null;
   taux: number | null;
   statut: string | null;
+  isin: string | null;
+  dateEcheance: string | null;
 }
 
 /**

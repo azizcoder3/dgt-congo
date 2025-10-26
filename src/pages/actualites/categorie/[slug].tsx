@@ -21,7 +21,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({ articles, categoryName, cat
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Catégorie : {categoryName} | DGT - République du Congo</title>
+       <title>{`Catégorie : ${categoryName} | DGT - République du Congo`}</title>
         <meta name="description" content={`Retrouvez toutes les actualités de la catégorie "${categoryName}" sur le site de la DGTCP.`} />
       </Head>
 

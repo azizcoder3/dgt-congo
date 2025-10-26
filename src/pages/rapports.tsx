@@ -35,7 +35,7 @@ const RapportsPage: NextPage<RapportsPageProps> = ({ reports }) => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Rapports et Publications | DGTCP - République du Congo</title>
+        <title>Rapports | DGT - République du Congo</title>
         <meta name="description" content="Consultez et téléchargez les rapports officiels, bulletins et publications de la DGTCP." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -53,7 +53,7 @@ const RapportsPage: NextPage<RapportsPageProps> = ({ reports }) => {
           <div className="absolute inset-0 bg-black/20"></div>
           <div className="relative container mx-auto px-6 text-center">
             <div className="max-w-4xl mx-auto">
-              <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Rapports et Publications</h1>
+              <h1 className="text-4xl lg:text-5xl font-bold mb-4 leading-tight">Rapports officiels</h1>
               <p className="text-xl lg:text-2xl opacity-90 mb-6">
                 Accédez à l&apos;ensemble de nos documents officiels en toute transparence
               </p>

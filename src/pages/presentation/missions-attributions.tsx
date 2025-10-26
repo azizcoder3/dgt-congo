@@ -24,7 +24,7 @@ const MissionsAttributionsPage: NextPage = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>Attributions et Organisation | DGT-RC</title>
+        <title>Attributions et Organisation | DGT-République du Congo</title>
         <meta name="description" content="Découvrez les missions et attributions de la Direction Générale du Trésor et de la Comptabilité Publique de la République du Congo." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -40,7 +40,7 @@ const MissionsAttributionsPage: NextPage = () => {
               alt="Bâtiment du Trésor Public"
               fill
               objectPosition='50% 80%'
-              className="object-cover"
+              style = {{ objectFit: 'cover' }}
               priority
           />
           <div className="relative z-20 container mx-auto px-6 h-full flex flex-col justify-center">

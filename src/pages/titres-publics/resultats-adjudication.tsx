@@ -18,6 +18,7 @@ import {
 import { GetServerSideProps, InferGetServerSidePropsType } from 'next';
 import { getResultats } from '@/lib/api';
 import { Resultat } from '@/types/titres-publics';
+import Footer from '@/components/Footer';
 
 export default function ResultatsAdjudicationPage({ resultats }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [selectedPeriod, setSelectedPeriod] = useState<string>('Tous');
@@ -222,7 +223,7 @@ const formatMontant = (amount: number | null | undefined) => {
   return (
     <>
       <Head>
-        <title>Résultats des Adjudications | DGT - République du Congo</title>
+        <title>Résultats des Adjudications | DGT-République du Congo</title>
         <meta name="description" content="Résultats détaillés des adjudications de titres publics de la République du Congo" />
       </Head>
 
@@ -799,6 +800,7 @@ const formatMontant = (amount: number | null | undefined) => {
             </div>
           </div>
         )}
+      <Footer/>
     </>
   );
 }

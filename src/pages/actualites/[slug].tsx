@@ -37,7 +37,7 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Head>
-        <title>{article.title} | DGTCP - République du Congo</title>
+       <title>{`${article.title} | DGT-République du Congo`}</title>
         <meta name="description" content={article.excerpt || ''} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
@@ -91,7 +91,7 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
                       src={article.imageUrl} 
                       alt={`Image pour l'article : ${article.title}`} 
                       fill
-                      className="object-cover"
+                      style={{ objectFit: "cover" }}
                       priority
                     />
                   </div>
@@ -132,22 +132,6 @@ const ArticlePage: NextPage<ArticlePageProps> = ({ article, recentArticles, cate
                 <CategoriesWidget categories={categories} />
                 
                 {/* Widget supplémentaire : Newsletter */}
-                {/* <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl p-6 text-white">
-                  <h3 className="font-semibold text-lg mb-3">Newsletter</h3>
-                  <p className="text-blue-100 text-sm mb-4">
-                    Recevez nos actualités directement dans votre boîte email.
-                  </p>
-                  <div className="space-y-3">
-                    <input 
-                      type="email" 
-                      placeholder="Votre email" 
-                      className="w-full px-3 py-2 rounded-lg text-white text-sm"
-                    />
-                    <button className="w-full bg-white text-blue-600 font-semibold py-2 rounded-lg hover:bg-gray-100 transition-colors text-sm">
-                      S&apos;abonner
-                    </button>
-                  </div>
-                </div> */}
                 <div className="bg-gradient-to-br from-green-600 to-green-700 rounded-2xl p-6 text-white">
                 <h3 className="font-semibold text-lg mb-3">Newsletter</h3>
                 <p className="text-green-100 text-sm mb-4">

@@ -17,7 +17,7 @@ const EditReportPage: NextPage<EditReportPageProps> = ({ report }) => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <Head><title>Modifier: {report.title} | Administration</title></Head>
+      <Head><title>{`Modifier: ${report.title} | Administration`}</title></Head>
       
       <main className="container mx-auto py-12 px-6">
         <div className="max-w-4xl mx-auto">
