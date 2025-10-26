@@ -77,9 +77,7 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
         <title>{`${titre.designation} | DGT-République du Congo`}</title>
         <meta name="description" content={`Fiche titre ${titre.designation}`} />
       </Head>
-
       <Header />
-
       {/* Bannière */}
       <div className="bg-gradient-to-r from-green-700 to-green-900 text-white">
         <div className="container mx-auto px-4 py-12">
@@ -102,7 +100,6 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
           </div>
         </div>
       </div>
-
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -301,7 +298,7 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
                 <p className="text-sm text-gray-700 mb-4">
                   Pour plus d&apos;informations sur ce titre, contactez la Direction Générale du Trésor.
                 </p>
-                <Link href="/contact" passHref>
+                <Link href="/contact">
                 <button className="w-full text-sm text-green-600 hover:text-green-700 font-medium cursor-pointer">
                   Nous contacter →
                 </button>
@@ -358,7 +355,6 @@ export default function FicheTitrePage({ titre, autresTitres }: Props) {
         titre={titre.designation}
         isin={titre.isin}
       />
-
       {/* Section Contact en bas de page */}
       <ContactSection titre={titre.designation} isin={titre.isin} />
       <Footer />

@@ -285,7 +285,7 @@ const formatMontant = (amount: number | null | undefined) => {
                     <option value="Tous">Tous les types</option>
                     <option value="BTA">BTA</option>
                     <option value="OTA">OTA</option>
-                    <option value="OS">OS</option>
+                    {/* <option value="OS">OS</option> */}
                   </select>
                 </div>
               </div>
@@ -297,11 +297,11 @@ const formatMontant = (amount: number | null | undefined) => {
                   Exporter Excel
                 </button>
                 <Link 
-                  href="/titres-publics/adjudications"
+                  href="/titres-publics/calendrier"
                   className="flex items-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
                 >
                   <CalendarIcon className="w-4 h-4 mr-2" />
-                  Voir les adjudications
+                  Voir le calendrier des adjudications
                 </Link>
               </div>
             </div>
