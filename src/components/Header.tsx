@@ -110,7 +110,7 @@ const Header = () => {
             Marchés des Titres Publics
           </Link> */}
           <Link 
-            href="https://dgt-titres-publics.vercel.app" 
+            href="https://dgt-cg-titres-publics.vercel.app" 
             target="_blank"
             rel="noopener noreferrer"
             className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap"
@@ -256,7 +256,7 @@ const Header = () => {
             Marchés des Titres Publics
           </Link> */}
           <Link 
-            href="https://dgt-titres-publics.vercel.app" 
+            href="https://dgt-cg-titres-publics.vercel.app" 
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => setMobileMenuOpen(false)} 
