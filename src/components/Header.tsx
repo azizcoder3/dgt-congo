@@ -106,7 +106,15 @@ const Header = () => {
             </div>
           </div>
 
-          <Link href="/les-titres-publics" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+          {/* <Link href="/les-titres-publics" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
+            Marchés des Titres Publics
+          </Link> */}
+          <Link 
+            href="https://dgt-titres-publics.vercel.app" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap"
+          >
             Marchés des Titres Publics
           </Link>
           <Link href="/rapports" className="text-gray-900 hover:text-brand-green font-bold transition-colors duration-200 py-2 text-sm uppercase tracking-tight whitespace-nowrap">
@@ -244,7 +252,16 @@ const Header = () => {
             </div>
           </div>
           
-          <Link href="/marches-titres-publics" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+          {/* <Link href="/marches-titres-publics" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
+            Marchés des Titres Publics
+          </Link> */}
+          <Link 
+            href="https://dgt-titres-publics.vercel.app" 
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={() => setMobileMenuOpen(false)} 
+            className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium block"
+          >
             Marchés des Titres Publics
           </Link>
           <Link href="/rapports" onClick={() => setMobileMenuOpen(false)} className="py-3 px-4 text-lg text-gray-700 hover:text-brand-green hover:bg-gray-50 rounded-lg transition-colors duration-200 font-medium">
